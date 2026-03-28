@@ -1,0 +1,8 @@
+{
+  "name": "CROISIERE DES ILES - Excursions en Mer",
+  "description": "Une expérience maritime immersive et premium. Découvrez nos circuits touristiques en mer avec un design moderne et élégant.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "TargetFile": "/metadata.json"
+}
