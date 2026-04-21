@@ -1,20 +1,32 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Déploiement sur Coolify
 
-# Run and deploy your AI Studio app
+Ce projet est configuré pour être déployé facilement sur **Coolify** via Docker.
 
-This contains everything you need to run your app locally.
+## Configuration
 
-View your app in AI Studio: https://ai.studio/apps/4f7d3d44-ec28-4cc4-bd92-fc8a3d828dd4
+1. **Dockerfile** : Un fichier `Dockerfile` a été ajouté à la racine. Il utilise Node.js 22 pour supporter nativement le TypeScript du serveur.
+2. **Scripts** : Le script `npm start` est configuré pour lancer le serveur en mode production.
+3. **Variables d'environnement** : Assurez-vous de configurer les variables suivantes dans l'interface de Coolify :
+   - `NODE_ENV=production`
+   - `ADMIN_PASSWORD` (votre mot de passe pour le panel admin)
+   - `GEMINI_API_KEY` (si utilisé)
 
-## Run Locally
+## Étapes de déploiement
 
-**Prerequisites:**  Node.js
+1. Créez une nouvelle application sur **Coolify**.
+2. Liez votre dépôt GitHub (ou Git).
+3. Sélectionnez **Dockerfile** comme type de déploiement.
+4. Coolify détectera automatiquement le `Dockerfile` à la racine.
+5. Ajoutez vos variables d'environnement dans l'onglet **Variables**.
+6. Cliquez sur **Deploy**.
 
+Le site sera accessible sur le port 3000 par défaut (Coolify s'occupera du reverse proxy).
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Persistance des données (Volumes)
+
+Si vous modifiez les circuits ou les bateaux via le panel admin, les changements sont enregistrés dans des fichiers JSON. Pour ne pas perdre ces données lors d'un nouveau déploiement, vous devez monter des **Volumes** dans Coolify :
+
+1. **Données JSON** : Montez un volume sur `/app/src/data`
+2. **Images (si uploadées)** : Montez un volume sur `/app/public/images/circuits`
+
+Sans ces volumes, vos modifications seront réinitialisées à chaque redémarrage du conteneur.

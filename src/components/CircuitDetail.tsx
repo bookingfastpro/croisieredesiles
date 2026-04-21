@@ -18,7 +18,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
     >
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-marine-deep/80 backdrop-blur-md hidden md:block"
+        className="absolute inset-0 bg-marine-ink/80 backdrop-blur-md hidden md:block"
         onClick={onClose}
       ></div>
 
@@ -37,12 +37,12 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-marine-deep via-marine-deep/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
           
           <div className="absolute bottom-6 left-8 right-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white text-glow">{circuit.name}</h2>
-              <div className="flex items-center gap-4 text-marine-turquoise mt-2">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-white text-glow">{circuit.name}</h2>
+              <div className="flex items-center gap-4 text-marine-cyan mt-2">
                 <span className="flex items-center gap-1 text-sm font-bold uppercase tracking-widest">
                   <Calendar size={16} /> {circuit.duration}
                 </span>
@@ -67,21 +67,21 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             {/* Left Column: Description & Locations */}
             <div className="lg:col-span-1 space-y-10">
               <section>
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-marine-ocean">
+                <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
                   <Info size={20} /> Description
                 </h3>
-                <p className="text-marine-deep/80 leading-relaxed font-light">
+                <p className="text-marine-navy/80 leading-relaxed font-light">
                   {circuit.longDescription}
                 </p>
               </section>
 
               <section>
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-marine-ocean">
+                <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
                   <MapPin size={20} /> Lieux clés
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {circuit.locations.map((location, i) => (
-                    <span key={i} className="px-3 py-1.5 bg-gray-50 rounded-xl text-xs font-medium text-marine-deep/80 border border-gray-100">
+                    <span key={i} className="px-3 py-1.5 bg-gray-50 rounded-xl text-xs font-medium text-marine-navy/80 border border-gray-100">
                       {location}
                     </span>
                   ))}
@@ -89,13 +89,13 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               </section>
 
               <section>
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-marine-ocean">
+                <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
                   <CheckCircle2 size={20} /> Infos Pratiques
                 </h3>
                 <ul className="space-y-3">
                   {circuit.practicalInfos.map((info, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-marine-deep/80 italic">
-                      <div className="w-1.5 h-1.5 rounded-full bg-marine-ocean mt-1.5 shrink-0"></div>
+                    <li key={i} className="flex items-start gap-3 text-sm text-marine-navy/80 italic">
+                      <div className="w-1.5 h-1.5 rounded-full bg-marine-blue mt-1.5 shrink-0"></div>
                       {info}
                     </li>
                   ))}
@@ -106,16 +106,16 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             {/* Right Column: Itinerary */}
             <div className="lg:col-span-2">
               <section>
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2 text-marine-ocean">
+                <h3 className="text-xl font-display font-bold mb-6 flex items-center gap-2 text-marine-navy">
                   <MapPin size={20} /> Itinéraire détaillé
                 </h3>
                 <div className="grid gap-4">
                   {circuit.itinerary.map((step, i) => (
-                    <div key={i} className="flex gap-4 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 hover:bg-marine-ocean/5 transition-all">
-                      <div className="w-8 h-8 rounded-full bg-marine-ocean/20 flex items-center justify-center text-marine-ocean text-xs font-bold flex-shrink-0">
+                    <div key={i} className="flex gap-4 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 hover:bg-marine-blue/5 transition-all">
+                      <div className="w-8 h-8 rounded-full bg-marine-blue/20 flex items-center justify-center text-marine-blue text-xs font-bold flex-shrink-0">
                         {i + 1}
                       </div>
-                      <p className="text-sm text-marine-deep/80 leading-relaxed font-light">
+                      <p className="text-sm text-marine-navy/80 leading-relaxed font-light">
                         {step}
                       </p>
                     </div>
@@ -126,12 +126,12 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 py-4 bg-marine-turquoise hover:bg-marine-ocean text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-turquoise/20 hover:scale-[1.02] active:scale-95">
+            <button className="flex-1 py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-[1.02] active:scale-95">
               Réserver ce circuit
             </button>
             <button 
               onClick={onClose}
-              className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-marine-deep rounded-2xl font-bold transition-colors"
+              className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-marine-navy rounded-2xl font-bold transition-colors"
             >
               Fermer
             </button>

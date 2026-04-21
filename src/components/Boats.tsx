@@ -31,14 +31,14 @@ export default function Boats() {
   }, []);
 
   return (
-    <section id="boats" className="py-24 px-6 bg-white">
+    <section id="boats" className="py-24 px-6 bg-marine-pearl">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-marine-ocean text-xs font-bold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/5 border border-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-4">
             <Anchor size={14} /> Notre Flotte
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-marine-deep">Nos Bateaux d'Exception</h2>
-          <p className="text-marine-deep/70 max-w-2xl mx-auto font-light">
+          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Nos Bateaux d'Exception</h2>
+          <p className="text-marine-navy/70 max-w-2xl mx-auto font-light">
             Découvrez nos unités de prestige, entretenues avec le plus grand soin pour vous garantir confort, sécurité et élégance.
           </p>
         </div>
@@ -59,9 +59,9 @@ export default function Boats() {
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-marine-deep/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-marine-ink/60 to-transparent"></div>
                   <div className="absolute bottom-8 left-8">
-                    <h3 className="text-3xl font-bold text-white">{boat.name}</h3>
+                    <h3 className="text-3xl font-display font-bold text-white">{boat.name}</h3>
                   </div>
                 </div>
               </motion.div>
@@ -72,17 +72,17 @@ export default function Boats() {
                 viewport={{ once: true }}
                 className="w-full lg:w-1/2 space-y-6"
               >
-                <p className="text-marine-deep/80 text-lg font-light leading-relaxed">
+                <p className="text-marine-navy/80 text-lg font-light leading-relaxed">
                   {boat.description}
                 </p>
                 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {boat.specs.map((spec, i) => (
-                    <div key={i} className="flex items-center gap-3 p-4 glass rounded-2xl border border-marine-ocean/10">
-                      <div className="text-marine-ocean">{iconMap[spec.label] || <Anchor size={18} />}</div>
+                    <div key={i} className="flex items-center gap-3 p-4 bg-white/50 backdrop-blur-sm rounded-2xl border border-marine-blue/10 hover:border-marine-blue transition-all group">
+                      <div className="text-marine-blue group-hover:scale-110 transition-transform">{iconMap[spec.label] || <Anchor size={18} />}</div>
                       <div>
-                        <div className="text-[10px] uppercase tracking-widest text-marine-deep/60">{spec.label}</div>
-                        <div className="text-sm font-bold text-marine-deep">{spec.value}</div>
+                        <div className="text-[10px] uppercase tracking-widest text-marine-navy/60">{spec.label}</div>
+                        <div className="text-sm font-bold text-marine-navy">{spec.value}</div>
                       </div>
                     </div>
                   ))}

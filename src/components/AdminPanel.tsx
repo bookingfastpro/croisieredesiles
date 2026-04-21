@@ -167,7 +167,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[110] flex items-center justify-center p-0 md:p-10"
     >
-      <div className="absolute inset-0 bg-marine-deep/90 backdrop-blur-xl hidden md:block" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-marine-ink/90 backdrop-blur-xl hidden md:block" onClick={onClose}></div>
       
       <motion.div
         initial={{ scale: 0.95, y: 20 }}
@@ -180,19 +180,19 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
             <div className="flex gap-4 mt-2">
               <button 
                 onClick={() => setActiveTab('circuits')}
-                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'circuits' ? 'text-marine-turquoise font-bold' : 'text-white/50 hover:text-white'}`}
+                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'circuits' ? 'text-marine-cyan font-bold' : 'text-white/50 hover:text-white'}`}
               >
                 <Map size={14} /> Circuits
               </button>
               <button 
                 onClick={() => setActiveTab('hero')}
-                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'hero' ? 'text-marine-turquoise font-bold' : 'text-white/50 hover:text-white'}`}
+                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'hero' ? 'text-marine-cyan font-bold' : 'text-white/50 hover:text-white'}`}
               >
                 <Layout size={14} /> Hero
               </button>
               <button 
                 onClick={() => setActiveTab('boats')}
-                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'boats' ? 'text-marine-turquoise font-bold' : 'text-white/50 hover:text-white'}`}
+                className={`text-xs md:text-sm uppercase tracking-widest flex items-center gap-2 transition-colors ${activeTab === 'boats' ? 'text-marine-cyan font-bold' : 'text-white/50 hover:text-white'}`}
               >
                 <Ship size={14} /> Bateaux
               </button>
@@ -202,7 +202,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
             {(activeTab === 'circuits' || activeTab === 'boats') && (
               <button 
                 onClick={activeTab === 'circuits' ? addCircuit : addBoat}
-                className="flex-1 sm:flex-none px-4 md:px-6 py-2 bg-marine-turquoise/20 hover:bg-marine-turquoise/40 text-marine-turquoise rounded-full font-bold flex items-center justify-center gap-2 transition-all border border-marine-turquoise/30 text-sm"
+                className="flex-1 sm:flex-none px-4 md:px-6 py-2 bg-marine-cyan/20 hover:bg-marine-cyan/40 text-marine-cyan rounded-full font-bold flex items-center justify-center gap-2 transition-all border border-marine-cyan/30 text-sm"
               >
                 <Plus size={16} /> Ajouter
               </button>
@@ -210,7 +210,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
             <button 
               onClick={handleSave}
               disabled={isSaving}
-              className="flex-1 sm:flex-none px-6 md:px-8 py-2 bg-marine-light hover:bg-marine-turquoise text-white rounded-full font-bold flex items-center justify-center gap-2 transition-all glow-blue disabled:opacity-50 text-sm"
+              className="flex-1 sm:flex-none px-6 md:px-8 py-2 bg-marine-blue hover:bg-marine-cyan text-white rounded-full font-bold flex items-center justify-center gap-2 transition-all glow-blue disabled:opacity-50 text-sm"
             >
               <Save size={16} /> {isSaving ? '...' : 'Enregistrer'}
             </button>
@@ -231,20 +231,20 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                         <img src={circuit.image} className="w-20 h-20 rounded-2xl object-cover border border-white/10" />
                         <button 
                           onClick={() => setShowImagePicker({ id: circuit.id, type: 'circuit' })}
-                          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl"
+                          className="absolute inset-0 bg-marine-ink/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl"
                         >
                           <ImageIcon size={20} className="text-white" />
                         </button>
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-white">{circuit.name}</h3>
-                        <p className="text-marine-turquoise text-sm font-bold">{circuit.price}€ • {circuit.duration}</p>
+                        <p className="text-marine-cyan text-sm font-bold">{circuit.price}€ • {circuit.duration}</p>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <button 
                         onClick={() => setEditingId(editingId === circuit.id ? null : circuit.id)}
-                        className="p-3 glass rounded-xl hover:bg-marine-light/20 text-white transition-all"
+                        className="p-3 glass rounded-xl hover:bg-marine-blue/20 text-white transition-all"
                       >
                         <Edit3 size={18} />
                       </button>
@@ -269,7 +269,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                           <input 
                             value={circuit.name}
                             onChange={e => updateCircuit(circuit.id, 'name', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -278,7 +278,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             <input 
                               value={circuit.duration}
                               onChange={e => updateCircuit(circuit.id, 'duration', e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                             />
                           </div>
                           <div>
@@ -287,7 +287,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                               type="number"
                               value={circuit.price}
                               onChange={e => updateCircuit(circuit.id, 'price', Number(e.target.value))}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                             />
                           </div>
                         </div>
@@ -297,7 +297,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             <input 
                               value={circuit.image}
                               onChange={e => updateCircuit(circuit.id, 'image', e.target.value)}
-                              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                             />
                             <button 
                               onClick={() => setShowImagePicker({ id: circuit.id, type: 'circuit' })}
@@ -314,7 +314,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                           <textarea 
                             value={circuit.description}
                             onChange={e => updateCircuit(circuit.id, 'description', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none h-20 resize-none"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-20 resize-none"
                           />
                         </div>
                         <div>
@@ -322,7 +322,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                           <textarea 
                             value={circuit.longDescription}
                             onChange={e => updateCircuit(circuit.id, 'longDescription', e.target.value)}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none h-32 resize-none"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-32 resize-none"
                           />
                         </div>
                       </div>
@@ -340,7 +340,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                   <img src={heroData.image} className="w-full h-full object-cover" />
                   <button 
                     onClick={() => setShowImagePicker({ id: 'hero', type: 'hero' })}
-                    className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    className="absolute inset-0 bg-marine-ink/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                   >
                     <ImageIcon size={24} className="text-white" />
                   </button>
@@ -351,7 +351,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                     <textarea 
                       value={heroData.title}
                       onChange={e => updateHero('title', e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none h-24 resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-24 resize-none"
                     />
                   </div>
                   <div>
@@ -359,7 +359,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                     <textarea 
                       value={heroData.subtitle}
                       onChange={e => updateHero('subtitle', e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none h-24 resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-24 resize-none"
                     />
                   </div>
                   <div>
@@ -368,7 +368,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                       <input 
                         value={heroData.image}
                         onChange={e => updateHero('image', e.target.value)}
-                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                       />
                       <button 
                         onClick={() => setShowImagePicker({ id: 'hero', type: 'hero' })}
@@ -393,7 +393,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                         <img src={boat.image} className="w-20 h-20 rounded-2xl object-cover border border-white/10" />
                         <button 
                           onClick={() => setShowImagePicker({ id: boat.id, type: 'boat' })}
-                          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl"
+                          className="absolute inset-0 bg-marine-ink/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl"
                         >
                           <ImageIcon size={20} className="text-white" />
                         </button>
@@ -406,7 +406,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                     <div className="flex gap-2">
                       <button 
                         onClick={() => setEditingId(editingId === boat.id ? null : boat.id)}
-                        className="p-3 glass rounded-xl hover:bg-marine-light/20 text-white transition-all"
+                        className="p-3 glass rounded-xl hover:bg-marine-blue/20 text-white transition-all"
                       >
                         <Edit3 size={18} />
                       </button>
@@ -432,7 +432,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             <input 
                               value={boat.name}
                               onChange={e => updateBoat(boat.id, 'name', e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                             />
                           </div>
                           <div>
@@ -440,7 +440,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             <textarea 
                               value={boat.description}
                               onChange={e => updateBoat(boat.id, 'description', e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none h-32 resize-none"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-32 resize-none"
                             />
                           </div>
                           <div>
@@ -449,7 +449,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                               <input 
                                 value={boat.image}
                                 onChange={e => updateBoat(boat.id, 'image', e.target.value)}
-                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-turquoise outline-none"
+                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
                               />
                               <button 
                                 onClick={() => setShowImagePicker({ id: boat.id, type: 'boat' })}
@@ -465,7 +465,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             <label className="text-[10px] uppercase tracking-widest text-white/40 block">Spécifications</label>
                             <button 
                               onClick={() => addBoatSpec(boat.id)}
-                              className="text-xs text-marine-turquoise hover:underline flex items-center gap-1"
+                              className="text-xs text-marine-cyan hover:underline flex items-center gap-1"
                             >
                               <Plus size={12} /> Ajouter
                             </button>
@@ -483,7 +483,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                                   value={spec.value}
                                   onChange={e => updateBoatSpec(boat.id, sIdx, 'value', e.target.value)}
                                   placeholder="Valeur"
-                                  className="flex-1 bg-transparent border-none text-marine-turquoise text-sm font-bold outline-none"
+                                  className="flex-1 bg-transparent border-none text-marine-cyan text-sm font-bold outline-none"
                                 />
                                 <button 
                                   onClick={() => removeBoatSpec(boat.id, sIdx)}
@@ -509,7 +509,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
       {showImagePicker && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-0 md:p-10">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-md hidden md:block" onClick={() => setShowImagePicker(null)}></div>
-          <div className="relative w-full h-full md:max-w-2xl md:max-h-[80vh] bg-marine-deep border border-white/10 md:rounded-[2rem] rounded-none p-6 md:p-8 flex flex-col overflow-hidden">
+          <div className="relative w-full h-full md:max-w-2xl md:max-h-[80vh] bg-marine-ink border border-white/10 md:rounded-[2rem] rounded-none p-6 md:p-8 flex flex-col overflow-hidden">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-white">Choisir une image</h3>
               <button onClick={() => setShowImagePicker(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -528,10 +528,10 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                   <button 
                     key={img}
                     onClick={() => handleImageSelect(img)}
-                    className="relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-marine-turquoise transition-all group"
+                    className="relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-marine-cyan transition-all group"
                   >
                     <img src={img} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-marine-turquoise/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-marine-cyan/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
                 ))
               )}

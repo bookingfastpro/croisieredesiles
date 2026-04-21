@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
@@ -178,7 +179,7 @@ const INITIAL_BOATS = [
 const INITIAL_HERO = {
   title: "L'Excellence en Mer",
   subtitle: "Découvrez la Corse et la Sardaigne à bord de nos navires d'exception. Une expérience de navigation unique entre Bonifacio et l'archipel de la Maddalena.",
-  image: "https://picsum.photos/seed/yacht/1920/1080"
+  image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/PHOTO-2026-02-19-14-06-09%2015.jpg"
 };
 
 if (!fs.existsSync(DATA_FILE)) {
@@ -198,14 +199,35 @@ async function startServer() {
   const PORT = 3000;
 
   app.use(express.json());
+  
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin";
+
+  // Simple authentication middleware
+  const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const token = req.headers["x-admin-token"];
+    if (token === ADMIN_PASSWORD) {
+      next();
+    } else {
+      res.status(401).json({ error: "Unauthorized" });
+    }
+  };
 
   // API Routes
+  app.post("/api/login", (req, res) => {
+    const { password } = req.body;
+    if (password === ADMIN_PASSWORD) {
+      res.json({ success: true, token: ADMIN_PASSWORD });
+    } else {
+      res.status(401).json({ success: false, error: "Mot de passe incorrect" });
+    }
+  });
+
   app.get("/api/circuits", (req, res) => {
     const data = fs.readFileSync(DATA_FILE, "utf-8");
     res.json(JSON.parse(data));
   });
 
-  app.post("/api/circuits", (req, res) => {
+  app.post("/api/circuits", authenticate, (req, res) => {
     const newCircuits = req.body;
     fs.writeFileSync(DATA_FILE, JSON.stringify(newCircuits, null, 2));
     res.json({ success: true });
@@ -216,7 +238,7 @@ async function startServer() {
     res.json(JSON.parse(data));
   });
 
-  app.post("/api/hero", (req, res) => {
+  app.post("/api/hero", authenticate, (req, res) => {
     const newHero = req.body;
     fs.writeFileSync(HERO_FILE, JSON.stringify(newHero, null, 2));
     res.json({ success: true });
@@ -227,7 +249,7 @@ async function startServer() {
     res.json(JSON.parse(data));
   });
 
-  app.post("/api/boats", (req, res) => {
+  app.post("/api/boats", authenticate, (req, res) => {
     const newBoats = req.body;
     fs.writeFileSync(BOATS_FILE, JSON.stringify(newBoats, null, 2));
     res.json({ success: true });
