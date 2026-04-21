@@ -34,13 +34,13 @@ const INITIAL_CIRCUITS = [
     longDescription: "Embarquez pour une croisière inoubliable de 7 jours. Ce périple vous fera découvrir les joyaux de la Corse : les falaises de Bonifacio, les calanques de Piana, le village mythique de Girolata, la citadelle de Calvi, le Cap Corse et les plages célèbres de Porto-Vecchio.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
     itinerary: [
-      "Jour 1 : Bonifacio - Roccapina – Campomoro – Porto Pollo. Départ du port de Bonifacio en direction de la côte ouest. Pause baignade à Arbitru et Roccapina, célèbre pour son rocher en forme de lion et ses eaux cristallines. Escale possible à Campomoro, charmant port avec tour génoise et ambiance paisible. Nuit recommandée à Porto-Pollo, spot idéal pour un premier mouillage.",
-      "Jour 2 : Ajaccio – Calanques de Piana. Cap sur le golfe d’Ajaccio : Escale ravitaillement et déjeuner à Ajaccio. Continuation vers les calanques de Piana, site spectaculaire classé UNESCO.",
-      "Jour 3 : Girolata. Direction le mythique village de Girolata, accessible uniquement par bateau ou randonnée. Mouillage exceptionnel, ambiance nature et authentique.",
-      "Jour 4 : Calvi – Île-Rousse. Remontée vers la balagne : Calvi (citadelle, restaurants, ambiance animée) puis Île-Rousse.",
-      "Jour 5 : Saint Florent – Bastia. Cap sur le nord : Arrêt à Saint-Florent, station balnéaire chic et agréable. Nuit à Bastia, port dynamique et historique. Belle navigation entre cap corse et désert des Agriates.",
-      "Jour 6 : Solenzara – Fautea - Porto-Vecchio. Descente par la côte est : Pause à Solenzara (restaurant, plage MARADEA). Mouillage à Fautea avec sa tour génoise iconique. Escale soirée à Porto-Vecchio, ambiance festive et plages célèbres.",
-      "Jour 7 : Îles Lavezzi & Cavallo – Retour Bonifacio. Archipel des îles Lavezzi et île de cavallo. Eaux turquoise, snorkeling. Retour au port de Bonifacio en fin de journée."
+      "Jour 1 : Bonifacio - Roccapina – Campomoro – Porto Pollo. Baignade à Arbitru et Roccapina (le Lion). Nuit recommandée à Porto-Pollo.",
+      "Jour 2 : Ajaccio – Calanques de Piana. Escale ravitaillement à Ajaccio. Traversée spectaculaire des calanques de Piana (UNESCO).",
+      "Jour 3 : Girolata. Direction le village de Girolata, accessible uniquement par mer. Mouillage sauvage et authentique.",
+      "Jour 4 : Calvi – Île-Rousse. Escale à Calvi (citadelle et vie animée) puis cap sur l'Île-Rousse.",
+      "Jour 5 : Saint Florent – Bastia. Passage par le désert des Agriates et Saint-Florent. Nuit au port historique de Bastia.",
+      "Jour 6 : Solenzara – Fautea - Porto-Vecchio. Descente vers Solenzara et la tour de Fautea. Escale festive à Porto-Vecchio.",
+      "Jour 7 : Îles Lavezzi & Cavallo. Eaux turquoises des Lavezzi et Cavallo. Snorkeling avant le retour à Bonifacio."
     ],
     locations: ["Bonifacio", "Roccapina", "Ajaccio", "Piana", "Girolata", "Calvi", "Bastia", "Porto-Vecchio", "Lavezzi"],
     practicalInfos: [
@@ -195,7 +195,7 @@ if (!fs.existsSync(BOATS_FILE)) {
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT || 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
   

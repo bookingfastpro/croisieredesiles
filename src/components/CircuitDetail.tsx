@@ -109,15 +109,17 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                 <h3 className="text-xl font-display font-bold mb-6 flex items-center gap-2 text-marine-navy">
                   <MapPin size={20} /> Itinéraire détaillé
                 </h3>
-                <div className="grid gap-4">
+                <div className="relative pl-8 space-y-6 before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-marine-blue/20">
                   {circuit.itinerary.map((step, i) => (
-                    <div key={i} className="flex gap-4 p-5 bg-gray-50/50 rounded-2xl border border-gray-100 hover:bg-marine-blue/5 transition-all">
-                      <div className="w-8 h-8 rounded-full bg-marine-blue/20 flex items-center justify-center text-marine-blue text-xs font-bold flex-shrink-0">
+                    <div key={i} className="relative group">
+                      <div className="absolute -left-[33px] top-1.5 w-[32px] h-[32px] rounded-full bg-white border-2 border-marine-blue/30 flex items-center justify-center text-marine-blue text-[11px] font-bold z-10 shadow-sm group-hover:border-marine-blue transition-colors">
                         {i + 1}
                       </div>
-                      <p className="text-sm text-marine-navy/80 leading-relaxed font-light">
-                        {step}
-                      </p>
+                      <div className="p-3 rounded-xl hover:bg-marine-blue/5 transition-all">
+                        <p className="text-sm text-marine-navy/80 leading-relaxed font-light group-hover:text-marine-navy transition-colors">
+                          {step}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>

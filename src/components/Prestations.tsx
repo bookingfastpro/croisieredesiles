@@ -270,12 +270,9 @@ export default function Prestations() {
                                       <div className="absolute inset-1 rounded-full bg-marine-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     </div>
 
-                                    <div className="bg-gray-50/50 p-5 md:p-6 rounded-2xl md:rounded-3xl border border-gray-100 group-hover:bg-white group-hover:shadow-xl group-hover:shadow-marine-navy/5 group-hover:border-marine-blue/20 transition-all duration-300">
-                                      <div className="flex items-center gap-3 mb-2">
-                                        <span className="text-[10px] font-black text-marine-blue/40 uppercase tracking-[0.2em]">Étape {j + 1}</span>
-                                        <div className="h-px flex-1 bg-gray-100 group-hover:bg-marine-blue/10 transition-colors"></div>
-                                      </div>
-                                      <p className="text-sm md:text-base text-marine-navy/80 leading-relaxed font-light">
+                                    <div className="p-3 md:p-4 rounded-xl md:rounded-2xl border border-gray-100 group-hover:bg-white group-hover:shadow-lg group-hover:shadow-marine-navy/5 group-hover:border-marine-blue/20 transition-all duration-300">
+                                      <p className="text-sm text-marine-navy/80 leading-relaxed font-light">
+                                        <span className="font-bold text-marine-blue/60 mr-2">#{j + 1}</span>
                                         {step}
                                       </p>
                                     </div>
