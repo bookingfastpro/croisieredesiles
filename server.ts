@@ -68,7 +68,7 @@ const INITIAL_CIRCUITS = [
     price: 2500,
     description: "Explorez l'archipel de la Maddalena et les côtes sauvages de la Sardaigne.",
     longDescription: "Une escapade internationale au départ de Bonifacio. Découvrez les eaux cristallines de l'archipel de la Maddalena, ses îles préservées et ses plages de sable fin. Un dépaysement total à seulement quelques milles nautiques.",
-    image: "https://picsum.photos/seed/sardinia/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
     itinerary: [
       "Départ de Bonifacio",
       "Traversée des Bouches de Bonifacio",
@@ -96,7 +96,7 @@ const INITIAL_CIRCUITS = [
     price: 1800,
     description: "Le grand classique : les falaises de Bonifacio et le lagon des Lavezzi.",
     longDescription: "Découvrez Bonifacio comme vous ne l'avez jamais vue, depuis la mer. Admirez les falaises de calcaire blanc, les grottes marines, puis plongez dans l'aquarium naturel des îles Lavezzi. Un incontournable de la région.",
-    image: "https://picsum.photos/seed/lavezzi/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%208.jpg",
     itinerary: [
       "Sortie du port de Bonifacio",
       "Grottes de Sdragonato et Saint-Antoine",
@@ -124,7 +124,7 @@ const INITIAL_CIRCUITS = [
     price: 1800,
     description: "Une journée sauvage vers l'ouest : Pianottoli, Arbitru et le Lion de Roccapina.",
     longDescription: "Fuyez la foule et dirigez-vous vers l'ouest. Ce circuit vous emmène dans des criques isolées accessibles uniquement par la mer. Le point d'orgue est la baie de Roccapina avec son célèbre lion de pierre veillant sur une plage de rêve.",
-    image: "https://picsum.photos/seed/roccapina/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
     itinerary: [
       "Départ Bonifacio",
       "Anse de Fazzio",
@@ -153,7 +153,7 @@ const INITIAL_BOATS = [
     id: "1",
     name: "Sessa Key Largo 34",
     description: "Le Key Largo 34 est l'un des bateaux les plus populaires de sa catégorie. Avec son design élégant et ses performances exceptionnelles, il est idéal pour une journée en mer en famille ou entre amis.",
-    image: "https://picsum.photos/seed/boat1/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.31.jpeg",
     specs: [
       { label: "Longueur", value: "10.5m" },
       { label: "Largeur", value: "3.5m" },
@@ -165,7 +165,7 @@ const INITIAL_BOATS = [
     id: "2",
     name: "Pardo 43",
     description: "Le Pardo 43 est le choix parfait pour ceux qui recherchent le luxe et le confort. Son design moderne et ses finitions haut de gamme en font un véritable joyau des mers.",
-    image: "https://picsum.photos/seed/boat2/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
     specs: [
       { label: "Longueur", value: "13.5m" },
       { label: "Largeur", value: "4.2m" },
