@@ -32,7 +32,7 @@ const INITIAL_CIRCUITS = [
     price: 15000,
     description: "Une odyssée complète autour de l'Île de Beauté, de Bonifacio à Bastia.",
     longDescription: "Embarquez pour une croisière inoubliable de 7 jours. Ce périple vous fera découvrir les joyaux de la Corse : les falaises de Bonifacio, les calanques de Piana, le village mythique de Girolata, la citadelle de Calvi, le Cap Corse et les plages célèbres de Porto-Vecchio.",
-    image: "https://picsum.photos/seed/corsica/1200/800",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
     itinerary: [
       "Jour 1 : Bonifacio - Roccapina – Campomoro – Porto Pollo. Départ du port de Bonifacio en direction de la côte ouest. Pause baignade à Arbitru et Roccapina, célèbre pour son rocher en forme de lion et ses eaux cristallines. Escale possible à Campomoro, charmant port avec tour génoise et ambiance paisible. Nuit recommandée à Porto-Pollo, spot idéal pour un premier mouillage.",
       "Jour 2 : Ajaccio – Calanques de Piana. Cap sur le golfe d’Ajaccio : Escale ravitaillement et déjeuner à Ajaccio. Continuation vers les calanques de Piana, site spectaculaire classé UNESCO.",
