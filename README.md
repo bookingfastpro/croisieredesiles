@@ -22,6 +22,14 @@ Ce projet est configuré pour être déployé facilement sur **Coolify** via Doc
 
 Le site sera accessible sur le port 3000 par défaut (Coolify s'occupera du reverse proxy).
 
+## Dépannage (Erreur 502)
+
+Si vous obtenez une erreur **502 Bad Gateway**, cela signifie généralement que le serveur n'a pas pu démarrer ou n'écoute pas sur le bon port.
+
+1. **Vérifiez les logs** dans Coolify pour voir s'il y a une erreur au démarrage (ex: module manquant).
+2. **Port** : Assurez-vous que Coolify envoie le trafic vers le port `3000`.
+3. **Santé du serveur** : Essayez d'accéder à `votre-url.com/api/health`. Si cela répond, le serveur backend fonctionne.
+
 ## Persistance des données (Volumes)
 
 Si vous modifiez les circuits ou les bateaux via le panel admin, les changements sont enregistrés dans des fichiers JSON. Pour ne pas perdre ces données lors d'un nouveau déploiement, vous devez monter des **Volumes** dans Coolify :

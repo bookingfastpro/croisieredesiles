@@ -1,6 +1,5 @@
 import express from "express";
 import "dotenv/config";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -196,10 +195,15 @@ if (!fs.existsSync(BOATS_FILE)) {
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(express.json());
   
+  // Health check route
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", env: process.env.NODE_ENV, port: PORT });
+  });
+
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin";
 
   // Simple authentication middleware
@@ -277,6 +281,7 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",

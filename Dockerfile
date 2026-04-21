@@ -47,4 +47,6 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Start command
+# We use node's native TS stripping for the server
+# This requires Node 22.6+ which is included in node:22-alpine
 CMD ["node", "--experimental-strip-types", "server.ts"]
