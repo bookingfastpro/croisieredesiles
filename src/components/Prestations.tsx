@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Euro, Calendar, Sun, Sparkles, Ship, Map, ChevronRight, Clock, MapPin, ChevronDown } from 'lucide-react';
-import { getCircuits } from '../services/api';
-import { Circuit } from '../types';
+import { getCircuits, getBoats } from '../services/api';
+import { Circuit, Boat } from '../types';
 
 const rates = [
   { month: "Avril / Juin", price: "1800€" },
@@ -40,6 +40,7 @@ const services = [
 
 export default function Prestations() {
   const [circuits, setCircuits] = useState<Circuit[]>([]);
+  const [boats, setBoats] = useState<Boat[]>([]);
   const [expandedItineraries, setExpandedItineraries] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<'circuit' | 'croisiere'>('circuit');
   const [selectedBoat, setSelectedBoat] = useState<'prestige' | 'pardo'>('prestige');
@@ -52,11 +53,15 @@ export default function Prestations() {
   };
 
   useEffect(() => {
-    const fetchCircuits = async () => {
-      const data = await getCircuits();
-      setCircuits(data);
+    const fetchData = async () => {
+      const [circuitsData, boatsData] = await Promise.all([
+        getCircuits(),
+        getBoats()
+      ]);
+      setCircuits(circuitsData);
+      setBoats(boatsData);
     };
-    fetchCircuits();
+    fetchData();
   }, []);
 
   return (
@@ -149,6 +154,29 @@ export default function Prestations() {
                   SAXDOR Pardo 43
                 </button>
               </div>
+              
+              {/* Added boat-specific options section */}
+              {boats.find(b => b.name.toLowerCase().includes(selectedBoat === 'prestige' ? 'prestige' : 'pardo'))?.options && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  key={selectedBoat}
+                  className="mt-6 p-5 bg-marine-blue/10 rounded-3xl border border-marine-blue/20 max-w-2xl mx-auto shadow-sm"
+                >
+                  <h4 className="text-[10px] md:text-xs font-bold text-marine-blue uppercase tracking-[0.2em] mb-3 flex items-center justify-center gap-2">
+                    <Sparkles size={14} /> Options & Prestations à bord
+                  </h4>
+                  <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                    {boats.find(b => b.name.toLowerCase().includes(selectedBoat === 'prestige' ? 'prestige' : 'pardo'))?.options?.map((option, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs md:text-sm text-marine-navy/80 font-medium">
+                        <div className="w-1.5 h-1.5 rounded-full bg-marine-cyan shadow-[0_0_8px_rgba(34,211,238,0.5)]"></div>
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
               {selectedBoat === 'prestige' && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}

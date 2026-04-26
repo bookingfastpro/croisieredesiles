@@ -156,6 +156,22 @@ export default function Boats() {
                     </div>
                   ))}
                 </div>
+                
+                {boat.options && boat.options.length > 0 && (
+                  <div className="p-6 bg-white rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                    <h4 className="text-sm font-bold text-marine-navy uppercase tracking-widest flex items-center gap-2">
+                       <Coffee size={16} className="text-marine-blue" /> Prestations & Options à bord
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {boat.options.map((option, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-marine-navy/70">
+                          <div className="w-1.5 h-1.5 rounded-full bg-marine-blue"></div>
+                          {option}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <Link to="/contact" className="sm:w-auto w-full">
                   <button className="px-8 py-4 bg-marine-navy text-white rounded-2xl font-bold hover:bg-marine-blue transition-all shadow-lg hover:shadow-marine-blue/25 w-full">

@@ -208,6 +208,10 @@ const INITIAL_BOATS = [
       { "label": "Largeur", "value": "4.16m" },
       { "label": "Capacité", "value": "10 personnes" },
       { "label": "Équipements", "value": "Paddle, Seabob, Bouée" }
+    ],
+    "options": [
+      "Possibilité de BBQ à bord",
+      "Tarif selon nombre de personnes (sur demande)"
     ]
   },
   {
@@ -227,6 +231,9 @@ const INITIAL_BOATS = [
       { "label": "Largeur", "value": "4.2m" },
       { "label": "Capacité", "value": "12 personnes" },
       { "label": "Moteur", "value": "2 x 300 CV" }
+    ],
+    "options": [
+      "Tarif selon nombre de personnes (sur demande)"
     ]
   }
 ];

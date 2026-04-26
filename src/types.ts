@@ -35,4 +35,5 @@ export interface Boat {
     label: string;
     value: string;
   }[];
+  options?: string[];
 }

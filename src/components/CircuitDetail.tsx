@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { MapPin, Info, Calendar, CheckCircle2, ChevronLeft, ChevronRight, Ship, Sparkles, X } from 'lucide-react';
-import { Circuit } from '../types';
+import { MapPin, Info, Calendar, CheckCircle2, ChevronLeft, ChevronRight, Ship, Sparkles, X, Coffee } from 'lucide-react';
+import { Circuit, Boat } from '../types';
 import { AnimatePresence } from 'motion/react';
+import { getBoats } from '../services/api';
 
 interface Props {
   circuit: Circuit;
@@ -11,8 +12,17 @@ interface Props {
 }
 
 export default function CircuitDetail({ circuit, onClose }: Props) {
-  const [selectedBoat, setSelectedBoat] = React.useState<'prestige' | 'pardo'>(circuit.exclusiveBoat || 'prestige');
-  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const [selectedBoat, setSelectedBoat] = useState<'prestige' | 'pardo'>(circuit.exclusiveBoat || 'prestige');
+  const [boats, setBoats] = useState<Boat[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchBoats = async () => {
+      const data = await getBoats();
+      setBoats(data);
+    };
+    fetchBoats();
+  }, []);
 
   const boatImages = circuit.boatImages 
     ? (selectedBoat === 'prestige' ? circuit.boatImages.prestige : circuit.boatImages.pardo)
@@ -193,6 +203,22 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                   ))}
                 </ul>
               </section>
+
+              {boats.find(b => b.name.toLowerCase().includes(selectedBoat))?.options && (
+                <section className="p-5 bg-marine-blue/10 rounded-3xl border border-marine-blue/20 shadow-sm">
+                  <h3 className="text-sm font-bold text-marine-blue uppercase tracking-widest flex items-center gap-2 mb-4">
+                    <Coffee size={18} /> Prestations & Options
+                  </h3>
+                  <ul className="space-y-2">
+                    {boats.find(b => b.name.toLowerCase().includes(selectedBoat))?.options?.map((option, i) => (
+                      <li key={i} className="flex items-center gap-2 text-xs md:text-sm text-marine-navy/80 font-medium">
+                        <div className="w-1.5 h-1.5 rounded-full bg-marine-cyan"></div>
+                        {option}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </div>
 
             {/* Right Column: Itinerary */}

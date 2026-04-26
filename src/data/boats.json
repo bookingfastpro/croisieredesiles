@@ -28,6 +28,10 @@
         "label": "Équipements",
         "value": "Paddle, Seabob, Bouée"
       }
+    ],
+    "options": [
+      "Possibilité de BBQ à bord",
+      "Tarif selon nombre de personnes (sur demande)"
     ]
   },
   {
@@ -59,6 +63,9 @@
         "label": "Moteur",
         "value": "2 x 300 CV"
       }
+    ],
+    "options": [
+      "Tarif selon nombre de personnes (sur demande)"
     ]
   }
 ]
