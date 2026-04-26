@@ -2,7 +2,9 @@ export interface Circuit {
   id: string;
   name: string;
   duration: string;
-  price: number;
+  price?: number;
+  priceOnRequest?: boolean;
+  category: 'circuit' | 'croisiere';
   description: string;
   longDescription: string;
   image: string;
@@ -23,6 +25,7 @@ export interface Boat {
   name: string;
   description: string;
   image: string;
+  images?: string[];
   specs: {
     label: string;
     value: string;

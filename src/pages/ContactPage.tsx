@@ -60,8 +60,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Téléphone</h3>
               <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
-              <a href="tel:+33600000000" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
-                +33 6 00 00 00 00
+              <a href="tel:+33611818486" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
+                06 11 81 84 86
                 <ChevronRight size={16} />
               </a>
             </motion.div>
@@ -126,7 +126,7 @@ export default function ContactPage() {
       <section className="py-24 bg-marine-navy/5 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-display font-bold text-marine-navy mb-12">Où nous trouver ?</h2>
-          <div className="aspect-video w-full rounded-[3rem] overflow-hidden border border-marine-blue/10 shadow-xl grayscale hover:grayscale-0 transition-all duration-700">
+          <div className="aspect-video w-full rounded-[3rem] overflow-hidden border border-marine-blue/10 shadow-xl transition-all duration-700">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2983.473534571746!2d9.15585831544063!3d41.38722297926419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d960786968869b%3A0x40819a5e94a9a00!2sPort%20de%20Bonifacio!5e0!3m2!1sfr!2sfr!4v1650000000000!5m2!1sfr!2sfr" 
               width="100%" 

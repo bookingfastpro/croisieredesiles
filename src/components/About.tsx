@@ -25,7 +25,7 @@ export default function About() {
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 leading-tight text-marine-navy">
               À la rencontre de <br />
-              <span className="text-marine-blue">Monsieur DUMAS</span>
+              <span className="text-marine-blue">Christian</span>
             </h2>
             
             <div className="space-y-8">
@@ -34,7 +34,7 @@ export default function About() {
                 <div>
                   <h3 className="text-xl font-bold text-marine-navy mb-2">Vie Personnelle & Passions</h3>
                   <p className="text-marine-navy/80 font-light leading-relaxed">
-                    Natif de la région et passionné par l'univers maritime depuis son plus jeune âge, Mr Dumas a fait de la mer son terrain de jeu et son bureau. Amateur de photographie sous-marine et fervent défenseur de l'écosystème corse, il partage son temps entre la navigation et ses centres d'intérêt pour la nature sauvage et les traditions locales.
+                    Natif de la région et passionné par l'univers maritime depuis son plus jeune âge, Christian a fait de la mer son terrain de jeu et son bureau. Amateur de photographie sous-marine et fervent défenseur de l'écosystème corse, il partage son temps entre la navigation et ses centres d'intérêt pour la nature sauvage et les traditions locales.
                   </p>
                 </div>
               </div>
@@ -44,7 +44,7 @@ export default function About() {
                 <div>
                   <h3 className="text-xl font-bold text-marine-navy mb-2">Cursus Professionnel & Diplômes</h3>
                   <p className="text-marine-navy/80 font-light leading-relaxed">
-                    Fort d'un cursus solide au sein de la Marine Marchande, Mr Dumas est titulaire de tous les diplômes de commandement requis pour la navigation professionnelle. Son parcours l'a mené à naviguer sur divers types de navires avant de se consacrer entièrement à la plaisance de luxe et au partage de sa passion avec une clientèle exigeante.
+                    Fort d'un cursus solide au sein de la Marine Marchande, Christian est titulaire de tous les diplômes de commandement requis pour la navigation professionnelle. Son parcours l'a mené à naviguer sur divers types de navires avant de se consacrer entièrement à la plaisance de luxe et au partage de sa passion avec une clientèle exigeante.
                   </p>
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default function About() {
             <div className="relative z-10 rounded-[3rem] overflow-hidden border-4 border-white/10 shadow-2xl aspect-[4/5]">
               <img 
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" 
-                alt="Mr Dumas" 
+                alt="Christian" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
               />
@@ -85,9 +85,9 @@ export default function About() {
                 "Naviguer n'est pas seulement un métier, c'est un art de vivre que je m'efforce de transmettre à chaque sortie."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">D</div>
+                <div className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">C</div>
                 <div>
-                  <div className="font-bold text-sm text-white">Mr Dumas</div>
+                  <div className="font-bold text-sm text-white">Christian</div>
                   <div className="text-[10px] uppercase tracking-widest text-marine-cyan">Capitaine & Fondateur</div>
                 </div>
               </div>

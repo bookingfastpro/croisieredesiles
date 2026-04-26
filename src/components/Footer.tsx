@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor, Instagram, Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Anchor, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -19,11 +19,9 @@ export default function Footer() {
               Votre partenaire d'évasion maritime. Des circuits pensés pour l'émerveillement et le respect de l'environnement.
             </p>
             <div className="flex gap-4">
-              {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 bg-marine-navy/5 hover:bg-marine-blue/10 border border-marine-navy/10 rounded-full flex items-center justify-center transition-all text-marine-navy/60 hover:text-marine-blue group">
-                  <Icon size={18} className="group-hover:scale-110 transition-transform" />
-                </a>
-              ))}
+              <a href="https://www.instagram.com/croisieresdesiles_2a/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-marine-navy/5 hover:bg-marine-blue/10 border border-marine-navy/10 rounded-full flex items-center justify-center transition-all text-marine-navy/60 hover:text-marine-blue group">
+                <Instagram size={18} className="group-hover:scale-110 transition-transform" />
+              </a>
             </div>
           </div>
 
@@ -50,7 +48,8 @@ export default function Footer() {
             <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-marine-blue">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-center gap-3 text-sm text-marine-navy/80">
-                <Phone size={16} className="text-marine-blue" /> +33 6 00 00 00 00
+                <Phone size={16} className="text-marine-blue" /> 
+                <a href="tel:+33611818486" className="hover:text-marine-blue transition-colors">06 11 81 84 86</a>
               </li>
               <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                 <Mail size={16} className="text-marine-blue" /> contact@croisieredesiles-bonifacio.fr

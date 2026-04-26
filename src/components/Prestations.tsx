@@ -19,28 +19,29 @@ const services = [
     details: ["Départ 10h - Retour 18h", "Carburant inclus", "Skipper inclus", "Itinéraire sur mesure"]
   },
   {
-    title: "Sortie Coucher de Soleil",
-    icon: <Sun size={24} />,
-    description: "Vivez le moment magique où le ciel s'embrase. Une navigation paisible pour terminer la journée en beauté.",
-    details: ["Départ 18h30", "Apéritif inclus", "Ambiance musicale", "Idéal pour les couples"]
-  },
-  {
-    title: "Soirée Feux d'Artifice",
-    icon: <Sparkles size={24} />,
-    description: "Admirez les spectacles pyrotechniques depuis le meilleur point de vue : la mer. Une expérience féerique et exclusive.",
-    details: ["Horaires selon événement", "Vue imprenable", "Champagne à bord", "Places limitées"]
-  },
-  {
-    title: "Croisière avec Équipage",
+    title: "Croisières (Dès 1 nuit)",
     icon: <Ship size={24} />,
-    description: "Pour un confort absolu, optez pour une croisière avec personnel de bord dédié à votre service.",
-    details: ["4 personnes max", "Skipper inclus", "Personnel de bord (sur demande)", "Service personnalisé"]
+    description: "Vivez l'expérience unique d'une nuit en mer ou d'un séjour prolongé. Nos croisières sont entièrement personnalisables selon vos envies.",
+    details: ["À partir d'une nuit", "Skipper inclus", "Itinéraire flexible", "Confort haut de gamme"]
+  },
+  {
+    title: "Séjours sur Mesure",
+    icon: <Sparkles size={24} />,
+    description: "Vous avez un projet spécifique ? Nous créons pour vous un itinéraire et un service totalement adaptés à vos besoins.",
+    details: ["Durée à la carte", "Destinations au choix", "Service VIP", "100% Personnalisable"]
+  },
+  {
+    title: "Coucher de Soleil",
+    icon: <Sun size={24} />,
+    description: "Découvrez les falaises de Bonifacio sous les couleurs de l'or. Une navigation exclusive pour une fin de journée magique.",
+    details: ["Départ 18h30", "Apéritif à bord", "Skipper inclus", "Ambiance intimiste"]
   }
 ];
 
 export default function Prestations() {
   const [circuits, setCircuits] = useState<Circuit[]>([]);
   const [expandedItineraries, setExpandedItineraries] = useState<Record<string, boolean>>({});
+  const [activeCategory, setActiveCategory] = useState<'circuit' | 'croisiere'>('circuit');
 
   const toggleItinerary = (id: string) => {
     setExpandedItineraries(prev => ({
@@ -71,7 +72,7 @@ export default function Prestations() {
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Tarifs & Services</h2>
           <p className="text-marine-navy/80 max-w-2xl mx-auto font-light text-sm sm:text-base">
-            Toutes nos prestations sont basées sur la privatisation pour vous offrir une expérience intime et exclusive.
+            Toutes nos prestations sont basées sur la privatisation. Spécialiste de la journée et de la croisière personnalisée, nous adaptons chaque moment à vos attentes.
           </p>
         </div>
 
@@ -113,23 +114,50 @@ export default function Prestations() {
 
         {/* Circuits Section */}
         <div className="mt-24 md:mt-32">
-          <div className="text-center mb-12 md:mb-16">
+          <div className="text-center mb-8 md:mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-4">
-              <Map size={14} /> Nos Circuits
+              <Map size={14} /> Nos Suggestions
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Suggestions d'Itinéraires</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Expériences en Mer</h2>
             <p className="text-marine-navy/80 max-w-2xl mx-auto font-light text-sm sm:text-base">
               Découvrez nos parcours exclusifs au départ de Bonifacio. Des itinéraires pensés pour vous faire vivre le meilleur de la Corse et de la Sardaigne.
             </p>
           </div>
 
+          {/* Navigation Tabs */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex p-1.5 bg-gray-100 rounded-2xl shadow-inner">
+              <button
+                onClick={() => setActiveCategory('circuit')}
+                className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  activeCategory === 'circuit'
+                    ? 'bg-white text-marine-blue shadow-md'
+                    : 'text-marine-navy/50 hover:text-marine-navy'
+                }`}
+              >
+                Excursions
+              </button>
+              <button
+                onClick={() => setActiveCategory('croisiere')}
+                className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  activeCategory === 'croisiere'
+                    ? 'bg-white text-marine-blue shadow-md'
+                    : 'text-marine-navy/50 hover:text-marine-navy'
+                }`}
+              >
+                Croisières
+              </button>
+            </div>
+          </div>
+
           <div className="grid gap-8 md:gap-12">
-            {circuits.map((circuit, i) => (
+            {circuits
+              .filter(c => c.category === activeCategory)
+              .map((circuit, i) => (
               <motion.div
                 key={circuit.id}
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl"
               >
@@ -153,8 +181,12 @@ export default function Prestations() {
                           <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h3>
                         </div>
                         <div className="bg-white/10 backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border border-white/20 self-start md:self-auto">
-                          <span className="text-marine-cyan text-[10px] md:text-xs font-bold uppercase tracking-widest block mb-0.5 md:mb-1">À partir de</span>
-                          <span className="text-xl md:text-2xl font-bold text-white">{circuit.price}€</span>
+                          <span className="text-marine-cyan text-[10px] md:text-xs font-bold uppercase tracking-widest block mb-0.5 md:mb-1">
+                            Tarification
+                          </span>
+                          <span className="text-xl md:text-2xl font-bold text-white">
+                            {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur Devis'}
+                          </span>
                         </div>
                       </div>
                     </div>

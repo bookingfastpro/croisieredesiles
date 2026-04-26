@@ -76,7 +76,7 @@ export default function Hero() {
             </a>
             <Link 
               to="/contact"
-              className="px-8 md:px-10 py-3 md:py-4 glass hover:bg-white/10 text-white rounded-full font-bold transition-all border border-white/20 text-base md:text-lg"
+              className="px-8 md:px-10 py-3 md:py-4 glass hover:bg-white/10 text-white rounded-full font-bold transition-all border border-white/20 text-base md:text-lg text-center"
             >
               Nous contacter
             </Link>

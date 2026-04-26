@@ -109,6 +109,8 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
       name: "Nouveau Circuit",
       duration: "2h",
       price: 0,
+      priceOnRequest: false,
+      category: 'circuit',
       description: "Description courte",
       longDescription: "Description longue détaillée",
       image: "https://picsum.photos/seed/new/800/600",
@@ -127,6 +129,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
       name: "Nouveau Bateau",
       description: "Description du bateau",
       image: "https://picsum.photos/seed/boat/800/600",
+      images: [],
       specs: [
         { label: "Capacité", value: "12 personnes" }
       ]
@@ -238,7 +241,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-white">{circuit.name}</h3>
-                        <p className="text-marine-cyan text-sm font-bold">{circuit.price}€ • {circuit.duration}</p>
+                        <p className="text-marine-cyan text-sm font-bold">{circuit.priceOnRequest ? 'Sur Devis' : `${circuit.price}€`} • {circuit.duration}</p>
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -282,13 +285,39 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             />
                           </div>
                           <div>
+                            <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Catégorie</label>
+                            <select 
+                              value={circuit.category}
+                              onChange={e => updateCircuit(circuit.id, 'category', e.target.value)}
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
+                            >
+                              <option value="circuit">Excursion</option>
+                              <option value="croisiere">Croisière</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
                             <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Prix (€)</label>
                             <input 
                               type="number"
-                              value={circuit.price}
+                              disabled={circuit.priceOnRequest}
+                              value={circuit.price || 0}
                               onChange={e => updateCircuit(circuit.id, 'price', Number(e.target.value))}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none disabled:opacity-30"
                             />
+                          </div>
+                          <div className="flex items-end pb-2">
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                              <input 
+                                type="checkbox"
+                                checked={circuit.priceOnRequest}
+                                onChange={e => updateCircuit(circuit.id, 'priceOnRequest', e.target.checked)}
+                                className="w-4 h-4 rounded bg-white/5 border-white/10 text-marine-cyan focus:ring-marine-cyan"
+                              />
+                              <span className="text-[10px] uppercase tracking-widest text-white group-hover:text-marine-cyan transition-colors">Sur Devis</span>
+                            </label>
                           </div>
                         </div>
                         <div>
@@ -444,7 +473,7 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                             />
                           </div>
                           <div>
-                            <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-2">URL Image</label>
+                            <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-2">URL Image Principale</label>
                             <div className="flex gap-2">
                               <input 
                                 value={boat.image}
@@ -458,6 +487,15 @@ export default function AdminPanel({ onClose, onUpdate }: Props) {
                                 <ImageIcon size={20} />
                               </button>
                             </div>
+                          </div>
+                          <div>
+                            <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-2">Images Galerie (Une par ligne)</label>
+                            <textarea 
+                              value={boat.images?.join('\n') || ''}
+                              onChange={e => updateBoat(boat.id, 'images', e.target.value.split('\n').filter(s => s.trim()))}
+                              placeholder="https://...&#10;https://..."
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white focus:border-marine-cyan outline-none h-32 resize-none text-xs"
+                            />
                           </div>
                         </div>
                         <div className="space-y-4">

@@ -29,7 +29,8 @@ const INITIAL_CIRCUITS = [
     id: "1",
     name: "Tour de Corse (7 Jours)",
     duration: "7 Jours",
-    price: 15000,
+    priceOnRequest: true,
+    category: "croisiere",
     description: "Une odyssée complète autour de l'Île de Beauté, de Bonifacio à Bastia.",
     longDescription: "Embarquez pour une croisière inoubliable de 7 jours. Ce périple vous fera découvrir les joyaux de la Corse : les falaises de Bonifacio, les calanques de Piana, le village mythique de Girolata, la citadelle de Calvi, le Cap Corse et les plages célèbres de Porto-Vecchio.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
@@ -66,6 +67,7 @@ const INITIAL_CIRCUITS = [
     name: "Sardaigne & La Maddalena",
     duration: "Journée / Croisière",
     price: 2500,
+    category: "circuit",
     description: "Explorez l'archipel de la Maddalena et les côtes sauvages de la Sardaigne.",
     longDescription: "Une escapade internationale au départ de Bonifacio. Découvrez les eaux cristallines de l'archipel de la Maddalena, ses îles préservées et ses plages de sable fin. Un dépaysement total à seulement quelques milles nautiques.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
@@ -94,6 +96,7 @@ const INITIAL_CIRCUITS = [
     name: "Bonifacio & Îles Lavezzi",
     duration: "Journée",
     price: 1800,
+    category: "circuit",
     description: "Le grand classique : les falaises de Bonifacio et le lagon des Lavezzi.",
     longDescription: "Découvrez Bonifacio comme vous ne l'avez jamais vue, depuis la mer. Admirez les falaises de calcaire blanc, les grottes marines, puis plongez dans l'aquarium naturel des îles Lavezzi. Un incontournable de la région.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%208.jpg",
@@ -122,6 +125,7 @@ const INITIAL_CIRCUITS = [
     name: "Criques & Roccapina",
     duration: "Journée",
     price: 1800,
+    category: "circuit",
     description: "Une journée sauvage vers l'ouest : Pianottoli, Arbitru et le Lion de Roccapina.",
     longDescription: "Fuyez la foule et dirigez-vous vers l'ouest. Ce circuit vous emmène dans des criques isolées accessibles uniquement par la mer. Le point d'orgue est la baie de Roccapina avec son célèbre lion de pierre veillant sur une plage de rêve.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
@@ -145,32 +149,126 @@ const INITIAL_CIRCUITS = [
       { lat: 41.4500, lng: 9.0000 },
       { lat: 41.5000, lng: 8.8000 }
     ]
+  },
+  {
+    id: "5",
+    name: "Croisière La Maddalena (1 Nuit)",
+    duration: "2 Jours / 1 Nuit",
+    priceOnRequest: true,
+    category: "croisiere",
+    description: "Vivez une nuit magique au cœur de l'archipel de la Maddalena.",
+    longDescription: "Profitez de l'archipel de la Maddalena après le départ des derniers bateaux de touristes. Une expérience exclusive avec mouillage dans une crique sauvage, dîner sous les étoiles et réveil dans des eaux cristallines.",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
+    itinerary: [
+      "Départ Bonifacio (Matin)",
+      "Exploration de Spargi et Budelli",
+      "Mouillage nocturne dans une crique abritée",
+      "Petit-déjeuner au paradis",
+      "Visite de Santa Maria",
+      "Retour Bonifacio (Fin d'après-midi)"
+    ],
+    locations: ["Bonifacio", "La Maddalena", "Spargi", "Budelli"],
+    practicalInfos: [
+      "Capacité : 4 personnes max pour la nuit",
+      "Skipper inclus",
+      "Repas à organiser avec le skipper",
+      "Séjour entièrement personnalisable"
+    ],
+    coordinates: [
+      { lat: 41.3875, lng: 9.1561 },
+      { lat: 41.2167, lng: 9.4000 }
+    ]
+  },
+  {
+    id: "6",
+    name: "Évasion Lavezzi (2 Nuits)",
+    duration: "3 Jours / 2 Nuits",
+    priceOnRequest: true,
+    category: "croisiere",
+    description: "Prenez le temps de découvrir chaque recoin des îles Lavezzi et Cavallo.",
+    longDescription: "Une immersion totale dans la réserve naturelle des Bouches de Bonifacio. Trois jours de détente, de snorkeling et de déconnexion totale à bord de votre navire privé.",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%208.jpg",
+    itinerary: [
+      "Départ Bonifacio",
+      "Immersion aux Îles Lavezzi",
+      "Nuit à l'ancre",
+      "Exploration de l'Île de Cavallo",
+      "Criques secrètes de la côte sud",
+      "Retour Bonifacio"
+    ],
+    locations: ["Bonifacio", "Lavezzi", "Cavallo", "Sperone"],
+    practicalInfos: [
+      "Formule idéale pour la déconnexion",
+      "Skipper inclus",
+      "Itinéraire flexible selon météo",
+      "Séjour entièrement personnalisable"
+    ],
+    coordinates: [
+      { lat: 41.3875, lng: 9.1561 },
+      { lat: 41.3400, lng: 9.2500 }
+    ]
+  },
+  {
+    id: "7",
+    name: "Croisière sur Mesure",
+    duration: "À la demande",
+    priceOnRequest: true,
+    category: "croisiere",
+    description: "Créez votre propre itinéraire de croisière pour un séjour inoubliable.",
+    longDescription: "Vous avez un projet spécifique ? Une envie particulière ? Nous organisons votre croisière entièrement sur mesure. Choisissez votre durée, vos escales et laissez-vous guider par notre skipper professionnel.",
+    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/IMG_0261.png",
+    itinerary: [
+      "Définition de vos envies",
+      "Proposition d'itinéraire",
+      "Sélection des escales",
+      "Navigation personnalisée"
+    ],
+    locations: ["Corse", "Sardaigne", "Archipels"],
+    practicalInfos: [
+      "De 1 à plusieurs nuits",
+      "Skipper expert du bassin méditerranéen",
+      "Service VIP",
+      "Formule 100% personnalisable"
+    ],
+    coordinates: [
+      { lat: 41.3875, lng: 9.1561 }
+    ]
   }
 ];
 
 const INITIAL_BOATS = [
   {
-    id: "1",
-    name: "Sessa Key Largo 34",
-    description: "Le Key Largo 34 est l'un des bateaux les plus populaires de sa catégorie. Avec son design élégant et ses performances exceptionnelles, il est idéal pour une journée en mer en famille ou entre amis.",
-    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.31.jpeg",
-    specs: [
-      { label: "Longueur", value: "10.5m" },
-      { label: "Largeur", value: "3.5m" },
-      { label: "Capacité", value: "10 personnes" },
-      { label: "Moteur", value: "2 x 300 CV" }
+    "id": "1",
+    "name": "Prestige 42 Flybridge",
+    "description": "Le Prestige 42 Flybridge allie élégance, confort et volume. Parfait pour des croisières prolongées ou des journées de détente avec sa plateforme aquatique gonflable, paddle, seabob et sa bouée tractée avec annexe.",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
+    "images": [
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.31.jpeg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg"
+    ],
+    "specs": [
+      { "label": "Longueur", "value": "11.98m" },
+      { "label": "Largeur", "value": "4.16m" },
+      { "label": "Capacité", "value": "10 personnes" },
+      { "label": "Équipements", "value": "Paddle, Seabob, Bouée" }
     ]
   },
   {
-    id: "2",
-    name: "Pardo 43",
-    description: "Le Pardo 43 est le choix parfait pour ceux qui recherchent le luxe et le confort. Son design moderne et ses finitions haut de gamme en font un véritable joyau des mers.",
-    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
-    specs: [
-      { label: "Longueur", value: "13.5m" },
-      { label: "Largeur", value: "4.2m" },
-      { label: "Capacité", value: "12 personnes" },
-      { label: "Moteur", value: "2 x 435 CV" }
+    "id": "2",
+    "name": "SAXDOR Pardo 43",
+    "description": "Le Pardo 43 de chez SAXDOR est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+    "images": [
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg"
+    ],
+    "specs": [
+      { "label": "Longueur", "value": "13.5m" },
+      { "label": "Largeur", "value": "4.2m" },
+      { "label": "Capacité", "value": "12 personnes" },
+      { "label": "Moteur", "value": "2 x 300 CV" }
     ]
   }
 ];

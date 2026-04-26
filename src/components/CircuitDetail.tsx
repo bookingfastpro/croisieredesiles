@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { MapPin, Info, Calendar, CheckCircle2 } from 'lucide-react';
 import { Circuit } from '../types';
 
@@ -49,7 +50,9 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md px-5 py-2 rounded-xl border border-white/20">
-              <span className="text-2xl font-bold text-white">{circuit.price}€</span>
+              <span className="text-xl font-bold text-white uppercase tracking-tight">
+                {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur Devis'}
+              </span>
             </div>
           </div>
 
@@ -128,9 +131,11 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-[1.02] active:scale-95">
-              Réserver ce circuit
-            </button>
+            <Link to="/contact" className="flex-1" onClick={onClose}>
+              <button className="w-full py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-[1.02] active:scale-95">
+                {circuit.priceOnRequest ? 'Demander un devis personnalisé' : 'Réserver ce circuit'}
+              </button>
+            </Link>
             <button 
               onClick={onClose}
               className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-marine-navy rounded-2xl font-bold transition-colors"

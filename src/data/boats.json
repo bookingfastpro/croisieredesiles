@@ -1,0 +1,60 @@
+[
+  {
+    "id": "1",
+    "name": "Prestige 42 Flybridge",
+    "description": "Le Prestige 42 Flybridge allie élégance, confort et volume. Parfait pour des croisières prolongées ou des journées de détente avec sa plateforme aquatique gonflable, paddle, seabob et sa bouée tractée avec annexe.",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
+    "images": [
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.31.jpeg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg"
+    ],
+    "specs": [
+      {
+        "label": "Longueur",
+        "value": "11.98m"
+      },
+      {
+        "label": "Largeur",
+        "value": "4.16m"
+      },
+      {
+        "label": "Capacité",
+        "value": "10 personnes"
+      },
+      {
+        "label": "Équipements",
+        "value": "Paddle, Seabob, Bouée"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "SAXDOR Pardo 43",
+    "description": "Le Pardo 43 de chez SAXDOR est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+    "images": [
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg"
+    ],
+    "specs": [
+      {
+        "label": "Longueur",
+        "value": "13.5m"
+      },
+      {
+        "label": "Largeur",
+        "value": "4.2m"
+      },
+      {
+        "label": "Capacité",
+        "value": "12 personnes"
+      },
+      {
+        "label": "Moteur",
+        "value": "2 x 300 CV"
+      }
+    ]
+  }
+]
