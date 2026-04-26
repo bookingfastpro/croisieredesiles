@@ -12,6 +12,11 @@ export interface Circuit {
   locations: string[];
   practicalInfos: string[];
   coordinates: { lat: number; lng: number }[];
+  boatImages?: {
+    prestige: string[];
+    pardo: string[];
+  };
+  exclusiveBoat?: 'prestige' | 'pardo';
 }
 
 export interface HeroData {

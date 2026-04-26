@@ -42,6 +42,7 @@ export default function Prestations() {
   const [circuits, setCircuits] = useState<Circuit[]>([]);
   const [expandedItineraries, setExpandedItineraries] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<'circuit' | 'croisiere'>('circuit');
+  const [selectedBoat, setSelectedBoat] = useState<'prestige' | 'pardo'>('prestige');
 
   const toggleItinerary = (id: string) => {
     setExpandedItineraries(prev => ({
@@ -119,9 +120,45 @@ export default function Prestations() {
               <Map size={14} /> Nos Suggestions
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Expériences en Mer</h2>
-            <p className="text-marine-navy/80 max-w-2xl mx-auto font-light text-sm sm:text-base">
+            <p className="text-marine-navy/80 max-w-2xl mx-auto font-light text-sm sm:text-base mb-8">
               Découvrez nos parcours exclusifs au départ de Bonifacio. Des itinéraires pensés pour vous faire vivre le meilleur de la Corse et de la Sardaigne.
             </p>
+
+            {/* Boat Selection Toggle */}
+            <div className="flex flex-col items-center gap-4 mb-12">
+              <span className="text-xs uppercase tracking-widest font-bold text-marine-navy/40">Choisir votre navire</span>
+              <div className="inline-flex p-1.5 bg-gray-100 rounded-2xl shadow-inner">
+                <button
+                  onClick={() => setSelectedBoat('prestige')}
+                  className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
+                    selectedBoat === 'prestige'
+                      ? 'bg-marine-navy text-white shadow-lg shadow-marine-navy/20 active:scale-95'
+                      : 'text-marine-navy/50 hover:text-marine-navy'
+                  }`}
+                >
+                  <Sparkles size={14} /> Prestige 42 Flybridge
+                </button>
+                <button
+                  onClick={() => setSelectedBoat('pardo')}
+                  className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                    selectedBoat === 'pardo'
+                      ? 'bg-marine-navy text-white shadow-lg shadow-marine-navy/20 active:scale-95'
+                      : 'text-marine-navy/50 hover:text-marine-navy'
+                  }`}
+                >
+                  SAXDOR Pardo 43
+                </button>
+              </div>
+              {selectedBoat === 'prestige' && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-xs font-bold text-marine-cyan uppercase tracking-widest flex items-center gap-2"
+                >
+                  <Sparkles size={12} /> Bateau Recommandé
+                </motion.div>
+              )}
+            </div>
           </div>
 
           {/* Navigation Tabs */}
@@ -153,44 +190,64 @@ export default function Prestations() {
           <div className="grid gap-8 md:gap-12">
             {circuits
               .filter(c => c.category === activeCategory)
-              .map((circuit, i) => (
-              <motion.div
-                key={circuit.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl"
-              >
-                <div className="flex flex-col">
-                  {/* Image Header */}
-                  <div className="h-64 sm:h-80 md:h-[450px] w-full relative overflow-hidden">
-                    <img 
-                      src={circuit.image} 
-                      alt={circuit.name} 
-                      className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
-                    
-                    <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 md:p-12">
-                      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
-                        <div>
-                          <div className="flex items-center gap-2 text-marine-cyan mb-2 md:mb-3 uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs font-bold">
-                            <Clock size={14} className="md:w-4 md:h-4" /> {circuit.duration}
-                          </div>
-                          <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h3>
+              .filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat)
+              .map((circuit, i) => {
+                // Determine image based on selected boat
+                const displayImage = circuit.boatImages 
+                  ? (selectedBoat === 'prestige' ? circuit.boatImages.prestige[0] : circuit.boatImages.pardo[0])
+                  : circuit.image;
+
+                return (
+                  <motion.div
+                    key={circuit.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="bg-white rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-gray-100 shadow-2xl"
+                  >
+                    <div className="flex flex-col">
+                      {/* Image Header */}
+                      <div className="h-64 sm:h-80 md:h-[450px] w-full relative overflow-hidden">
+                        <AnimatePresence mode="wait">
+                          <motion.img 
+                            key={`${circuit.id}-${selectedBoat}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            src={displayImage} 
+                            alt={circuit.name} 
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                          />
+                        </AnimatePresence>
+                        <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
+                        
+                        <div className="absolute top-6 left-6 flex flex-col gap-2">
+                           <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                             <Ship size={12} /> {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR Pardo 43'}
+                           </div>
                         </div>
-                        <div className="bg-white/10 backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border border-white/20 self-start md:self-auto">
-                          <span className="text-marine-cyan text-[10px] md:text-xs font-bold uppercase tracking-widest block mb-0.5 md:mb-1">
-                            Tarification
-                          </span>
-                          <span className="text-xl md:text-2xl font-bold text-white">
-                            {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur Devis'}
-                          </span>
+
+                        <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 md:p-12">
+                          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
+                            <div>
+                              <div className="flex items-center gap-2 text-marine-cyan mb-2 md:mb-3 uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs font-bold">
+                                <Clock size={14} className="md:w-4 md:h-4" /> {circuit.duration}
+                              </div>
+                              <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h3>
+                            </div>
+                            <div className="bg-white/10 backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border border-white/20 self-start md:self-auto">
+                              <span className="text-marine-cyan text-[10px] md:text-xs font-bold uppercase tracking-widest block mb-0.5 md:mb-1">
+                                Tarification
+                              </span>
+                              <span className="text-xl md:text-2xl font-bold text-white">
+                                {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur Devis'}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
                   {/* Content Body */}
                   <div className="p-6 sm:p-8 md:p-12 bg-white">
@@ -319,10 +376,11 @@ export default function Prestations() {
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </div>
-        </div>
+            );
+          })}
       </div>
-    </section>
-  );
+    </div>
+  </div>
+</section>
+);
 }

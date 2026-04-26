@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { MapPin, Info, Calendar, CheckCircle2 } from 'lucide-react';
+import { MapPin, Info, Calendar, CheckCircle2, ChevronLeft, ChevronRight, Ship, Sparkles, X } from 'lucide-react';
 import { Circuit } from '../types';
+import { AnimatePresence } from 'motion/react';
 
 interface Props {
   circuit: Circuit;
@@ -10,6 +11,25 @@ interface Props {
 }
 
 export default function CircuitDetail({ circuit, onClose }: Props) {
+  const [selectedBoat, setSelectedBoat] = React.useState<'prestige' | 'pardo'>(circuit.exclusiveBoat || 'prestige');
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+
+  const boatImages = circuit.boatImages 
+    ? (selectedBoat === 'prestige' ? circuit.boatImages.prestige : circuit.boatImages.pardo)
+    : [circuit.image];
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % boatImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + boatImages.length) % boatImages.length);
+  };
+
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [selectedBoat]);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -28,18 +48,85 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full h-full md:max-w-5xl md:max-h-[90vh] bg-white md:rounded-[2.5rem] rounded-none overflow-hidden border border-gray-200 shadow-2xl flex flex-col"
+        className="relative w-full h-full md:max-w-5xl md:max-h-[90vh] bg-white md:rounded-[2.5rem] rounded-none border border-gray-200 shadow-2xl flex flex-col overflow-hidden"
       >
-        {/* Header: Image */}
-        <div className="relative h-64 md:h-80 overflow-hidden shrink-0">
-          <img 
-            src={circuit.image} 
-            alt={circuit.name} 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
+        {/* Header: Image Carousel */}
+        <div className="relative h-64 md:h-[400px] overflow-hidden shrink-0 group">
+          <AnimatePresence mode="wait">
+            <motion.img 
+              key={`${selectedBoat}-${currentImageIndex}`}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
+              src={boatImages[currentImageIndex]} 
+              alt={circuit.name} 
+              className="absolute inset-0 w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </AnimatePresence>
+          
           <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
           
+          {/* Boat Selector inside Gallery */}
+          {!circuit.exclusiveBoat && (
+            <div className="absolute top-6 left-8 flex flex-col gap-2 z-20">
+              <div className="inline-flex p-1 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
+                <button
+                  onClick={() => setSelectedBoat('prestige')}
+                  className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all ${
+                    selectedBoat === 'prestige'
+                      ? 'bg-white text-marine-navy shadow-lg'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Sparkles size={12} className={selectedBoat === 'prestige' ? 'text-marine-cyan' : ''} />
+                    Prestige 42
+                  </div>
+                </button>
+                <button
+                  onClick={() => setSelectedBoat('pardo')}
+                  className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all ${
+                    selectedBoat === 'pardo'
+                      ? 'bg-white text-marine-navy shadow-lg'
+                      : 'text-white/60 hover:text-white'
+                  }`}
+                >
+                  SAXDOR Pardo 43
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Arrows */}
+          {boatImages.length > 1 && (
+            <>
+              <button 
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </>
+          )}
+
+          {/* Indicators */}
+          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {boatImages.map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentImageIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+              ></div>
+            ))}
+          </div>
+
           <div className="absolute bottom-6 left-8 right-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-white text-glow">{circuit.name}</h2>
@@ -47,6 +134,8 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                 <span className="flex items-center gap-1 text-sm font-bold uppercase tracking-widest">
                   <Calendar size={16} /> {circuit.duration}
                 </span>
+                <span className="w-1 h-1 rounded-full bg-white/30"></span>
+                <span className="text-sm text-white/80 font-medium">À bord du {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR Pardo 43'}</span>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md px-5 py-2 rounded-xl border border-white/20">
@@ -58,9 +147,9 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
 
           <button 
             onClick={onClose}
-            className="absolute top-6 right-6 bg-white/10 backdrop-blur-md p-3 rounded-full hover:bg-white/20 text-white transition-colors z-10 border border-white/20"
+            className="absolute top-6 right-6 bg-white/20 backdrop-blur-md p-2 rounded-full hover:bg-white/30 text-white transition-colors z-10 border border-white/30"
           >
-            <MapPin className="rotate-45" size={20} />
+            <X size={20} />
           </button>
         </div>
 

@@ -60,7 +60,8 @@ const INITIAL_CIRCUITS = [
       { lat: 42.6833, lng: 9.3000 }, // St Florent
       { lat: 42.7000, lng: 9.4500 }, // Bastia
       { lat: 41.5911, lng: 9.2786 }  // Porto-Vecchio
-    ]
+    ],
+    exclusiveBoat: "prestige"
   },
   {
     id: "2",
@@ -152,84 +153,37 @@ const INITIAL_CIRCUITS = [
   },
   {
     id: "5",
-    name: "Croisière La Maddalena (1 Nuit)",
-    duration: "2 Jours / 1 Nuit",
+    name: "Croisières sur mesure",
+    duration: "À partir de 2 jours",
     priceOnRequest: true,
     category: "croisiere",
-    description: "Vivez une nuit magique au cœur de l'archipel de la Maddalena.",
-    longDescription: "Profitez de l'archipel de la Maddalena après le départ des derniers bateaux de touristes. Une expérience exclusive avec mouillage dans une crique sauvage, dîner sous les étoiles et réveil dans des eaux cristallines.",
-    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
-    itinerary: [
-      "Départ Bonifacio (Matin)",
-      "Exploration de Spargi et Budelli",
-      "Mouillage nocturne dans une crique abritée",
-      "Petit-déjeuner au paradis",
-      "Visite de Santa Maria",
-      "Retour Bonifacio (Fin d'après-midi)"
-    ],
-    locations: ["Bonifacio", "La Maddalena", "Spargi", "Budelli"],
-    practicalInfos: [
-      "Capacité : 4 personnes max pour la nuit",
-      "Skipper inclus",
-      "Repas à organiser avec le skipper",
-      "Séjour entièrement personnalisable"
-    ],
-    coordinates: [
-      { lat: 41.3875, lng: 9.1561 },
-      { lat: 41.2167, lng: 9.4000 }
-    ]
-  },
-  {
-    id: "6",
-    name: "Évasion Lavezzi (2 Nuits)",
-    duration: "3 Jours / 2 Nuits",
-    priceOnRequest: true,
-    category: "croisiere",
-    description: "Prenez le temps de découvrir chaque recoin des îles Lavezzi et Cavallo.",
-    longDescription: "Une immersion totale dans la réserve naturelle des Bouches de Bonifacio. Trois jours de détente, de snorkeling et de déconnexion totale à bord de votre navire privé.",
-    image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%208.jpg",
-    itinerary: [
-      "Départ Bonifacio",
-      "Immersion aux Îles Lavezzi",
-      "Nuit à l'ancre",
-      "Exploration de l'Île de Cavallo",
-      "Criques secrètes de la côte sud",
-      "Retour Bonifacio"
-    ],
-    locations: ["Bonifacio", "Lavezzi", "Cavallo", "Sperone"],
-    practicalInfos: [
-      "Formule idéale pour la déconnexion",
-      "Skipper inclus",
-      "Itinéraire flexible selon météo",
-      "Séjour entièrement personnalisable"
-    ],
-    coordinates: [
-      { lat: 41.3875, lng: 9.1561 },
-      { lat: 41.3400, lng: 9.2500 }
-    ]
-  },
-  {
-    id: "7",
-    name: "Croisière sur Mesure",
-    duration: "À la demande",
-    priceOnRequest: true,
-    category: "croisiere",
-    description: "Créez votre propre itinéraire de croisière pour un séjour inoubliable.",
-    longDescription: "Vous avez un projet spécifique ? Une envie particulière ? Nous organisons votre croisière entièrement sur mesure. Choisissez votre durée, vos escales et laissez-vous guider par notre skipper professionnel.",
+    description: "Séjours prolongés en mer pour une évasion totale.",
+    longDescription: "Découvrez le plaisir de vivre à bord. Nos croisières de plusieurs jours vous permettent d'explorer les plus beaux sites de Méditerranée en toute sérénité. Un itinéraire 100% personnalisable selon vos envies.",
     image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/IMG_0261.png",
     itinerary: [
-      "Définition de vos envies",
-      "Proposition d'itinéraire",
+      "Définition de votre projet",
       "Sélection des escales",
-      "Navigation personnalisée"
+      "Navigation sur mesure",
+      "Vie à bord et détente"
     ],
     locations: ["Corse", "Sardaigne", "Archipels"],
     practicalInfos: [
-      "De 1 à plusieurs nuits",
-      "Skipper expert du bassin méditerranéen",
-      "Service VIP",
-      "Formule 100% personnalisable"
+      "À partir de 2 jours / 1 nuit",
+      "Skipper professionnel inclus",
+      "Confort premium à bord",
+      "Sur devis uniquement"
     ],
+    exclusiveBoat: "prestige",
+    boatImages: {
+      prestige: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg"
+      ],
+      pardo: []
+    },
     coordinates: [
       { lat: 41.3875, lng: 9.1561 }
     ]
@@ -241,11 +195,13 @@ const INITIAL_BOATS = [
     "id": "1",
     "name": "Prestige 42 Flybridge",
     "description": "Le Prestige 42 Flybridge allie élégance, confort et volume. Parfait pour des croisières prolongées ou des journées de détente avec sa plateforme aquatique gonflable, paddle, seabob et sa bouée tractée avec annexe.",
-    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
     "images": [
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.37.jpeg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-20%20at%2020.01.31.jpeg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg"
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg"
     ],
     "specs": [
       { "label": "Longueur", "value": "11.98m" },
@@ -261,8 +217,10 @@ const INITIAL_BOATS = [
     "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
     "images": [
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%206.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg"
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
     ],
     "specs": [
       { "label": "Longueur", "value": "13.5m" },

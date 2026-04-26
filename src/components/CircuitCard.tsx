@@ -6,9 +6,14 @@ import { Circuit } from '../types';
 interface Props {
   circuit: Circuit;
   onView: (circuit: Circuit) => void;
+  selectedBoat?: 'prestige' | 'pardo';
 }
 
-export default function CircuitCard({ circuit, onView }: Props) {
+export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige' }: Props) {
+  const displayImage = circuit.boatImages 
+    ? (selectedBoat === 'prestige' ? circuit.boatImages.prestige[0] : circuit.boatImages.pardo[0])
+    : circuit.image;
+
   return (
     <motion.div
       whileHover={{ y: -10 }}
@@ -16,8 +21,11 @@ export default function CircuitCard({ circuit, onView }: Props) {
     >
       {/* Image Container */}
       <div className="h-64 overflow-hidden relative">
-        <img 
-          src={circuit.image} 
+        <motion.img 
+          key={`${circuit.id}-${selectedBoat}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          src={displayImage} 
           alt={circuit.name} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           referrerPolicy="no-referrer"
