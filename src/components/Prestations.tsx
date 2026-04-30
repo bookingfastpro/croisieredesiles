@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Euro, Calendar, Sun, Sparkles, Ship, Map, ChevronRight, Clock, MapPin, ChevronDown } from 'lucide-react';
+import { Euro, Calendar, Sun, Sparkles, Ship, Map, ChevronRight, Clock, MapPin, ChevronDown, X, ChevronLeft } from 'lucide-react';
 import { getCircuits, getBoats } from '../services/api';
 import { Circuit, Boat } from '../types';
 
@@ -44,6 +44,9 @@ export default function Prestations() {
   const [expandedItineraries, setExpandedItineraries] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<'circuit' | 'croisiere'>('circuit');
   const [selectedBoat, setSelectedBoat] = useState<'prestige' | 'pardo'>('prestige');
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [lightboxImages, setLightboxImages] = useState<string[]>([]);
 
   const toggleItinerary = (id: string) => {
     setExpandedItineraries(prev => ({
@@ -51,6 +54,48 @@ export default function Prestations() {
       [id]: !prev[id]
     }));
   };
+
+  const openLightbox = (images: string[], index: number = 0) => {
+    setLightboxImages(images);
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+  };
+
+  const nextImage = (e?: React.MouseEvent | KeyboardEvent) => {
+    e?.stopPropagation();
+    if (lightboxImages.length > 0) {
+      setCurrentImageIndex((prev) => (prev + 1) % lightboxImages.length);
+    }
+  };
+
+  const prevImage = (e?: React.MouseEvent | KeyboardEvent) => {
+    e?.stopPropagation();
+    if (lightboxImages.length > 0) {
+      setCurrentImageIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+    }
+  };
+
+  useEffect(() => {
+    if (isLightboxOpen) {
+      document.body.style.overflow = 'hidden';
+      
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage(e);
+        if (e.key === 'ArrowLeft') prevImage(e);
+      };
+      
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [isLightboxOpen, lightboxImages.length]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -239,7 +284,15 @@ export default function Prestations() {
                       >
                         <div className="flex flex-col">
                           {/* Image Header */}
-                          <div className="h-64 sm:h-80 md:h-[450px] w-full relative overflow-hidden">
+                          <div 
+                            className="h-64 sm:h-80 md:h-[450px] w-full relative overflow-hidden cursor-pointer group/img"
+                            onClick={() => {
+                              const images = circuit.boatImages 
+                                ? (selectedBoat === 'prestige' ? circuit.boatImages.prestige : circuit.boatImages.pardo)
+                                : [circuit.image];
+                              openLightbox(images);
+                            }}
+                          >
                             <AnimatePresence mode="wait">
                               <motion.img 
                                 key={`${circuit.id}-${selectedBoat}`}
@@ -249,11 +302,18 @@ export default function Prestations() {
                                 transition={{ duration: 0.5 }}
                                 src={displayImage} 
                                 alt={circuit.name} 
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
                                 referrerPolicy="no-referrer"
                               />
                             </AnimatePresence>
                             <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
+                            
+                            {/* Overlay Interaction UI */}
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 pointer-events-none">
+                              <div className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 text-white font-bold uppercase tracking-widest text-xs">
+                                Voir les photos
+                              </div>
+                            </div>
                             
                             <div className="absolute top-6 left-6 flex flex-col gap-2">
                                <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
@@ -443,6 +503,66 @@ export default function Prestations() {
           </div>
       </div>
     </div>
+
+    {/* Lightbox Gallery */}
+    <AnimatePresence>
+      {isLightboxOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-8"
+          onClick={closeLightbox}
+        >
+          {/* Close button */}
+          <button 
+            onClick={closeLightbox}
+            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2"
+          >
+            <X size={32} />
+          </button>
+
+          {/* Controls - Only show if multiple images */}
+          {lightboxImages.length > 1 && (
+            <>
+              <button 
+                onClick={prevImage}
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-all bg-white/10 hover:bg-white/20 p-3 md:p-4 rounded-full backdrop-blur-md"
+              >
+                <ChevronLeft size={32} />
+              </button>
+              <button 
+                onClick={nextImage}
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-all bg-white/10 hover:bg-white/20 p-3 md:p-4 rounded-full backdrop-blur-md"
+              >
+                <ChevronRight size={32} />
+              </button>
+            </>
+          )}
+
+          {/* Main Image */}
+          <div className="max-w-5xl w-full max-h-[85vh] relative flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <motion.img
+              key={currentImageIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              src={lightboxImages[currentImageIndex]}
+              className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+              referrerPolicy="no-referrer"
+            />
+            
+            {/* Counter */}
+            {lightboxImages.length > 1 && (
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-white/60 font-medium tracking-widest text-xs uppercase">
+                {currentImageIndex + 1} / {lightboxImages.length}
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 </section>
 );
 }

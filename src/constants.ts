@@ -60,7 +60,6 @@ export const CIRCUITS: Circuit[] = [
     practicalInfos: [
       "Passeport ou CNI valide requis",
       "Skipper inclus",
-      "Boissons fraîches à bord",
       "Tarif variable selon saison"
     ],
     coordinates: [

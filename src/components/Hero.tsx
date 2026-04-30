@@ -28,7 +28,7 @@ export default function Hero() {
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/60 via-marine-blue/40 to-marine-ink"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/40 via-marine-blue/30 to-marine-ink/80"></div>
       </div>
 
       {/* Content */}

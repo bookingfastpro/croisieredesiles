@@ -14,7 +14,7 @@ export default function ContactPage() {
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-marine-ink via-marine-navy/80 to-marine-ink"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/40 via-marine-blue/30 to-marine-ink/80"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10 text-center">

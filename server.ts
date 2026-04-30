@@ -101,7 +101,6 @@ const INITIAL_CIRCUITS = [
     practicalInfos: [
       "Passeport ou CNI valide requis",
       "Skipper inclus",
-      "Boissons fraîches à bord",
       "Tarif variable selon saison"
     ],
     coordinates: [
