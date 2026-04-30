@@ -6,15 +6,15 @@ export default function ContactPage() {
   return (
     <div className="pt-24 min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 overflow-hidden bg-marine-ink">
-        <div className="absolute inset-0 opacity-20">
+      <section className="relative py-20 px-6 overflow-hidden bg-marine-navy">
+        <div className="absolute inset-0 opacity-40">
           <img 
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80" 
+            src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2012.57.05.jpeg" 
             alt="Contact Background" 
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/40 via-marine-blue/30 to-marine-ink/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/30 via-marine-blue/20 to-marine-navy/60"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10 text-center">
