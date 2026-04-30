@@ -73,10 +73,9 @@ export default function About() {
               <img 
                 src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/0c435c87-50ff-437d-b612-19832209e1d6%20(1).jpg" 
                 alt="Christian" 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover transition-all duration-700"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-marine-blue/20 mix-blend-overlay"></div>
             </div>
             
             {/* Floating Glass Card */}
