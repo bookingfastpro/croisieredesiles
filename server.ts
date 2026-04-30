@@ -61,7 +61,24 @@ const INITIAL_CIRCUITS = [
       { lat: 42.7000, lng: 9.4500 }, // Bastia
       { lat: 41.5911, lng: 9.2786 }  // Porto-Vecchio
     ],
-    exclusiveBoat: "prestige"
+    exclusiveBoat: "prestige",
+    boatImages: {
+      prestige: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
+      ],
+      pardo: []
+    }
   },
   {
     id: "2",
@@ -90,7 +107,30 @@ const INITIAL_CIRCUITS = [
     coordinates: [
       { lat: 41.3875, lng: 9.1561 },
       { lat: 41.2167, lng: 9.4000 }
-    ]
+    ],
+    boatImages: {
+      prestige: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
+      ],
+      pardo: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
+      ]
+    }
   },
   {
     id: "3",
@@ -119,7 +159,30 @@ const INITIAL_CIRCUITS = [
     coordinates: [
       { lat: 41.3875, lng: 9.1561 },
       { lat: 41.3400, lng: 9.2500 }
-    ]
+    ],
+    boatImages: {
+      prestige: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
+      ],
+      pardo: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
+      ]
+    }
   },
   {
     id: "4",
@@ -149,7 +212,30 @@ const INITIAL_CIRCUITS = [
       { lat: 41.3875, lng: 9.1561 },
       { lat: 41.4500, lng: 9.0000 },
       { lat: 41.5000, lng: 8.8000 }
-    ]
+    ],
+    boatImages: {
+      prestige: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
+      ],
+      pardo: [
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
+      ]
+    }
   },
   {
     id: "5",
@@ -176,11 +262,18 @@ const INITIAL_CIRCUITS = [
     exclusiveBoat: "prestige",
     boatImages: {
       prestige: [
-        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
         "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
         "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
         "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
-        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg"
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+        "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
       ],
       pardo: []
     },
@@ -195,13 +288,20 @@ const INITIAL_BOATS = [
     "id": "1",
     "name": "Prestige 42 Flybridge",
     "description": "Le Prestige 42 Flybridge allie élégance, confort et volume. Parfait pour des croisières prolongées ou des journées de détente avec sa plateforme aquatique gonflable, paddle, seabob et sa bouée tractée avec annexe.",
-    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
     "images": [
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-33.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2014.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2016.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%2017.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg"
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-04-24-09-22-34%202.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/interieur..jpeg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%202.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%203.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-02%205.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%203.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%207.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau%20Interieur/PHOTO-2026-02-13-12-50-03%206.jpg"
     ],
     "specs": [
       { "label": "Longueur", "value": "11.98m" },
@@ -218,9 +318,9 @@ const INITIAL_BOATS = [
     "id": "2",
     "name": "SAXDOR Pardo 43",
     "description": "Le Pardo 43 de chez SAXDOR est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
-    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
     "images": [
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2011.jpg",
+      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",

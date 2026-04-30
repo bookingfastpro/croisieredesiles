@@ -71,7 +71,7 @@ export default function About() {
           >
             <div className="relative z-10 rounded-[3rem] overflow-hidden border-4 border-white/10 shadow-2xl aspect-[4/5]">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" 
+                src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/0c435c87-50ff-437d-b612-19832209e1d6%20(1).jpg" 
                 alt="Christian" 
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"

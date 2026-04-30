@@ -78,8 +78,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Email</h3>
               <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
-              <a href="mailto:contact@croisieredesiles-bonifacio.fr" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
-                contact@croisieredesiles-bonifacio.fr
+              <a href="mailto:croisieresdesiles20169@gmail.com" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
+                croisieresdesiles20169@gmail.com
               </a>
             </motion.div>
 

@@ -52,7 +52,7 @@ export default function Footer() {
                 <a href="tel:+33611818486" className="hover:text-marine-blue transition-colors">06 11 81 84 86</a>
               </li>
               <li className="flex items-center gap-3 text-sm text-marine-navy/80">
-                <Mail size={16} className="text-marine-blue" /> contact@croisieredesiles-bonifacio.fr
+                <Mail size={16} className="text-marine-blue" /> croisieresdesiles20169@gmail.com
               </li>
               <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                 <MapPin size={16} className="text-marine-blue" /> Port de Bonifacio, 20169 Bonifacio
