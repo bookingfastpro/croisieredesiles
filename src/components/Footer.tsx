@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer id="contact" className="pt-24 pb-12 px-6 relative overflow-hidden bg-marine-pearl border-t border-marine-blue/10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
           <div className="col-span-1 lg:col-span-1">
             <div className="flex items-center gap-2 mb-6">
@@ -58,22 +58,6 @@ export default function Footer() {
                 <MapPin size={16} className="text-marine-blue" /> Port de Bonifacio, 20169 Bonifacio
               </li>
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-bold mb-6 uppercase tracking-widest text-xs text-marine-blue">Newsletter</h4>
-            <p className="text-xs text-marine-navy/60 mb-4 font-light">Recevez nos offres exclusives et actualités marines.</p>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Votre email" 
-                className="flex-1 bg-marine-navy/5 border border-marine-navy/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-marine-blue transition-colors text-marine-navy placeholder:text-marine-navy/40"
-              />
-              <button className="p-2 bg-marine-blue hover:bg-marine-navy text-white rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-marine-blue/20">
-                <Mail size={18} />
-              </button>
-            </div>
           </div>
         </div>
 

@@ -315,8 +315,8 @@ const INITIAL_BOATS = [
   },
   {
     "id": "2",
-    "name": "SAXDOR Pardo 43",
-    "description": "Le Pardo 43 de chez SAXDOR est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
+    "name": "SAXDOR 320",
+    "description": "Le Saxdor 320 est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
     "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
     "images": [
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
@@ -326,9 +326,9 @@ const INITIAL_BOATS = [
       "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
     ],
     "specs": [
-      { "label": "Longueur", "value": "13.5m" },
-      { "label": "Largeur", "value": "4.2m" },
-      { "label": "Capacité", "value": "12 personnes" },
+      { "label": "Longueur", "value": "10m" },
+      { "label": "Largeur", "value": "3.80m" },
+      { "label": "Capacité", "value": "10 personnes" },
       { "label": "Moteur", "value": "2 x 300 CV" }
     ],
     "options": [
