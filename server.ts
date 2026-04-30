@@ -340,7 +340,7 @@ const INITIAL_BOATS = [
 const INITIAL_HERO = {
   title: "L'Excellence en Mer",
   subtitle: "Découvrez la Corse et la Sardaigne à bord de nos navires d'exception. Une expérience de navigation unique entre Bonifacio et l'archipel de la Maddalena.",
-  image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2012.57.23.jpeg"
+  image: "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2013.05.08.jpeg"
 };
 
 if (!fs.existsSync(DATA_FILE)) {

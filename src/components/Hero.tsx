@@ -32,18 +32,18 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl w-full">
+      <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="glass-dark p-6 sm:p-10 md:p-12 rounded-[2rem] md:rounded-[3rem] border border-white/10 backdrop-blur-xl mx-auto"
+          className="glass-dark p-6 sm:p-8 md:p-10 rounded-[1.5rem] md:rounded-[2rem] border border-white/10 backdrop-blur-xl mx-auto"
         >
           <motion.h1 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 1 }}
-            className="text-3xl sm:text-4xl md:text-7xl font-display font-bold mb-6 tracking-tight text-white leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 tracking-tight text-white leading-tight"
           >
             {heroData.title.split('\n').map((line, i) => (
               <React.Fragment key={i}>
@@ -57,7 +57,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="text-base sm:text-lg md:text-xl text-white/80 mb-8 md:mb-10 max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-white/80 mb-6 md:mb-8 max-w-2xl mx-auto font-light leading-relaxed"
           >
             {heroData.subtitle}
           </motion.p>
@@ -70,13 +70,13 @@ export default function Hero() {
           >
             <a 
               href="#circuits"
-              className="px-8 md:px-10 py-3 md:py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-full font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-105 text-base md:text-lg"
+              className="px-6 md:px-8 py-2.5 md:py-3.5 bg-marine-blue hover:bg-marine-navy text-white rounded-full font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-105 text-base md:text-lg"
             >
               Découvrir les circuits
             </a>
             <Link 
               to="/contact"
-              className="px-8 md:px-10 py-3 md:py-4 glass hover:bg-white/10 text-white rounded-full font-bold transition-all border border-white/20 text-base md:text-lg text-center"
+              className="px-6 md:px-8 py-2.5 md:py-3.5 glass hover:bg-white/10 text-white rounded-full font-bold transition-all border border-white/20 text-base md:text-lg text-center"
             >
               Nous contacter
             </Link>
