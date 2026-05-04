@@ -103,7 +103,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                       : 'text-white/60 hover:text-white'
                   }`}
                 >
-                  SAXDOR Pardo 43
+                  SAXDOR 320
                 </button>
               </div>
             </div>
@@ -145,7 +145,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                   <Calendar size={16} /> {circuit.duration}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/30"></span>
-                <span className="text-sm text-white/80 font-medium">À bord du {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR Pardo 43'}</span>
+                <span className="text-sm text-white/80 font-medium">À bord du {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR 320'}</span>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md px-5 py-2 rounded-xl border border-white/20">

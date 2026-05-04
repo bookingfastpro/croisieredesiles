@@ -196,7 +196,7 @@ export default function Prestations() {
                       : 'text-marine-navy/50 hover:text-marine-navy'
                   }`}
                 >
-                  SAXDOR Pardo 43
+                  SAXDOR 320
                 </button>
               </div>
               
@@ -317,7 +317,7 @@ export default function Prestations() {
                             
                             <div className="absolute top-6 left-6 flex flex-col gap-2">
                                <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                                 <Ship size={12} /> {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR Pardo 43'}
+                                 <Ship size={12} /> {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR 320'}
                                </div>
                             </div>
 
@@ -481,7 +481,7 @@ export default function Prestations() {
                 </div>
                 <h3 className="text-xl font-display font-bold text-marine-navy mb-2">
                   {selectedBoat === 'pardo' && activeCategory === 'croisiere' 
-                    ? "Le SAXDOR Pardo 43 n'est pas disponible pour les croisières."
+                    ? "Le SAXDOR 320 n'est pas disponible pour les croisières."
                     : "Aucun itinéraire disponible pour cette sélection."}
                 </h3>
                 <p className="text-marine-navy/60 font-light max-w-md mx-auto">

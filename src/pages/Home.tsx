@@ -57,7 +57,7 @@ export default function Home({ circuits, onSelectCircuit }: Props) {
                       : 'text-marine-navy/50 hover:text-marine-navy'
                   }`}
                 >
-                  SAXDOR Pardo 43
+                  SAXDOR 320
                 </button>
               </div>
               {selectedBoat === 'prestige' && (
