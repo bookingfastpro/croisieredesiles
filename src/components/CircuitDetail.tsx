@@ -78,37 +78,6 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
           
           <div className="absolute inset-0 bg-gradient-to-t from-marine-ink via-marine-navy/20 to-transparent"></div>
           
-          {/* Boat Selector inside Gallery */}
-          {!circuit.exclusiveBoat && (
-            <div className="absolute top-6 left-8 flex flex-col gap-2 z-20">
-              <div className="inline-flex p-1 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
-                <button
-                  onClick={() => setSelectedBoat('prestige')}
-                  className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all ${
-                    selectedBoat === 'prestige'
-                      ? 'bg-white text-marine-navy shadow-lg'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Sparkles size={12} className={selectedBoat === 'prestige' ? 'text-marine-cyan' : ''} />
-                    Prestige 42
-                  </div>
-                </button>
-                <button
-                  onClick={() => setSelectedBoat('pardo')}
-                  className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all ${
-                    selectedBoat === 'pardo'
-                      ? 'bg-white text-marine-navy shadow-lg'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  SAXDOR 320
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* Navigation Arrows */}
           {boatImages.length > 1 && (
             <>
@@ -126,7 +95,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               </button>
             </>
           )}
-
+          
           {/* Indicators */}
           <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-1.5">
             {boatImages.map((_, i) => (
@@ -145,7 +114,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                   <Calendar size={16} /> {circuit.duration}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/30"></span>
-                <span className="text-sm text-white/80 font-medium">À bord du {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR 320'}</span>
+                <span className="text-sm text-white/80 font-medium">À bord du Prestige 42 Flybridge</span>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-md px-5 py-2 rounded-xl border border-white/20">

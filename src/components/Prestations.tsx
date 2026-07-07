@@ -174,64 +174,26 @@ export default function Prestations() {
               Découvrez nos parcours exclusifs au départ de Bonifacio. Des itinéraires pensés pour vous faire vivre le meilleur de la Corse et de la Sardaigne.
             </p>
 
-            {/* Boat Selection Toggle */}
-            <div className="flex flex-col items-center gap-4 mb-12">
-              <span className="text-xs uppercase tracking-widest font-bold text-marine-navy/40">Choisir votre navire</span>
-              <div className="inline-flex p-1.5 bg-gray-100 rounded-2xl shadow-inner">
-                <button
-                  onClick={() => setSelectedBoat('prestige')}
-                  className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
-                    selectedBoat === 'prestige'
-                      ? 'bg-marine-navy text-white shadow-lg shadow-marine-navy/20 active:scale-95'
-                      : 'text-marine-navy/50 hover:text-marine-navy'
-                  }`}
-                >
-                  <Sparkles size={14} /> Prestige 42 Flybridge
-                </button>
-                <button
-                  onClick={() => setSelectedBoat('pardo')}
-                  className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
-                    selectedBoat === 'pardo'
-                      ? 'bg-marine-navy text-white shadow-lg shadow-marine-navy/20 active:scale-95'
-                      : 'text-marine-navy/50 hover:text-marine-navy'
-                  }`}
-                >
-                  SAXDOR 320
-                </button>
-              </div>
-              
-              {/* Added boat-specific options section */}
-              {boats.find(b => b.name.toLowerCase().includes(selectedBoat === 'prestige' ? 'prestige' : 'pardo'))?.options && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  key={selectedBoat}
-                  className="mt-6 p-5 bg-marine-blue/10 rounded-3xl border border-marine-blue/20 max-w-2xl mx-auto shadow-sm"
-                >
-                  <h4 className="text-[10px] md:text-xs font-bold text-marine-blue uppercase tracking-[0.2em] mb-3 flex items-center justify-center gap-2">
-                    <Sparkles size={14} /> Options & Prestations à bord
-                  </h4>
-                  <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-                    {boats.find(b => b.name.toLowerCase().includes(selectedBoat === 'prestige' ? 'prestige' : 'pardo'))?.options?.map((option, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs md:text-sm text-marine-navy/80 font-medium">
-                        <div className="w-1.5 h-1.5 rounded-full bg-marine-cyan shadow-[0_0_8px_rgba(34,211,238,0.5)]"></div>
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {selectedBoat === 'prestige' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-xs font-bold text-marine-cyan uppercase tracking-widest flex items-center gap-2"
-                >
-                  <Sparkles size={12} /> Bateau Recommandé
-                </motion.div>
-              )}
-            </div>
+            {/* Options section for the only boat: Prestige */}
+            {boats.find(b => b.name.toLowerCase().includes('prestige'))?.options && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-6 p-5 bg-marine-blue/10 rounded-3xl border border-marine-blue/20 max-w-2xl mx-auto shadow-sm"
+              >
+                <h4 className="text-[10px] md:text-xs font-bold text-marine-blue uppercase tracking-[0.2em] mb-3 flex items-center justify-center gap-2">
+                  <Sparkles size={14} /> Options & Prestations à bord du Prestige 42 Flybridge
+                </h4>
+                <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                  {boats.find(b => b.name.toLowerCase().includes('prestige'))?.options?.map((option, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs md:text-sm text-marine-navy/80 font-medium">
+                      <div className="w-1.5 h-1.5 rounded-full bg-marine-cyan shadow-[0_0_8px_rgba(34,211,238,0.5)]"></div>
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Navigation Tabs */}
@@ -317,7 +279,7 @@ export default function Prestations() {
                             
                             <div className="absolute top-6 left-6 flex flex-col gap-2">
                                <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                                 <Ship size={12} /> {selectedBoat === 'prestige' ? 'Prestige 42 Flybridge' : 'SAXDOR 320'}
+                                 <Ship size={12} /> Prestige 42 Flybridge
                                </div>
                             </div>
 

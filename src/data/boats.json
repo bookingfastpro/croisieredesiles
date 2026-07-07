@@ -40,39 +40,5 @@
       "Possibilité de BBQ à bord",
       "Tarif selon nombre de personnes (sur demande)"
     ]
-  },
-  {
-    "id": "2",
-    "name": "SAXDOR 320",
-    "description": "Le Saxdor 320 est le choix parfait pour ceux qui recherchent le luxe et la puissance. Un design moderne avec des finitions haut de gamme pour une expérience incomparable.",
-    "image": "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
-    "images": [
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%202.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2013.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%2015.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09.jpg",
-      "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-10%203.jpg"
-    ],
-    "specs": [
-      {
-        "label": "Longueur",
-        "value": "10m"
-      },
-      {
-        "label": "Largeur",
-        "value": "3.80m"
-      },
-      {
-        "label": "Capacité",
-        "value": "10 personnes"
-      },
-      {
-        "label": "Moteur",
-        "value": "2 x 300 CV"
-      }
-    ],
-    "options": [
-      "Tarif selon nombre de personnes (sur demande)"
-    ]
   }
 ]
