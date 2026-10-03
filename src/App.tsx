@@ -18,7 +18,14 @@ import { Settings, LogOut } from 'lucide-react';
 
 export default function App() {
   const [selectedCircuit, setSelectedCircuit] = useState<Circuit | null>(null);
-  const [circuits, setCircuits] = useState<Circuit[]>([]);
+  const [circuits, setCircuits] = useState<Circuit[]>(() => {
+    try {
+      const stored = localStorage.getItem("cache_circuits");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -125,9 +132,7 @@ export default function App() {
         </AnimatePresence>
 
         {/* Global Background Texture */}
-        <div className="fixed inset-0 pointer-events-none z-[-1] opacity-5 mix-blend-multiply">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-        </div>
+        <div className="fixed inset-0 pointer-events-none z-[-1] opacity-5 mix-blend-multiply bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
       </div>
     </Router>
   );

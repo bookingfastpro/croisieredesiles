@@ -37,23 +37,38 @@ export default function Home({ circuits, onSelectCircuit }: Props) {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-            {circuits
-              .filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat)
-              .map((circuit, idx) => (
-                <motion.div
-                  key={circuit.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  <CircuitCard 
-                    circuit={circuit} 
-                    onView={onSelectCircuit} 
-                    selectedBoat={selectedBoat}
-                  />
-                </motion.div>
-              ))}
+            {circuits.length === 0 ? (
+              // Loading skeleton
+              [1, 2, 3].map((n) => (
+                <div key={n} className="bg-white rounded-3xl overflow-hidden border border-marine-blue/10 shadow-lg animate-pulse">
+                  <div className="h-64 bg-gray-200"></div>
+                  <div className="p-6 space-y-4">
+                    <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-10 bg-gray-200 rounded-xl w-full mt-4"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              circuits
+                .filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat)
+                .map((circuit, idx) => (
+                  <motion.div
+                    key={circuit.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <CircuitCard 
+                      circuit={circuit} 
+                      onView={onSelectCircuit} 
+                      selectedBoat={selectedBoat}
+                    />
+                  </motion.div>
+                ))
+            )}
           </div>
         </div>
 

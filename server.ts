@@ -3,6 +3,7 @@ import "dotenv/config";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import compression from "compression";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,13 @@ const DATA_FILE = path.join(__dirname, "src", "data", "circuits.json");
 const HERO_FILE = path.join(__dirname, "src", "data", "hero.json");
 const BOATS_FILE = path.join(__dirname, "src", "data", "boats.json");
 const IMAGES_DIR = path.join(process.cwd(), "public", "images", "circuits");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
+
+// Memory cache to accelerate data reads and avoid disk latency
+let cachedCircuits: any = null;
+let cachedHero: any = null;
+let cachedBoats: any = null;
+let cachedImages: string[] | null = null;
 
 // Ensure data directory exists
 const dataDir = path.join(__dirname, "src", "data");
@@ -337,7 +345,42 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
+  // Enable HTTP response compression (gzip / deflate) for faster transfers
+  app.use(compression());
   app.use(express.json());
+
+  // Static assets caching in public directory
+  app.use(express.static(PUBLIC_DIR, {
+    maxAge: "1d",
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".xml") || filePath.endsWith(".txt")) {
+        res.setHeader("Cache-Control", "public, max-age=3600");
+      } else {
+        res.setHeader("Cache-Control", "public, max-age=86400");
+      }
+    }
+  }));
+
+  // Explicit SEO sitemap and robots routes with correct headers
+  app.get(["/sitemap.xml", "/site.xml"], (req, res) => {
+    const sitemapPath = path.join(PUBLIC_DIR, "sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      return res.sendFile(sitemapPath);
+    }
+    res.status(404).send("Sitemap not found");
+  });
+
+  app.get("/robots.txt", (req, res) => {
+    const robotsPath = path.join(PUBLIC_DIR, "robots.txt");
+    if (fs.existsSync(robotsPath)) {
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      return res.sendFile(robotsPath);
+    }
+    res.status(404).send("Robots.txt not found");
+  });
   
   // Health check route
   app.get("/api/health", (req, res) => {
@@ -356,7 +399,7 @@ async function startServer() {
     }
   };
 
-  // API Routes
+  // API Routes with caching & stale-while-revalidate headers
   app.post("/api/login", (req, res) => {
     const { password } = req.body;
     if (password === ADMIN_PASSWORD) {
@@ -367,51 +410,68 @@ async function startServer() {
   });
 
   app.get("/api/circuits", (req, res) => {
-    const data = fs.readFileSync(DATA_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
+    if (!cachedCircuits) {
+      const data = fs.readFileSync(DATA_FILE, "utf-8");
+      cachedCircuits = JSON.parse(data);
+    }
+    res.json(cachedCircuits);
   });
 
   app.post("/api/circuits", authenticate, (req, res) => {
     const newCircuits = req.body;
+    cachedCircuits = newCircuits;
     fs.writeFileSync(DATA_FILE, JSON.stringify(newCircuits, null, 2));
     res.json({ success: true });
   });
 
   app.get("/api/hero", (req, res) => {
-    const data = fs.readFileSync(HERO_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
+    if (!cachedHero) {
+      const data = fs.readFileSync(HERO_FILE, "utf-8");
+      cachedHero = JSON.parse(data);
+    }
+    res.json(cachedHero);
   });
 
   app.post("/api/hero", authenticate, (req, res) => {
     const newHero = req.body;
+    cachedHero = newHero;
     fs.writeFileSync(HERO_FILE, JSON.stringify(newHero, null, 2));
     res.json({ success: true });
   });
 
   app.get("/api/boats", (req, res) => {
-    const data = fs.readFileSync(BOATS_FILE, "utf-8");
-    res.json(JSON.parse(data));
+    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
+    if (!cachedBoats) {
+      const data = fs.readFileSync(BOATS_FILE, "utf-8");
+      cachedBoats = JSON.parse(data);
+    }
+    res.json(cachedBoats);
   });
 
   app.post("/api/boats", authenticate, (req, res) => {
     const newBoats = req.body;
+    cachedBoats = newBoats;
     fs.writeFileSync(BOATS_FILE, JSON.stringify(newBoats, null, 2));
     res.json({ success: true });
   });
 
   app.get("/api/images", (req, res) => {
+    res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
     try {
+      if (cachedImages) {
+        return res.json(cachedImages);
+      }
       if (!fs.existsSync(IMAGES_DIR)) {
-        console.log("Images directory does not exist:", IMAGES_DIR);
         return res.json([]);
       }
       const files = fs.readdirSync(IMAGES_DIR);
-      console.log(`Found ${files.length} files in ${IMAGES_DIR}`);
       const images = files.filter(file => {
         const ext = path.extname(file).toLowerCase();
         return [".jpg", ".jpeg", ".png", ".gif", ".webp"].includes(ext);
       }).map(file => `/images/circuits/${file}`);
-      console.log(`Returning ${images.length} images:`, images);
+      cachedImages = images;
       res.json(images);
     } catch (error) {
       console.error("Error listing images:", error);

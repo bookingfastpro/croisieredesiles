@@ -37,64 +37,78 @@ function BoatGallery({ images, name }: { images: string[], name: string }) {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative group/gallery h-full">
+    <div className="relative group/gallery h-full select-none">
       <AnimatePresence mode="wait">
         <motion.img
           key={currentIndex}
           src={images[currentIndex]}
-          alt={`${name} - Interior ${currentIndex + 1}`}
+          alt={`${name} - Vue ${currentIndex + 1}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
       </AnimatePresence>
       
-      <div className="absolute inset-0 bg-gradient-to-t from-marine-ink/60 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-marine-ink/70 via-transparent to-transparent pointer-events-none"></div>
       
       {images.length > 1 && (
         <>
           <button 
             onClick={prev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/10 backdrop-blur-md rounded-full text-white opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:bg-white/20"
+            aria-label="Image précédente"
+            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
             <ChevronLeft size={20} />
           </button>
           <button 
             onClick={next}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/10 backdrop-blur-md rounded-full text-white opacity-0 group-hover/gallery:opacity-100 transition-opacity hover:bg-white/20"
+            aria-label="Image suivante"
+            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
             <ChevronRight size={20} />
           </button>
           
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
             {images.map((_, i) => (
               <button
                 key={i}
+                aria-label={`Aller à la photo ${i + 1}`}
                 onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }}
-                className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentIndex ? 'bg-white w-4' : 'bg-white/40'}`}
+                className={`h-2 rounded-full transition-all ${i === currentIndex ? 'bg-white w-5' : 'bg-white/50 w-2'}`}
               />
             ))}
           </div>
         </>
       )}
 
-      <div className="absolute top-6 right-6 px-3 py-1 bg-marine-blue/80 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-        <Search size={10} /> Explorer l'intérieur
+      <div className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 bg-marine-blue/90 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-md">
+        <Search size={11} /> Galerie photos
       </div>
     </div>
   );
 }
 
 export default function Boats() {
-  const [boats, setBoats] = useState<Boat[]>([]);
+  const [boats, setBoats] = useState<Boat[]>(() => {
+    try {
+      const stored = localStorage.getItem("cache_boats");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
     const fetchBoats = async () => {
       const data = await getBoats();
-      setBoats(data);
+      if (data && data.length > 0) {
+        setBoats(data);
+      }
     };
     fetchBoats();
   }, []);
@@ -143,7 +157,7 @@ export default function Boats() {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {boat.specs.map((spec, i) => (
                     <div key={i} className="flex items-center gap-4 p-5 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-marine-blue/20 transition-all group">
                       <div className="w-12 h-12 rounded-2xl bg-marine-blue/5 flex items-center justify-center text-marine-blue group-hover:bg-marine-blue group-hover:text-white transition-all duration-500">

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://ais-pre-nmffcuq37zwbsap7a5gn6c-453607753200.europe-west2.run.app/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2013.05.08.jpeg</image:loc>
+      <image:title>Croisière des Îles Bonifacio - L'Excellence en Mer</image:title>
+      <image:caption>Excursions en mer et croisières privées en Corse du Sud</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://ais-pre-nmffcuq37zwbsap7a5gn6c-453607753200.europe-west2.run.app/qui-sommes-nous</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/0c435c87-50ff-437d-b612-19832209e1d6%20(1).jpg</image:loc>
+      <image:title>Christian - Capitaine Diplômé Marine Marchande</image:title>
+      <image:caption>Fondateur et capitaine de Croisière des Îles Bonifacio</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://ais-pre-nmffcuq37zwbsap7a5gn6c-453607753200.europe-west2.run.app/nos-bateaux</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/PHOTO-2026-04-26-21-58-57.jpg</image:loc>
+      <image:title>Prestige 42 Flybridge Yacht</image:title>
+      <image:caption>Yacht de luxe avec skipper pour sorties en mer et croisières</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://ais-pre-nmffcuq37zwbsap7a5gn6c-453607753200.europe-west2.run.app/nos-prestations</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/PHOTO-2026-02-19-14-06-09%208.jpg</image:loc>
+      <image:title>Excursions Îles Lavezzi et Falaises de Bonifacio</image:title>
+      <image:caption>Prestations et tarifs des excursions en mer à Bonifacio</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://ais-pre-nmffcuq37zwbsap7a5gn6c-453607753200.europe-west2.run.app/contact</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

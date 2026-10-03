@@ -39,8 +39,22 @@ const services = [
 ];
 
 export default function Prestations() {
-  const [circuits, setCircuits] = useState<Circuit[]>([]);
-  const [boats, setBoats] = useState<Boat[]>([]);
+  const [circuits, setCircuits] = useState<Circuit[]>(() => {
+    try {
+      const stored = localStorage.getItem("cache_circuits");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [boats, setBoats] = useState<Boat[]>(() => {
+    try {
+      const stored = localStorage.getItem("cache_boats");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const [expandedItineraries, setExpandedItineraries] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<'circuit' | 'croisiere'>('circuit');
   const [selectedBoat, setSelectedBoat] = useState<'prestige' | 'pardo'>('prestige');
@@ -103,8 +117,8 @@ export default function Prestations() {
         getCircuits(),
         getBoats()
       ]);
-      setCircuits(circuitsData);
-      setBoats(boatsData);
+      if (circuitsData && circuitsData.length > 0) setCircuits(circuitsData);
+      if (boatsData && boatsData.length > 0) setBoats(boatsData);
     };
     fetchData();
   }, []);
@@ -112,7 +126,7 @@ export default function Prestations() {
   return (
     <section id="prestations" className="py-24 px-6 bg-white text-marine-navy relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-marine-cyan/5 blur-[120px] rounded-full"></div>
       <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-marine-blue/5 blur-[120px] rounded-full"></div>
 
@@ -442,23 +456,19 @@ export default function Prestations() {
                   <Ship size={32} />
                 </div>
                 <h3 className="text-xl font-display font-bold text-marine-navy mb-2">
-                  {selectedBoat === 'pardo' && activeCategory === 'croisiere' 
-                    ? "Le SAXDOR 320 n'est pas disponible pour les croisières."
-                    : "Aucun itinéraire disponible pour cette sélection."}
+                  Aucun itinéraire disponible pour cette catégorie.
                 </h3>
                 <p className="text-marine-navy/60 font-light max-w-md mx-auto">
-                  {selectedBoat === 'pardo' && activeCategory === 'croisiere'
-                    ? "Ce navire est exclusivement dédié aux sorties à la journée. Pour une croisière avec nuitée, veuillez sélectionner le Prestige 42 Flybridge."
-                    : "Veuillez modifier vos critères de sélection pour découvrir nos autres expériences."}
+                  Découvrez l'ensemble de nos excursions à la journée ou nos croisières d'exception.
                 </p>
                 <button 
                   onClick={() => {
-                    if (selectedBoat === 'pardo') setSelectedBoat('prestige');
-                    else setActiveCategory('circuit');
+                    setSelectedBoat('prestige');
+                    setActiveCategory(activeCategory === 'circuit' ? 'croisiere' : 'circuit');
                   }}
                   className="mt-8 px-8 py-3 bg-marine-blue text-white rounded-xl font-bold hover:bg-marine-navy transition-all shadow-lg shadow-marine-blue/20"
                 >
-                  Voir les alternatives
+                  Voir les autres expériences
                 </button>
               </motion.div>
             )}
@@ -473,15 +483,16 @@ export default function Prestations() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-8"
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none"
           onClick={closeLightbox}
         >
           {/* Close button */}
           <button 
             onClick={closeLightbox}
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2"
+            aria-label="Fermer la vue agrandie"
+            className="absolute top-4 sm:top-6 right-4 sm:right-6 text-white/80 hover:text-white transition-colors p-2.5 bg-white/10 rounded-full backdrop-blur-md z-20"
           >
-            <X size={32} />
+            <X size={26} />
           </button>
 
           {/* Controls - Only show if multiple images */}
@@ -489,15 +500,17 @@ export default function Prestations() {
             <>
               <button 
                 onClick={prevImage}
-                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-all bg-white/10 hover:bg-white/20 p-3 md:p-4 rounded-full backdrop-blur-md"
+                aria-label="Photo précédente"
+                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full backdrop-blur-md z-20 active:scale-95 transition-all"
               >
-                <ChevronLeft size={32} />
+                <ChevronLeft size={28} />
               </button>
               <button 
                 onClick={nextImage}
-                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-all bg-white/10 hover:bg-white/20 p-3 md:p-4 rounded-full backdrop-blur-md"
+                aria-label="Photo suivante"
+                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full backdrop-blur-md z-20 active:scale-95 transition-all"
               >
-                <ChevronRight size={32} />
+                <ChevronRight size={28} />
               </button>
             </>
           )}

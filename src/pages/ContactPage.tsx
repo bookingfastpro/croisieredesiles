@@ -49,74 +49,76 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Contact Info Cards */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <Phone size={24} />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-marine-navy">Téléphone</h3>
-              <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
-              <a href="tel:+33611818486" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
-                06 11 81 84 86
-                <ChevronRight size={16} />
-              </a>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <Mail size={24} />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-marine-navy">Email</h3>
-              <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
-              <a href="mailto:croisieresdesiles20169@gmail.com" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
-                croisieresdesiles20169@gmail.com
-              </a>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <MapPin size={24} />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-marine-navy">Localisation</h3>
-              <p className="text-marine-navy/60 text-sm mb-2 font-light flex-grow">Retrouvez-nous au port de Bonifacio.</p>
-              <p className="text-sm font-bold text-marine-navy mt-auto">Quai d'honneur, 20169 Bonifacio</p>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="p-8 bg-marine-blue rounded-[2rem] text-white shadow-xl shadow-marine-blue/20 flex flex-col"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <Clock size={20} className="text-marine-cyan" />
-                <h3 className="text-lg font-bold">Horaires</h3>
-              </div>
-              <div className="space-y-2 text-sm font-light opacity-90 flex-grow">
-                <div className="flex justify-between">
-                  <span>Lun - Dim</span>
-                  <span className="font-bold">09:00 - 20:00</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
+                  <Phone size={24} />
                 </div>
-                <p className="text-[10px] uppercase tracking-widest mt-4 opacity-60">Saison d'été (Avril - Octobre)</p>
-              </div>
-            </motion.div>
+                <h3 className="text-xl font-bold mb-2 text-marine-navy">Téléphone</h3>
+                <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
+                <a href="tel:+33611818486" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
+                  06 11 81 84 86
+                  <ChevronRight size={16} />
+                </a>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
+                  <Mail size={24} />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-marine-navy">Email</h3>
+                <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
+                <a href="mailto:croisieresdesiles20169@gmail.com" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
+                  croisieresdesiles20169@gmail.com
+                </a>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
+                  <MapPin size={24} />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-marine-navy">Localisation</h3>
+                <p className="text-marine-navy/60 text-sm mb-2 font-light flex-grow">Retrouvez-nous au port de Bonifacio.</p>
+                <p className="text-sm font-bold text-marine-navy mt-auto">Quai d'honneur, 20169 Bonifacio</p>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="p-6 sm:p-8 bg-marine-blue rounded-[2rem] text-white shadow-xl shadow-marine-blue/20 flex flex-col"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <Clock size={20} className="text-marine-cyan" />
+                  <h3 className="text-lg font-bold">Horaires</h3>
+                </div>
+                <div className="space-y-2 text-sm font-light opacity-90 flex-grow">
+                  <div className="flex justify-between">
+                    <span>Lun - Dim</span>
+                    <span className="font-bold">09:00 - 20:00</span>
+                  </div>
+                  <p className="text-[10px] uppercase tracking-widest mt-4 opacity-75">Saison d'été (Avril - Octobre)</p>
+                </div>
+              </motion.div>
+            </div>
 
           </div>
         </div>
