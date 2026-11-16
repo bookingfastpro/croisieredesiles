@@ -4,6 +4,9 @@
 
 export const SITE_NAME = "Croisière des Îles";
 
+/** Fiche Google Business Profile liée au site */
+export const GOOGLE_PROFILE_URL = "https://share.google/ps2W5ri58T2YDK1cC";
+
 export const DEFAULT_OG_IMAGE =
   "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2013.05.08.jpeg";
 
@@ -112,7 +115,8 @@ export function buildBusinessJsonLd(origin: string) {
       opens: "09:00",
       closes: "20:00",
     },
-    sameAs: ["https://www.instagram.com/croisieresdesiles_2a/"],
+    hasMap: GOOGLE_PROFILE_URL,
+    sameAs: ["https://www.instagram.com/croisieresdesiles_2a/", GOOGLE_PROFILE_URL],
   };
 }
 

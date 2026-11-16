@@ -1,6 +1,7 @@
 import React from 'react';
-import { Anchor, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Anchor, Instagram, Mail, Phone, MapPin, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { GOOGLE_PROFILE_URL } from '../seo';
 
 const links = [
   { name: 'Accueil', href: '/' },
@@ -35,6 +36,14 @@ export default function Footer() {
               className="w-11 h-11 bg-marine-navy/5 hover:bg-marine-blue/10 border border-marine-navy/10 rounded-full inline-flex items-center justify-center transition-all text-marine-navy/75 hover:text-marine-blue group"
             >
               <Instagram size={18} aria-hidden="true" className="group-hover:scale-110 transition-transform" />
+            </a>
+            <a
+              href={GOOGLE_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-3 inline-flex items-center gap-2 h-11 px-4 bg-marine-navy/5 hover:bg-marine-blue/10 border border-marine-navy/10 rounded-full text-sm font-semibold text-marine-navy/80 hover:text-marine-blue transition-all align-top"
+            >
+              <Star size={16} aria-hidden="true" /> Nos avis Google
             </a>
           </div>
 

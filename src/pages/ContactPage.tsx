@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, MessageSquare, Clock, ChevronRight } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageSquare, Clock, ChevronRight, Star } from 'lucide-react';
+import { GOOGLE_PROFILE_URL } from '../seo';
 
 export default function ContactPage() {
   return (
@@ -126,7 +127,15 @@ export default function ContactPage() {
       <section className="py-24 bg-marine-navy/5 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-display font-bold text-marine-navy mb-4">Où nous trouver ?</h2>
-          <p className="text-marine-navy/75 mb-10">Quai d'honneur, Port de Bonifacio, 20169 Bonifacio – Corse du Sud</p>
+          <p className="text-marine-navy/75 mb-4">Quai d'honneur, Port de Bonifacio, 20169 Bonifacio – Corse du Sud</p>
+          <a
+            href={GOOGLE_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mb-10 px-6 py-3 bg-white border border-marine-blue/20 rounded-full font-bold text-marine-blue hover:bg-marine-blue hover:text-white transition-colors shadow-sm"
+          >
+            <Star size={16} aria-hidden="true" /> Voir notre fiche et nos avis Google
+          </a>
           <div className="aspect-[4/3] md:aspect-video w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-marine-blue/10 shadow-xl">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2983.473534571746!2d9.15585831544063!3d41.38722297926419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d960786968869b%3A0x40819a5e94a9a00!2sPort%20de%20Bonifacio!5e0!3m2!1sfr!2sfr!4v1650000000000!5m2!1sfr!2sfr" 
