@@ -108,8 +108,8 @@ export function buildBusinessJsonLd(origin: string) {
       addressRegion: "Corse",
       addressCountry: "FR",
     },
-    // Coordonnées identiques à celles de la fiche Google
-    geo: { "@type": "GeoCoordinates", latitude: 41.4369586, longitude: 9.1874773 },
+    // Point d'embarquement : Quai d'honneur, port de Bonifacio
+    geo: { "@type": "GeoCoordinates", latitude: 41.3872, longitude: 9.1558 },
     areaServed: ["Bonifacio", "Corse-du-Sud", "Îles Lavezzi", "Archipel de La Maddalena", "Sardaigne"],
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
