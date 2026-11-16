@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import { getCircuits, checkSession, logout } from './services/api';
 import usePageMeta from './hooks/usePageMeta';
+import { SettingsProvider } from './context/SettingsContext';
 import { Circuit } from './types';
 import { Settings, LogOut } from 'lucide-react';
 
@@ -20,7 +21,8 @@ const LegalPage = lazy(() => import('./pages/LegalPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const CircuitDetail = lazy(() => import('./components/CircuitDetail'));
-const AdminPanel = lazy(() => import('./components/AdminPanel'));
+const loadAdminPanel = () => import('./components/AdminPanel');
+const AdminPanel = lazy(loadAdminPanel);
 const Login = lazy(() => import('./components/Login'));
 
 function PageFallback() {
@@ -63,7 +65,10 @@ function AppContent() {
   useEffect(() => {
     if (location.pathname === '/admin' && authChecked) {
       if (isAuthenticated) setIsAdminOpen(true);
-      else setIsLoginOpen(true);
+      else {
+        setIsLoginOpen(true);
+        loadAdminPanel();
+      }
       navigate('/', { replace: true });
     }
   }, [location.pathname, isAuthenticated, authChecked, navigate]);
@@ -128,23 +133,16 @@ function AppContent() {
         </div>
       )}
 
-      {/* Modals */}
+      {/* Modals — each in its own Suspense so lazy loading never blocks exit animations */}
       <Suspense fallback={null}>
         <AnimatePresence>
           {selectedCircuit && (
-            <CircuitDetail
-              key="circuit"
-              circuit={selectedCircuit}
-              onClose={() => setSelectedCircuit(null)}
-            />
+            <CircuitDetail key="circuit" circuit={selectedCircuit} onClose={() => setSelectedCircuit(null)} />
           )}
-          {isAdminOpen && (
-            <AdminPanel
-              key="admin"
-              onClose={() => setIsAdminOpen(false)}
-              onUpdate={fetchCircuits}
-            />
-          )}
+        </AnimatePresence>
+      </Suspense>
+      <Suspense fallback={null}>
+        <AnimatePresence>
           {isLoginOpen && (
             <Login
               key="login"
@@ -158,6 +156,11 @@ function AppContent() {
           )}
         </AnimatePresence>
       </Suspense>
+      <Suspense fallback={null}>
+        {isAdminOpen && (
+          <AdminPanel onClose={() => setIsAdminOpen(false)} onUpdate={fetchCircuits} onLogout={handleLogout} />
+        )}
+      </Suspense>
 
       {/* Global Background Texture */}
       <div aria-hidden="true" className="fixed inset-0 pointer-events-none z-[-1] opacity-5 bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
@@ -168,10 +171,12 @@ function AppContent() {
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <Router>
-        <ScrollToTop />
-        <AppContent />
-      </Router>
+      <SettingsProvider>
+        <Router>
+          <ScrollToTop />
+          <AppContent />
+        </Router>
+      </SettingsProvider>
     </MotionConfig>
   );
 }

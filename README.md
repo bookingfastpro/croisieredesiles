@@ -13,8 +13,24 @@ Ce projet est configuré pour être déployé facilement sur **Coolify** via Doc
 
 ## Administration
 
-Le bouton d'administration n'est plus visible par les visiteurs. Pour modifier le contenu, ouvrez
-`https://votre-site/admin`, saisissez le mot de passe : les boutons admin apparaissent alors en bas à droite.
+Accès : lien **« Espace admin »** en bas de chaque page (ou directement `https://votre-site/admin`), puis le mot de passe `ADMIN_PASSWORD`.
+
+Rubriques modifiables :
+
+| Rubrique | Contenu |
+|---|---|
+| Accueil | Titre, sous-titre et photo du grand bandeau |
+| Excursions & croisières | Ajouter, dupliquer, masquer, réordonner ; prix, descriptions, photos, itinéraire, lieux, infos pratiques |
+| Bateau | Description, galerie photos, caractéristiques, options à bord |
+| Tarifs & prestations | Tarifs saisonniers, cartes de services, questions fréquentes |
+| Qui sommes-nous | Textes, photo, citation, chiffres clés |
+| Coordonnées | Téléphone, e-mail, adresse, horaires, Instagram, fiche Google (utilisés partout + pour Google) |
+| Référencement Google | Titre et description de chaque page, avec aperçu Google |
+| Mentions légales | Forme juridique, SIRET, directeur de publication, hébergeur |
+| Photos | Téléversement (photos compressées automatiquement en WebP), suppression |
+
+Les modifications sont enregistrées dans `src/data/*.json` (dont `settings.json`) et les photos dans
+`public/images/circuits` : montez bien les deux volumes décrits ci-dessous.
 
 ## Référencement
 

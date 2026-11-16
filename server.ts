@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import compression from "compression";
 import crypto from "crypto";
 import { PAGES, NOT_FOUND_META, getPageMeta, buildHeadHtml } from "./src/seo.ts";
+import { DEFAULT_SETTINGS, mergeSettings } from "./src/data/defaultSettings.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +14,7 @@ const __dirname = path.dirname(__filename);
 const DATA_FILE = path.join(__dirname, "src", "data", "circuits.json");
 const HERO_FILE = path.join(__dirname, "src", "data", "hero.json");
 const BOATS_FILE = path.join(__dirname, "src", "data", "boats.json");
+const SETTINGS_FILE = path.join(__dirname, "src", "data", "settings.json");
 const IMAGES_DIR = path.join(process.cwd(), "public", "images", "circuits");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 
@@ -21,6 +23,7 @@ let cachedCircuits: any = null;
 let cachedHero: any = null;
 let cachedBoats: any = null;
 let cachedImages: string[] | null = null;
+let cachedSettings: any = null;
 
 // Ensure data directory exists
 const dataDir = path.join(__dirname, "src", "data");
@@ -339,6 +342,21 @@ if (!fs.existsSync(HERO_FILE)) {
   fs.writeFileSync(HERO_FILE, JSON.stringify(INITIAL_HERO, null, 2));
 }
 
+if (!fs.existsSync(SETTINGS_FILE)) {
+  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(DEFAULT_SETTINGS, null, 2));
+}
+
+function getSettings() {
+  if (!cachedSettings) {
+    try {
+      cachedSettings = mergeSettings(JSON.parse(fs.readFileSync(SETTINGS_FILE, "utf-8")));
+    } catch {
+      cachedSettings = mergeSettings({});
+    }
+  }
+  return cachedSettings;
+}
+
 if (!fs.existsSync(BOATS_FILE)) {
   fs.writeFileSync(BOATS_FILE, JSON.stringify(INITIAL_BOATS, null, 2));
 }
@@ -431,7 +449,7 @@ async function startServer() {
   const sitemapHandler = (req: express.Request, res: express.Response) => {
     const origin = getOrigin(req);
     // Last real content change: data files edited from the admin panel, or the last build
-    const sources = [DATA_FILE, HERO_FILE, BOATS_FILE, path.join(process.cwd(), "dist", "index.html")];
+    const sources = [DATA_FILE, HERO_FILE, BOATS_FILE, SETTINGS_FILE, path.join(process.cwd(), "dist", "index.html")];
     const lastChange = Math.max(...sources.map(f => (fs.existsSync(f) ? fs.statSync(f).mtimeMs : 0)));
     const lastmod = new Date(lastChange || Date.now()).toISOString().slice(0, 10);
     const urls = Object.entries(PAGES)
@@ -543,8 +561,67 @@ async function startServer() {
     res.json({ success: true });
   });
 
+  app.get("/api/settings", (req, res) => {
+    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
+    res.json(getSettings());
+  });
+
+  app.post("/api/settings", authenticate, (req, res) => {
+    const body = req.body;
+    if (!body || typeof body !== "object" || Array.isArray(body) || typeof body.contact !== "object") {
+      return res.status(400).json({ error: "Format invalide" });
+    }
+    cachedSettings = mergeSettings(body);
+    writeJson(SETTINGS_FILE, cachedSettings);
+    res.json({ success: true });
+  });
+
+  // Photo upload from the admin panel (raw image body, already resized in the browser)
+  const IMAGE_TYPES: Record<string, string> = {
+    "image/jpeg": ".jpg",
+    "image/png": ".png",
+    "image/webp": ".webp",
+    "image/gif": ".gif",
+  };
+  app.post(
+    "/api/upload",
+    authenticate,
+    express.raw({ type: Object.keys(IMAGE_TYPES), limit: "15mb" }),
+    (req, res) => {
+      const ext = IMAGE_TYPES[String(req.headers["content-type"] || "").split(";")[0]];
+      if (!ext || !Buffer.isBuffer(req.body) || req.body.length === 0) {
+        return res.status(400).json({ error: "Format d'image non pris en charge (JPG, PNG, WebP ou GIF)" });
+      }
+      const original = decodeURIComponent(String(req.headers["x-filename"] || "photo"));
+      const base =
+        original
+          .replace(/\.[^.]+$/, "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, 60) || "photo";
+      const fileName = `${base}-${Date.now().toString(36)}${ext}`;
+      fs.writeFileSync(path.join(IMAGES_DIR, fileName), req.body);
+      cachedImages = null;
+      res.json({ success: true, url: `/images/circuits/${fileName}` });
+    }
+  );
+
+  app.delete("/api/images/:name", authenticate, (req, res) => {
+    const name = path.basename(req.params.name);
+    const file = path.join(IMAGES_DIR, name);
+    if (!file.startsWith(IMAGES_DIR + path.sep) || !fs.existsSync(file)) {
+      return res.status(404).json({ error: "Image introuvable" });
+    }
+    fs.unlinkSync(file);
+    cachedImages = null;
+    res.json({ success: true });
+  });
+
   app.get("/api/images", (req, res) => {
-    res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
+    res.setHeader("Cache-Control", "no-store");
     try {
       if (cachedImages) {
         return res.json(cachedImages);
@@ -552,7 +629,11 @@ async function startServer() {
       if (!fs.existsSync(IMAGES_DIR)) {
         return res.json([]);
       }
-      const files = fs.readdirSync(IMAGES_DIR);
+      const files = fs
+        .readdirSync(IMAGES_DIR)
+        .map(file => ({ file, time: fs.statSync(path.join(IMAGES_DIR, file)).mtimeMs }))
+        .sort((a, b) => b.time - a.time)
+        .map(f => f.file);
       const images = files.filter(file => {
         const ext = path.extname(file).toLowerCase();
         return [".jpg", ".jpeg", ".png", ".gif", ".webp"].includes(ext);
@@ -570,8 +651,12 @@ async function startServer() {
   // Inject per-page <title>, description, canonical, Open Graph & JSON-LD
   const SEO_BLOCK = /<!--seo:start-->[\s\S]*?<!--seo:end-->/;
   const renderPage = (template: string, req: express.Request) => {
-    const meta = getPageMeta(req.path);
-    const html = template.replace(SEO_BLOCK, buildHeadHtml(meta ?? NOT_FOUND_META, getOrigin(req), req.path));
+    const settings = getSettings();
+    const meta = getPageMeta(req.path, settings.seo);
+    const html = template.replace(
+      SEO_BLOCK,
+      buildHeadHtml(meta ?? NOT_FOUND_META, getOrigin(req), req.path, settings)
+    );
     return { html, status: meta ? 200 : 404 };
   };
 

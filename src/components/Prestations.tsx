@@ -3,67 +3,21 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Euro, Calendar, Sun, Sparkles, Ship, Map, ChevronRight, Clock, MapPin, ChevronDown, X, ChevronLeft } from 'lucide-react';
 import { getCircuits, getBoats } from '../services/api';
 import useModal from '../hooks/useModal';
+import { useSettings } from '../context/SettingsContext';
 import { formatPrice } from '../utils/price';
 import { Circuit, Boat } from '../types';
 
-const rates = [
-  { month: "Avril / Juin", price: "1800€" },
-  { month: "Juillet", price: "2200€" },
-  { month: "Août", price: "2500€" },
-  { month: "Septembre", price: "2000€" },
-];
-
-const services = [
-  {
-    title: "Location à la journée",
-    icon: <Calendar size={24} />,
-    description: "Privatisation complète du bateau pour une journée d'exception. Le tarif inclut le carburant et les services d'un skipper professionnel.",
-    details: ["Départ 10h - Retour 18h", "Carburant inclus", "Skipper inclus", "Itinéraire sur mesure"]
-  },
-  {
-    title: "Croisières (Dès 1 nuit)",
-    icon: <Ship size={24} />,
-    description: "Vivez l'expérience unique d'une nuit en mer ou d'un séjour prolongé. Nos croisières sont entièrement personnalisables selon vos envies.",
-    details: ["À partir d'une nuit", "Skipper inclus", "Itinéraire flexible", "Confort haut de gamme"]
-  },
-  {
-    title: "Séjours sur Mesure",
-    icon: <Sparkles size={24} />,
-    description: "Vous avez un projet spécifique ? Nous créons pour vous un itinéraire et un service totalement adaptés à vos besoins.",
-    details: ["Durée à la carte", "Destinations au choix", "Service VIP", "100% Personnalisable"]
-  },
-  {
-    title: "Coucher de Soleil",
-    icon: <Sun size={24} />,
-    description: "Découvrez les falaises de Bonifacio sous les couleurs de l'or. Une navigation exclusive pour une fin de journée magique.",
-    details: ["Départ 18h30", "Apéritif à bord", "Skipper inclus", "Ambiance intimiste"]
-  }
-];
-
-const faq = [
-  {
-    q: "Quel est le prix d'une journée en bateau privé à Bonifacio ?",
-    a: "La location à la journée avec skipper commence à 1800 € en avril, mai, juin, puis 2200 € en juillet, 2500 € en août et 2000 € en septembre. Le carburant et le skipper sont inclus et le bateau est entièrement privatisé.",
-  },
-  {
-    q: "Combien de personnes peuvent embarquer ?",
-    a: "Le Prestige 42 Flybridge accueille jusqu'à 10 personnes pour une sortie à la journée. Pour les croisières avec nuits à bord, la capacité est de 4 personnes plus le skipper.",
-  },
-  {
-    q: "Quels sont les horaires d'une sortie à la journée ?",
-    a: "Le départ se fait en général à 10h depuis le port de Bonifacio, pour un retour vers 18h. La sortie coucher de soleil part à 18h30.",
-  },
-  {
-    q: "Faut-il des papiers d'identité pour aller en Sardaigne ?",
-    a: "Oui : pour l'excursion vers l'archipel de La Maddalena et la Sardaigne, chaque passager doit avoir une carte d'identité ou un passeport en cours de validité.",
-  },
-  {
-    q: "L'itinéraire peut-il être personnalisé ?",
-    a: "Oui. Les circuits proposés sont des suggestions : le capitaine adapte les escales, les mouillages et la durée selon vos envies et la météo du jour.",
-  },
-];
+export const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  calendar: <Calendar size={24} />,
+  ship: <Ship size={24} />,
+  sparkles: <Sparkles size={24} />,
+  sun: <Sun size={24} />,
+  map: <Map size={24} />,
+  clock: <Clock size={24} />,
+};
 
 export default function Prestations() {
+  const { rates, ratesNote, services, faq } = useSettings().settings;
   const [circuits, setCircuits] = useState<Circuit[]>(() => {
     try {
       const stored = localStorage.getItem("cache_circuits");
@@ -174,7 +128,7 @@ export default function Prestations() {
               >
                 <div className="flex flex-col gap-4">
                   <div aria-hidden="true" className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue group-hover:scale-110 transition-transform">
-                    {service.icon}
+                    {SERVICE_ICONS[service.icon] || SERVICE_ICONS.sparkles}
                   </div>
                   <div>
                     <h2 className="text-lg font-bold mb-2 text-marine-navy">{service.title}</h2>
@@ -261,11 +215,11 @@ export default function Prestations() {
 
           <div className="grid gap-8 md:gap-12">
             {circuits
-              .filter(c => c.category === activeCategory)
+              .filter(c => c.category === activeCategory && !c.hidden)
               .filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat)
               .length > 0 ? (
                 circuits
-                  .filter(c => c.category === activeCategory)
+                  .filter(c => c.category === activeCategory && !c.hidden)
                   .filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat)
                   .map((circuit, i) => {
                     // Determine image based on selected boat
@@ -387,7 +341,7 @@ export default function Prestations() {
                             </div>
 
                             {/* Seasonal Rates Integration */}
-                            {(circuit.name.includes("Bonifacio & Îles Lavezzi") || circuit.name.includes("Criques & Roccapina")) && (
+                            {(circuit.showSeasonalRates ?? (circuit.name.includes("Lavezzi") || circuit.name.includes("Roccapina"))) && rates.length > 0 && (
                               <div className="space-y-4 md:space-y-6 pt-6 border-t border-gray-100">
                                 <h4 className="text-[11px] md:text-sm uppercase tracking-[0.2em] text-marine-blue font-bold flex items-center gap-2">
                                   <Calendar size={14} className="md:w-4 md:h-4" /> Tarifs Location Journée
@@ -395,13 +349,13 @@ export default function Prestations() {
                                 <div className="grid grid-cols-2 gap-2">
                                   {rates.map((rate, k) => (
                                     <div key={k} className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex flex-col">
-                                      <span className="text-[11px] text-marine-navy/60 uppercase tracking-wider font-bold mb-1">{rate.month}</span>
+                                      <span className="text-[11px] text-marine-navy/60 uppercase tracking-wider font-bold mb-1">{rate.label}</span>
                                       <span className="text-sm font-bold text-marine-blue">{rate.price}</span>
                                     </div>
                                   ))}
                                 </div>
                                 <p className="text-[11px] text-marine-navy/70 italic">
-                                  * Carburant et skipper inclus.
+                                  {ratesNote}
                                 </p>
                               </div>
                             )}

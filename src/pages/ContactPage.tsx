@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, ChevronRight, Star } from 'lucide-react';
-import { GOOGLE_PROFILE_URL } from '../seo';
+import { useSettings } from '../context/SettingsContext';
+import { telHref } from '../data/defaultSettings';
 
 export default function ContactPage() {
+  const { contact } = useSettings().settings;
   return (
     <div className="pt-20 min-h-screen bg-white">
       {/* Hero Section */}
@@ -62,8 +64,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Téléphone</h3>
               <p className="text-marine-navy/75 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
-              <a href="tel:+33611818486" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
-                06 11 81 84 86
+              <a href={`tel:${telHref(contact.phone)}`} className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
+                {contact.phone}
                 <ChevronRight size={16} aria-hidden="true" />
               </a>
             </motion.div>
@@ -80,8 +82,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Email</h3>
               <p className="text-marine-navy/75 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
-              <a href="mailto:croisieresdesiles20169@gmail.com" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
-                croisieresdesiles20169@gmail.com
+              <a href={`mailto:${contact.email}`} className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
+                {contact.email}
               </a>
             </motion.div>
 
@@ -97,7 +99,7 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Localisation</h3>
               <p className="text-marine-navy/75 text-sm mb-2 font-light flex-grow">Retrouvez-nous au port de Bonifacio.</p>
-              <p className="text-sm font-bold text-marine-navy mt-auto">Quai d'honneur, 20169 Bonifacio</p>
+              <p className="text-sm font-bold text-marine-navy mt-auto">{contact.address}, {contact.postalCode} {contact.city}</p>
             </motion.div>
 
             <motion.div 
@@ -112,11 +114,8 @@ export default function ContactPage() {
                 <h3 className="text-lg font-bold">Horaires</h3>
               </div>
               <div className="space-y-2 text-sm font-light opacity-90 flex-grow">
-                <div className="flex justify-between">
-                  <span>Lun - Dim</span>
-                  <span className="font-bold">09:00 - 20:00</span>
-                </div>
-                <p className="text-[11px] uppercase tracking-widest mt-4 opacity-90">Saison d'été (Avril - Octobre)</p>
+                <p className="font-bold">{contact.hours}</p>
+                <p className="text-[11px] uppercase tracking-widest mt-4 opacity-90">{contact.seasonNote}</p>
               </div>
             </motion.div>
           </div>
@@ -127,9 +126,9 @@ export default function ContactPage() {
       <section className="py-24 bg-marine-navy/5 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-display font-bold text-marine-navy mb-4">Où nous trouver ?</h2>
-          <p className="text-marine-navy/75 mb-4">Quai d'honneur, Port de Bonifacio, 20169 Bonifacio – Corse du Sud</p>
+          <p className="text-marine-navy/75 mb-4">{contact.address}, {contact.postalCode} {contact.city} – Corse du Sud</p>
           <a
-            href={GOOGLE_PROFILE_URL}
+            href={contact.googleProfile}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 mb-10 px-6 py-3 bg-white border border-marine-blue/20 rounded-full font-bold text-marine-blue hover:bg-marine-blue hover:text-white transition-colors shadow-sm"

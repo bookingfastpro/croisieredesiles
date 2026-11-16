@@ -1,14 +1,16 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Shield, Anchor, Waves, Award, GraduationCap, Heart, Users } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
+
+const STAT_ICONS = [Shield, Anchor, Waves, Award];
 
 export default function About() {
-  const stats = [
-    { icon: <Shield size={24} />, label: 'Sécurité', value: '100%', desc: 'Équipements certifiés' },
-    { icon: <Anchor size={24} />, label: 'Expertise', value: 'Capitaine', desc: 'Diplômé Marine Marchande' },
-    { icon: <Waves size={24} />, label: 'Expérience', value: '20+ ans', desc: 'Navigation locale' },
-    { icon: <Award size={24} />, label: 'Qualité', value: 'Excellence', desc: 'Service sur mesure' },
-  ];
+  const { about } = useSettings().settings;
+  const stats = about.stats.map((stat, i) => {
+    const Icon = STAT_ICONS[i % STAT_ICONS.length];
+    return { ...stat, icon: <Icon size={24} /> };
+  });
 
   return (
     <section id="about" className="py-24 px-6 relative bg-marine-mist/30 overflow-hidden">
@@ -24,28 +26,24 @@ export default function About() {
               <Users size={14} aria-hidden="true" /> Qui sommes-nous ?
             </div>
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-8 leading-tight text-marine-navy">
-              À la rencontre de <br />
-              <span className="text-marine-blue">Christian</span>, votre capitaine à Bonifacio
+              {about.title} <br />
+              <span className="text-marine-blue">{about.highlight}</span>, votre capitaine à Bonifacio
             </h1>
             
             <div className="space-y-8">
               <div className="flex gap-4">
                 <div className="mt-1 text-marine-blue" aria-hidden="true"><Heart size={24} /></div>
                 <div>
-                  <h2 className="text-xl font-bold text-marine-navy mb-2">Vie Personnelle & Passions</h2>
-                  <p className="text-marine-navy/80 font-light leading-relaxed">
-                    Natif de la région et passionné par l'univers maritime depuis son plus jeune âge, Christian a fait de la mer son terrain de jeu et son bureau. Amateur de photographie sous-marine et fervent défenseur de l'écosystème corse, il partage son temps entre la navigation et ses centres d'intérêt pour la nature sauvage et les traditions locales.
-                  </p>
+                  <h2 className="text-xl font-bold text-marine-navy mb-2">{about.personalTitle}</h2>
+                  <p className="text-marine-navy/80 font-light leading-relaxed">{about.personalText}</p>
                 </div>
               </div>
 
               <div className="flex gap-4">
                 <div className="mt-1 text-marine-blue" aria-hidden="true"><GraduationCap size={24} /></div>
                 <div>
-                  <h2 className="text-xl font-bold text-marine-navy mb-2">Cursus Professionnel & Diplômes</h2>
-                  <p className="text-marine-navy/80 font-light leading-relaxed">
-                    Fort d'un cursus solide au sein de la Marine Marchande, Christian est titulaire de tous les diplômes de commandement requis pour la navigation professionnelle. Son parcours l'a mené à naviguer sur divers types de navires avant de se consacrer entièrement à la plaisance de luxe et au partage de sa passion avec une clientèle exigeante.
-                  </p>
+                  <h2 className="text-xl font-bold text-marine-navy mb-2">{about.careerTitle}</h2>
+                  <p className="text-marine-navy/80 font-light leading-relaxed">{about.careerText}</p>
                 </div>
               </div>
             </div>
@@ -71,7 +69,7 @@ export default function About() {
           >
             <div className="relative z-10 rounded-[3rem] overflow-hidden border-4 border-white/10 shadow-2xl aspect-[4/5]">
               <img 
-                src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Cabine/0c435c87-50ff-437d-b612-19832209e1d6%20(1).jpg" 
+                src={about.photo}
                 alt="Christian, capitaine et fondateur de Croisières des Îles à Bonifacio" 
                 className="w-full h-full object-cover transition-all duration-700"
                 loading="lazy"
@@ -83,13 +81,13 @@ export default function About() {
             {/* Floating Glass Card */}
             <figure className="absolute -bottom-10 -left-10 z-20 bg-marine-navy/90 p-8 rounded-3xl border border-white/20 backdrop-blur-2xl max-w-xs hidden md:block">
               <blockquote className="font-serif italic text-white/90 mb-4">
-                « Naviguer n'est pas seulement un métier, c'est un art de vivre que je m'efforce de transmettre à chaque sortie. »
+                « {about.quote} »
               </blockquote>
               <figcaption className="flex items-center gap-3">
-                <div aria-hidden="true" className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">C</div>
+                <div aria-hidden="true" className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">{about.signature.charAt(0)}</div>
                 <div>
-                  <div className="font-bold text-sm text-white">Christian</div>
-                  <div className="text-[11px] uppercase tracking-widest text-marine-mist">Capitaine & Fondateur</div>
+                  <div className="font-bold text-sm text-white">{about.signature}</div>
+                  <div className="text-[11px] uppercase tracking-widest text-marine-mist">{about.signatureRole}</div>
                 </div>
               </figcaption>
             </figure>

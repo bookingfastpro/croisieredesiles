@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getPageMeta, NOT_FOUND_META, DEFAULT_OG_IMAGE, normalizePath } from '../seo';
+import { useSettings } from '../context/SettingsContext';
 
 function setMeta(attr: 'name' | 'property', key: string, content: string) {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
@@ -15,9 +16,10 @@ function setMeta(attr: 'name' | 'property', key: string, content: string) {
 /** Keeps <title>, description, canonical and Open Graph tags in sync on client-side navigation. */
 export default function usePageMeta() {
   const { pathname } = useLocation();
+  const { seo } = useSettings().settings;
 
   useEffect(() => {
-    const meta = getPageMeta(pathname) ?? NOT_FOUND_META;
+    const meta = getPageMeta(pathname, seo) ?? NOT_FOUND_META;
     const path = normalizePath(pathname);
     // Keep the origin chosen by the server (SITE_URL) when present.
     const existing = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
@@ -45,5 +47,5 @@ export default function usePageMeta() {
       }
       canonical.href = url;
     }
-  }, [pathname]);
+  }, [pathname, seo]);
 }

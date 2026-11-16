@@ -1,4 +1,5 @@
-import { Circuit, HeroData, Boat } from "../types";
+import { Circuit, HeroData, Boat, SiteSettings } from "../types";
+import { DEFAULT_SETTINGS, mergeSettings } from "../data/defaultSettings";
 
 // Fallback defaults for instantaneous initial render
 export const DEFAULT_HERO: HeroData = {
@@ -46,11 +47,13 @@ const memoryCache: {
   hero: HeroData | null;
   boats: Boat[] | null;
   images: string[] | null;
+  settings: SiteSettings | null;
 } = {
   circuits: null,
   hero: null,
   boats: null,
   images: null,
+  settings: null,
 };
 
 // Helper for localStorage caching
@@ -257,21 +260,104 @@ export const saveBoats = async (boats: Boat[]): Promise<void> => {
 };
 
 export const getImages = async (): Promise<string[]> => {
-  if (memoryCache.images) {
-    return memoryCache.images;
-  }
-  const stored = getStorageItem<string[]>("cache_images");
-  if (stored) {
-    memoryCache.images = stored;
-    return stored;
-  }
   try {
-    const response = await fetch("/api/images");
+    const response = await fetch("/api/images", { cache: "no-store" });
     const data = await response.json();
-    memoryCache.images = data;
-    setStorageItem("cache_images", data);
-    return data;
+    return Array.isArray(data) ? data : [];
   } catch {
     return [];
   }
+};
+
+export const getSettings = async (): Promise<SiteSettings> => {
+  const refresh = () =>
+    fetch("/api/settings")
+      .then(res => res.json())
+      .then(data => {
+        const merged = mergeSettings(data);
+        memoryCache.settings = merged;
+        setStorageItem("cache_settings", merged);
+        return merged;
+      });
+
+  if (memoryCache.settings) {
+    refresh().catch(() => {});
+    return memoryCache.settings;
+  }
+  const stored = getStorageItem<SiteSettings>("cache_settings");
+  if (stored) {
+    memoryCache.settings = mergeSettings(stored);
+    return memoryCache.settings;
+  }
+  try {
+    return await refresh();
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+};
+
+/** Always asks the server (used to revalidate after a cached first render). */
+export const fetchFreshSettings = async (): Promise<SiteSettings | null> => {
+  try {
+    const res = await fetch("/api/settings");
+    const merged = mergeSettings(await res.json());
+    memoryCache.settings = merged;
+    setStorageItem("cache_settings", merged);
+    return merged;
+  } catch {
+    return null;
+  }
+};
+
+export const saveSettings = async (settings: SiteSettings): Promise<void> => {
+  const response = await fetch("/api/settings", {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(settings),
+  });
+  if (!response.ok) throw new Error(response.status === 401 ? "Unauthorized" : "Save failed");
+  memoryCache.settings = settings;
+  setStorageItem("cache_settings", settings);
+};
+
+/** Resize big photos in the browser (max 2000 px, WebP) before sending them to the server. */
+async function compressImage(file: File): Promise<Blob> {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, 2000 / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, "image/webp", 0.82));
+    return blob && blob.size < file.size ? blob : file;
+  } catch {
+    return file;
+  }
+}
+
+export const uploadImage = async (file: File): Promise<string> => {
+  const body = await compressImage(file);
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    headers: {
+      "Content-Type": body.type || file.type,
+      "x-admin-token": localStorage.getItem("admin_token") || "",
+      "x-filename": encodeURIComponent(file.name),
+    },
+    body,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || (response.status === 401 ? "Session expirée, reconnectez-vous" : "Échec de l'envoi"));
+  return data.url;
+};
+
+export const deleteImage = async (url: string): Promise<void> => {
+  const name = url.split("/").pop() || "";
+  const response = await fetch(`/api/images/${encodeURIComponent(name)}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Suppression impossible");
 };

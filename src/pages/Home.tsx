@@ -36,7 +36,7 @@ const highlights = [
 
 export default function Home({ circuits, onSelectCircuit }: Props) {
   const selectedBoat = 'prestige' as const;
-  const visibleCircuits = circuits.filter(c => !c.exclusiveBoat || c.exclusiveBoat === selectedBoat);
+  const visibleCircuits = circuits.filter(c => !c.hidden && (!c.exclusiveBoat || c.exclusiveBoat === selectedBoat));
 
   return (
     <>

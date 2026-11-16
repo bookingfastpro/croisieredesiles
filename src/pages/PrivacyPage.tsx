@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PageShell from '../components/PageShell';
+import { useSettings } from '../context/SettingsContext';
 
 export default function PrivacyPage() {
+  const { contact } = useSettings().settings;
   return (
     <PageShell title="Politique de confidentialité">
       <h2>Données collectées</h2>
@@ -37,7 +39,7 @@ export default function PrivacyPage() {
       <p>
         Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données.
         Pour l'exercer, écrivez-nous à{' '}
-        <a href="mailto:croisieresdesiles20169@gmail.com">croisieresdesiles20169@gmail.com</a>. Vous pouvez également
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>. Vous pouvez également
         adresser une réclamation à la CNIL (cnil.fr).
       </p>
     </PageShell>

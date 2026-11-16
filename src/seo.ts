@@ -2,6 +2,9 @@
 // so crawlers and social networks see the right tags without running JS) and by
 // the React app (updated on client-side navigation).
 
+import type { SiteSettings } from "./types.ts";
+import { telHref } from "./data/defaultSettings.ts";
+
 export const SITE_NAME = "Croisières des Îles";
 
 /** Fiche Google Business Profile liée au site (identifiant CID de la fiche) */
@@ -21,13 +24,13 @@ export interface PageMeta {
 
 export const PAGES: Record<string, PageMeta> = {
   "/": {
-    title: "Croisières des Îles | Excursions en bateau privé à Bonifacio, Lavezzi & Sardaigne",
+    title: "Bateau privé avec skipper à Bonifacio | Croisières des Îles",
     description:
       "Excursions et croisières en bateau privé avec skipper au départ de Bonifacio : îles Lavezzi, falaises, Roccapina, archipel de la Maddalena. Carburant et skipper inclus.",
     sitemap: { priority: "1.0", changefreq: "weekly" },
   },
   "/qui-sommes-nous": {
-    title: "Qui sommes-nous ? Christian, capitaine à Bonifacio | Croisières des Îles",
+    title: "Christian, votre capitaine à Bonifacio | Croisières des Îles",
     description:
       "Rencontrez Christian, capitaine diplômé de la Marine Marchande et natif de la région, qui vous fait découvrir la Corse du Sud en bateau privé depuis Bonifacio.",
     image:
@@ -35,7 +38,7 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.7", changefreq: "monthly" },
   },
   "/nos-bateaux": {
-    title: "Location Prestige 42 Flybridge avec skipper à Bonifacio | Croisières des Îles",
+    title: "Prestige 42 Flybridge avec skipper | Croisières des Îles",
     description:
       "Découvrez le Prestige 42 Flybridge : yacht de 12 m pour 10 personnes, paddle, seabob, plateforme gonflable. Location avec skipper au départ de Bonifacio.",
     image:
@@ -43,7 +46,7 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.9", changefreq: "monthly" },
   },
   "/nos-prestations": {
-    title: "Tarifs excursions bateau Bonifacio dès 1800 € | Croisières des Îles",
+    title: "Tarifs excursion bateau Bonifacio | Croisières des Îles",
     description:
       "Tarifs et prestations : journée privatisée aux Lavezzi ou à Roccapina dès 1800 €, Sardaigne & Maddalena, coucher de soleil, croisières sur mesure en Corse.",
     image:
@@ -51,7 +54,7 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.9", changefreq: "weekly" },
   },
   "/contact": {
-    title: "Contact & réservation – Port de Bonifacio | Croisières des Îles",
+    title: "Réservation au port de Bonifacio | Croisières des Îles",
     description:
       "Réservez votre excursion ou croisière privée au départ du port de Bonifacio. Téléphone : 06 11 81 84 86. Réponse rapide, devis personnalisé.",
     sitemap: { priority: "0.8", changefreq: "monthly" },
@@ -77,14 +80,24 @@ export function normalizePath(pathname: string): string {
   return pathname;
 }
 
-export function getPageMeta(pathname: string): PageMeta | null {
-  return PAGES[normalizePath(pathname)] ?? null;
+/** Page metadata, with the titles/descriptions customised in the admin panel taking precedence. */
+export function getPageMeta(pathname: string, overrides?: SiteSettings["seo"]): PageMeta | null {
+  const path = normalizePath(pathname);
+  const base = PAGES[path];
+  if (!base) return null;
+  const custom = overrides?.[path];
+  return {
+    ...base,
+    title: custom?.title?.trim() || base.title,
+    description: custom?.description?.trim() || base.description,
+  };
 }
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-export function buildBusinessJsonLd(origin: string) {
+export function buildBusinessJsonLd(origin: string, settings?: SiteSettings) {
+  const c = settings?.contact;
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -96,15 +109,15 @@ export function buildBusinessJsonLd(origin: string) {
     url: `${origin}/`,
     image: DEFAULT_OG_IMAGE,
     logo: `${origin}/favicon.svg`,
-    telephone: "+33611818486",
-    email: "croisieresdesiles20169@gmail.com",
+    telephone: c ? telHref(c.phone) : "+33611818486",
+    email: c?.email || "croisieresdesiles20169@gmail.com",
     priceRange: "€€€",
     currenciesAccepted: "EUR",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Quai d'honneur, Port de Bonifacio",
-      addressLocality: "Bonifacio",
-      postalCode: "20169",
+      streetAddress: c?.address || "Quai d'honneur, Port de Bonifacio",
+      addressLocality: c?.city || "Bonifacio",
+      postalCode: c?.postalCode || "20169",
       addressRegion: "Corse",
       addressCountry: "FR",
     },
@@ -117,18 +130,18 @@ export function buildBusinessJsonLd(origin: string) {
       opens: "09:00",
       closes: "20:00",
     },
-    hasMap: GOOGLE_PROFILE_URL,
-    sameAs: ["https://www.instagram.com/croisieresdesiles_2a/", GOOGLE_PROFILE_URL],
+    hasMap: c?.googleProfile || GOOGLE_PROFILE_URL,
+    sameAs: [c?.instagram, c?.googleProfile || GOOGLE_PROFILE_URL].filter(Boolean),
   };
 }
 
 /** HTML for the <head> SEO block, injected server-side. */
-export function buildHeadHtml(meta: PageMeta, origin: string, pathname: string): string {
+export function buildHeadHtml(meta: PageMeta, origin: string, pathname: string, settings?: SiteSettings): string {
   const url = `${origin}${normalizePath(pathname) === "/" ? "/" : normalizePath(pathname)}`;
   const image = meta.image || DEFAULT_OG_IMAGE;
   const t = escapeHtml(meta.title);
   const d = escapeHtml(meta.description);
-  const jsonLd = JSON.stringify(buildBusinessJsonLd(origin)).replace(/</g, "\\u003c");
+  const jsonLd = JSON.stringify(buildBusinessJsonLd(origin, settings)).replace(/</g, "\\u003c");
   return [
     `<title>${t}</title>`,
     `<meta name="description" content="${d}" />`,

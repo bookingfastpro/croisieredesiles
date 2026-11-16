@@ -1,7 +1,8 @@
 import React from 'react';
-import { Anchor, Instagram, Mail, Phone, MapPin, Star } from 'lucide-react';
+import { Anchor, Instagram, Mail, Phone, MapPin, Star, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { GOOGLE_PROFILE_URL } from '../seo';
+import { useSettings } from '../context/SettingsContext';
+import { telHref } from '../data/defaultSettings';
 
 const links = [
   { name: 'Accueil', href: '/' },
@@ -12,6 +13,7 @@ const links = [
 ];
 
 export default function Footer() {
+  const { contact } = useSettings().settings;
   return (
     <footer className="pt-20 md:pt-24 pb-12 px-6 relative overflow-hidden bg-marine-pearl border-t border-marine-blue/10">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -29,7 +31,7 @@ export default function Footer() {
               Roccapina, archipel de La Maddalena et Sardaigne.
             </p>
             <a
-              href="https://www.instagram.com/croisieresdesiles_2a/"
+              href={contact.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Suivez-nous sur Instagram (nouvelle fenêtre)"
@@ -38,7 +40,7 @@ export default function Footer() {
               <Instagram size={18} aria-hidden="true" className="group-hover:scale-110 transition-transform" />
             </a>
             <a
-              href={GOOGLE_PROFILE_URL}
+              href={contact.googleProfile}
               target="_blank"
               rel="noopener noreferrer"
               className="ml-3 inline-flex items-center gap-2 h-11 px-4 bg-marine-navy/5 hover:bg-marine-blue/10 border border-marine-navy/10 rounded-full text-sm font-semibold text-marine-navy/80 hover:text-marine-blue transition-all align-top"
@@ -68,16 +70,16 @@ export default function Footer() {
               <ul className="space-y-4">
                 <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                   <Phone size={16} aria-hidden="true" className="text-marine-blue shrink-0" />
-                  <a href="tel:+33611818486" className="hover:text-marine-blue transition-colors">06 11 81 84 86</a>
+                  <a href={`tel:${telHref(contact.phone)}`} className="hover:text-marine-blue transition-colors">{contact.phone}</a>
                 </li>
                 <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                   <Mail size={16} aria-hidden="true" className="text-marine-blue shrink-0" />
-                  <a href="mailto:croisieresdesiles20169@gmail.com" className="hover:text-marine-blue transition-colors break-all">
-                    croisieresdesiles20169@gmail.com
+                  <a href={`mailto:${contact.email}`} className="hover:text-marine-blue transition-colors break-all">
+                    {contact.email}
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-sm text-marine-navy/80">
-                  <MapPin size={16} aria-hidden="true" className="text-marine-blue shrink-0" /> Quai d'honneur, Port de Bonifacio, 20169 Bonifacio
+                  <MapPin size={16} aria-hidden="true" className="text-marine-blue shrink-0" /> {contact.address}, {contact.postalCode} {contact.city}
                 </li>
               </ul>
             </address>
@@ -89,6 +91,9 @@ export default function Footer() {
           <div className="flex gap-6 sm:gap-8">
             <Link to="/mentions-legales" className="hover:text-marine-blue transition-colors">Mentions légales</Link>
             <Link to="/confidentialite" className="hover:text-marine-blue transition-colors">Confidentialité</Link>
+            <Link to="/admin" className="inline-flex items-center gap-1.5 hover:text-marine-blue transition-colors">
+              <Lock size={12} aria-hidden="true" /> Espace admin
+            </Link>
           </div>
         </div>
       </div>

@@ -1,27 +1,24 @@
 import React from 'react';
 import PageShell from '../components/PageShell';
 
-// TODO (propriétaire du site) : compléter les informations légales ci-dessous.
-const LEGAL = {
-  company: 'Croisières des Îles',
-  legalForm: 'à compléter (ex. : EI, SARL…)',
-  siret: 'à compléter',
-  director: 'à compléter',
-  host: 'à compléter (nom, adresse et téléphone de l\'hébergeur)',
-};
+import { useSettings } from '../context/SettingsContext';
+import { telHref } from '../data/defaultSettings';
 
+// Les informations légales se modifient dans l'admin (rubrique « Mentions légales »).
 export default function LegalPage() {
+  const { legal, contact } = useSettings().settings;
+  const LEGAL = { company: 'Croisières des Îles', ...legal };
   return (
     <PageShell title="Mentions légales">
       <h2>Éditeur du site</h2>
       <p>
         {LEGAL.company} – {LEGAL.legalForm}
         <br />
-        Quai d'honneur, Port de Bonifacio, 20169 Bonifacio, France
+        {contact.address}, {contact.postalCode} {contact.city}, France
         <br />
-        Téléphone : <a href="tel:+33611818486">06 11 81 84 86</a>
+        Téléphone : <a href={`tel:${telHref(contact.phone)}`}>{contact.phone}</a>
         <br />
-        E-mail : <a href="mailto:croisieresdesiles20169@gmail.com">croisieresdesiles20169@gmail.com</a>
+        E-mail : <a href={`mailto:${contact.email}`}>{contact.email}</a>
         <br />
         SIRET : {LEGAL.siret}
       </p>

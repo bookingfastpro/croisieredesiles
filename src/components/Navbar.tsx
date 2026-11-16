@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Anchor, Menu, X, Instagram, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
+import { telHref } from '../data/defaultSettings';
 
 const navLinks = [
   { name: 'Accueil', href: '/' },
@@ -15,6 +17,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { contact } = useSettings().settings;
   const solid = isScrolled || location.pathname !== '/';
 
   useEffect(() => {
@@ -157,13 +160,13 @@ export default function Navbar() {
 
             <div className="p-8 border-t border-white/10 flex justify-center items-center gap-6">
               <a
-                href="tel:+33611818486"
+                href={`tel:${telHref(contact.phone)}`}
                 className="flex items-center gap-2 text-white/80 hover:text-white text-sm"
               >
-                <Phone size={18} aria-hidden="true" /> 06 11 81 84 86
+                <Phone size={18} aria-hidden="true" /> {contact.phone}
               </a>
               <a
-                href="https://www.instagram.com/croisieresdesiles_2a/"
+                href={contact.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-white/80 hover:text-white text-sm"
