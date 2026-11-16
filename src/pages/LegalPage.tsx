@@ -3,7 +3,7 @@ import PageShell from '../components/PageShell';
 
 // TODO (propriétaire du site) : compléter les informations légales ci-dessous.
 const LEGAL = {
-  company: 'Croisière des Îles',
+  company: 'Croisières des Îles',
   legalForm: 'à compléter (ex. : EI, SARL…)',
   siret: 'à compléter',
   director: 'à compléter',

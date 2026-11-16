@@ -106,7 +106,7 @@ export default function Home({ circuits, onSelectCircuit }: Props) {
               Votre excursion en bateau privé à Bonifacio
             </h2>
             <p className="text-white/80 font-light leading-relaxed">
-              Croisière des Îles organise des sorties en mer privatisées avec skipper au départ de Bonifacio, en
+              Croisières des Îles organise des sorties en mer privatisées avec skipper au départ de Bonifacio, en
               Corse du Sud. Falaises calcaires, grottes marines, lagons turquoise des Lavezzi : profitez des plus
               beaux mouillages de la Méditerranée à votre rythme.
             </p>

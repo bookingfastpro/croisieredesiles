@@ -21,7 +21,7 @@ export default function Footer() {
             <p className="flex items-center gap-2 mb-6">
               <Anchor aria-hidden="true" className="text-marine-blue w-8 h-8" />
               <span className="text-xl font-display font-bold tracking-wider text-marine-navy uppercase">
-                Croisière des <span className="text-marine-blue">Îles</span>
+                Croisières des <span className="text-marine-blue">Îles</span>
               </span>
             </p>
             <p className="text-marine-navy/75 text-sm leading-relaxed font-light mb-8">
@@ -85,7 +85,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-10 border-t border-marine-navy/10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs uppercase tracking-[0.15em] text-marine-navy/70">
-          <p>© {new Date().getFullYear()} Croisière des Îles. Tous droits réservés.</p>
+          <p>© {new Date().getFullYear()} Croisières des Îles. Tous droits réservés.</p>
           <div className="flex gap-6 sm:gap-8">
             <Link to="/mentions-legales" className="hover:text-marine-blue transition-colors">Mentions légales</Link>
             <Link to="/confidentialite" className="hover:text-marine-blue transition-colors">Confidentialité</Link>

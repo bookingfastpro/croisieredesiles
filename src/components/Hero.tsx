@@ -31,7 +31,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 bg-marine-navy">
         <img
           src={heroData.image}
-          alt="Le Prestige 42 Flybridge de Croisière des Îles en mer au large de Bonifacio"
+          alt="Le Prestige 42 Flybridge de Croisières des Îles en mer au large de Bonifacio"
           className="w-full h-full object-cover"
           loading="eager"
           fetchPriority="high"

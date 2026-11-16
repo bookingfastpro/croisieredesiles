@@ -50,10 +50,10 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2 group" aria-label="Croisière des Îles – Accueil">
+          <Link to="/" className="flex items-center gap-2 group" aria-label="Croisières des Îles – Accueil">
             <Anchor aria-hidden="true" className={`${solid ? 'text-marine-blue' : 'text-marine-cyan'} w-8 h-8 group-hover:rotate-12 transition-transform`} />
             <span className={`text-lg sm:text-xl font-display font-bold tracking-wider ${solid ? 'text-marine-navy' : 'text-white'} uppercase`}>
-              Croisière des <span className={solid ? 'text-marine-blue' : 'text-marine-cyan'}>Îles</span>
+              Croisières des <span className={solid ? 'text-marine-blue' : 'text-marine-cyan'}>Îles</span>
             </span>
           </Link>
 
@@ -121,7 +121,7 @@ export default function Navbar() {
               <span className="flex items-center gap-2" aria-hidden="true">
                 <Anchor className="text-marine-cyan w-8 h-8" />
                 <span className="text-lg font-display font-bold tracking-wider text-white uppercase">
-                  Croisière des <span className="text-marine-cyan">Îles</span>
+                  Croisières des <span className="text-marine-cyan">Îles</span>
                 </span>
               </span>
             </div>

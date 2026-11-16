@@ -2,10 +2,10 @@
 // so crawlers and social networks see the right tags without running JS) and by
 // the React app (updated on client-side navigation).
 
-export const SITE_NAME = "Croisière des Îles";
+export const SITE_NAME = "Croisières des Îles";
 
-/** Fiche Google Business Profile liée au site */
-export const GOOGLE_PROFILE_URL = "https://share.google/ps2W5ri58T2YDK1cC";
+/** Fiche Google Business Profile liée au site (identifiant CID de la fiche) */
+export const GOOGLE_PROFILE_URL = "https://www.google.com/maps?cid=12881030414233217563";
 
 export const DEFAULT_OG_IMAGE =
   "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2013.05.08.jpeg";
@@ -21,13 +21,13 @@ export interface PageMeta {
 
 export const PAGES: Record<string, PageMeta> = {
   "/": {
-    title: "Croisière des Îles | Excursions en bateau privé à Bonifacio, Lavezzi & Sardaigne",
+    title: "Croisières des Îles | Excursions en bateau privé à Bonifacio, Lavezzi & Sardaigne",
     description:
       "Excursions et croisières en bateau privé avec skipper au départ de Bonifacio : îles Lavezzi, falaises, Roccapina, archipel de la Maddalena. Carburant et skipper inclus.",
     sitemap: { priority: "1.0", changefreq: "weekly" },
   },
   "/qui-sommes-nous": {
-    title: "Qui sommes-nous ? Christian, capitaine à Bonifacio | Croisière des Îles",
+    title: "Qui sommes-nous ? Christian, capitaine à Bonifacio | Croisières des Îles",
     description:
       "Rencontrez Christian, capitaine diplômé de la Marine Marchande et natif de la région, qui vous fait découvrir la Corse du Sud en bateau privé depuis Bonifacio.",
     image:
@@ -35,7 +35,7 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.7", changefreq: "monthly" },
   },
   "/nos-bateaux": {
-    title: "Location Prestige 42 Flybridge avec skipper à Bonifacio | Croisière des Îles",
+    title: "Location Prestige 42 Flybridge avec skipper à Bonifacio | Croisières des Îles",
     description:
       "Découvrez le Prestige 42 Flybridge : yacht de 12 m pour 10 personnes, paddle, seabob, plateforme gonflable. Location avec skipper au départ de Bonifacio.",
     image:
@@ -43,7 +43,7 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.9", changefreq: "monthly" },
   },
   "/nos-prestations": {
-    title: "Tarifs excursions bateau Bonifacio dès 1800 € | Croisière des Îles",
+    title: "Tarifs excursions bateau Bonifacio dès 1800 € | Croisières des Îles",
     description:
       "Tarifs et prestations : journée privatisée aux Lavezzi ou à Roccapina dès 1800 €, Sardaigne & Maddalena, coucher de soleil, croisières sur mesure en Corse.",
     image:
@@ -51,23 +51,23 @@ export const PAGES: Record<string, PageMeta> = {
     sitemap: { priority: "0.9", changefreq: "weekly" },
   },
   "/contact": {
-    title: "Contact & réservation – Port de Bonifacio | Croisière des Îles",
+    title: "Contact & réservation – Port de Bonifacio | Croisières des Îles",
     description:
       "Réservez votre excursion ou croisière privée au départ du port de Bonifacio. Téléphone : 06 11 81 84 86. Réponse rapide, devis personnalisé.",
     sitemap: { priority: "0.8", changefreq: "monthly" },
   },
   "/mentions-legales": {
-    title: "Mentions légales | Croisière des Îles",
-    description: "Mentions légales du site Croisière des Îles, excursions en mer à Bonifacio.",
+    title: "Mentions légales | Croisières des Îles",
+    description: "Mentions légales du site Croisières des Îles, excursions en mer à Bonifacio.",
   },
   "/confidentialite": {
-    title: "Politique de confidentialité | Croisière des Îles",
-    description: "Politique de confidentialité et gestion des données personnelles du site Croisière des Îles.",
+    title: "Politique de confidentialité | Croisières des Îles",
+    description: "Politique de confidentialité et gestion des données personnelles du site Croisières des Îles.",
   },
 };
 
 export const NOT_FOUND_META: PageMeta = {
-  title: "Page introuvable | Croisière des Îles",
+  title: "Page introuvable | Croisières des Îles",
   description: "Cette page n'existe pas ou a été déplacée.",
   noindex: true,
 };
@@ -90,6 +90,7 @@ export function buildBusinessJsonLd(origin: string) {
     "@type": "LocalBusiness",
     "@id": `${origin}/#business`,
     name: SITE_NAME,
+    alternateName: ["Croisières des Îles Bonifacio", "Croisieres des Iles"],
     description:
       "Excursions en mer et croisières privées avec skipper au départ de Bonifacio vers les îles Lavezzi, la Sardaigne, l'archipel de La Maddalena et les côtes corses.",
     url: `${origin}/`,
@@ -107,7 +108,8 @@ export function buildBusinessJsonLd(origin: string) {
       addressRegion: "Corse",
       addressCountry: "FR",
     },
-    geo: { "@type": "GeoCoordinates", latitude: 41.3872, longitude: 9.1558 },
+    // Coordonnées identiques à celles de la fiche Google
+    geo: { "@type": "GeoCoordinates", latitude: 41.4369586, longitude: 9.1874773 },
     areaServed: ["Bonifacio", "Corse-du-Sud", "Îles Lavezzi", "Archipel de La Maddalena", "Sardaigne"],
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
