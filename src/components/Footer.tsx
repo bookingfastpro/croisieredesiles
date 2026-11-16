@@ -15,7 +15,7 @@ const links = [
 export default function Footer() {
   const { contact } = useSettings().settings;
   return (
-    <footer className="pt-20 md:pt-24 pb-12 px-6 relative overflow-hidden bg-marine-pearl border-t border-marine-blue/10">
+    <footer className="pt-16 md:pt-24 pb-28 md:pb-12 px-5 sm:px-6 relative overflow-hidden bg-marine-pearl border-t border-marine-blue/10">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
           {/* Brand */}
@@ -52,10 +52,10 @@ export default function Footer() {
           {/* Links */}
           <nav aria-labelledby="footer-nav">
             <h2 id="footer-nav" className="font-bold mb-6 uppercase tracking-widest text-xs text-marine-blue">Navigation</h2>
-            <ul className="space-y-3">
+            <ul className="space-y-1">
               {links.map((item) => (
                 <li key={item.href}>
-                  <Link to={item.href} className="text-sm text-marine-navy/80 hover:text-marine-blue hover:underline underline-offset-4 transition-colors">
+                  <Link to={item.href} className="inline-block py-2 text-sm text-marine-navy/80 hover:text-marine-blue hover:underline underline-offset-4 transition-colors">
                     {item.name}
                   </Link>
                 </li>
@@ -67,14 +67,14 @@ export default function Footer() {
           <div>
             <h2 className="font-bold mb-6 uppercase tracking-widest text-xs text-marine-blue">Contact</h2>
             <address className="not-italic">
-              <ul className="space-y-4">
+              <ul className="space-y-1">
                 <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                   <Phone size={16} aria-hidden="true" className="text-marine-blue shrink-0" />
-                  <a href={`tel:${telHref(contact.phone)}`} className="hover:text-marine-blue transition-colors">{contact.phone}</a>
+                  <a href={`tel:${telHref(contact.phone)}`} className="inline-block py-2 hover:text-marine-blue transition-colors">{contact.phone}</a>
                 </li>
                 <li className="flex items-center gap-3 text-sm text-marine-navy/80">
                   <Mail size={16} aria-hidden="true" className="text-marine-blue shrink-0" />
-                  <a href={`mailto:${contact.email}`} className="hover:text-marine-blue transition-colors break-all">
+                  <a href={`mailto:${contact.email}`} className="inline-block py-2 hover:text-marine-blue transition-colors break-all">
                     {contact.email}
                   </a>
                 </li>
@@ -86,9 +86,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-10 border-t border-marine-navy/10 flex flex-col md:flex-row justify-between items-center gap-6 text-xs uppercase tracking-[0.15em] text-marine-navy/70">
+        <div className="pt-10 border-t border-marine-navy/10 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 text-xs uppercase tracking-[0.12em] text-marine-navy/70 text-center">
           <p>© {new Date().getFullYear()} Croisières des Îles. Tous droits réservés.</p>
-          <div className="flex gap-6 sm:gap-8">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 [&_a]:py-2">
             <Link to="/mentions-legales" className="hover:text-marine-blue transition-colors">Mentions légales</Link>
             <Link to="/confidentialite" className="hover:text-marine-blue transition-colors">Confidentialité</Link>
             <Link to="/admin" className="inline-flex items-center gap-1.5 hover:text-marine-blue transition-colors">
@@ -99,7 +99,7 @@ export default function Footer() {
       </div>
 
       {/* Decorative Glow */}
-      <div aria-hidden="true" className="absolute -top-24 -right-24 w-96 h-96 bg-marine-blue/5 blur-[120px] rounded-full"></div>
+      <div aria-hidden="true" className="hidden md:block pointer-events-none absolute -top-24 -right-24 w-96 h-96 bg-marine-blue/5 blur-[120px] rounded-full"></div>
     </footer>
   );
 }

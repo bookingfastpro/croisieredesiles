@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import CircuitCard from '../components/CircuitCard';
@@ -43,13 +43,13 @@ export default function Home({ circuits, onSelectCircuit }: Props) {
       <Hero />
 
       {/* Circuits Section */}
-      <section id="circuits" aria-labelledby="circuits-title" className="py-20 md:py-24 px-6 relative scroll-mt-20">
+      <section id="circuits" aria-labelledby="circuits-title" className="py-16 md:py-24 px-5 sm:px-6 relative scroll-mt-20">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-14 md:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/5 border border-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-4">
               <Waves size={14} aria-hidden="true" /> Nos Expériences
             </div>
-            <h2 id="circuits-title" className="text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">
+            <h2 id="circuits-title" className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">
               Excursions & Croisières
             </h2>
             <p className="text-marine-navy/75 max-w-2xl mx-auto font-light">
@@ -95,11 +95,11 @@ export default function Home({ circuits, onSelectCircuit }: Props) {
         </div>
 
         {/* Background Decorative Glow */}
-        <div aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-marine-blue/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <div aria-hidden="true" className="hidden md:block pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-marine-blue/5 blur-[120px] rounded-full pointer-events-none"></div>
       </section>
 
       {/* Why us — gives visitors (and search engines) the key facts at a glance */}
-      <section aria-labelledby="why-title" className="py-20 md:py-24 px-6 bg-marine-navy text-white">
+      <section aria-labelledby="why-title" className="py-16 md:py-24 px-5 sm:px-6 bg-marine-navy text-white">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl mb-12">
             <h2 id="why-title" className="text-3xl md:text-4xl font-display font-bold mb-5">

@@ -1,5 +1,6 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { responsive } from '../utils/img';
+import { m as motion } from 'motion/react';
 import { Mail, Phone, MapPin, MessageSquare, Clock, ChevronRight, Star } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 import { telHref } from '../data/defaultSettings';
@@ -12,7 +13,7 @@ export default function ContactPage() {
       <section className="relative py-20 px-6 overflow-hidden bg-marine-navy">
         <div className="absolute inset-0 opacity-40">
           <img 
-            src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2012.57.05.jpeg" 
+            {...responsive("https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2012.57.05.jpeg", [640, 1080, 1600], '100vw')}
             alt=""
             loading="eager"
             className="w-full h-full object-cover"

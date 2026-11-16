@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Anchor, Menu, X, Instagram, Phone } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { m as motion, AnimatePresence } from 'motion/react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useSettings } from '../context/SettingsContext';
 import { telHref } from '../data/defaultSettings';
@@ -49,13 +49,13 @@ export default function Navbar() {
       <nav
         aria-label="Navigation principale"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          solid ? 'py-4 bg-white/95 backdrop-blur-md shadow-lg border-b border-marine-blue/10' : 'py-6 bg-transparent'
+          solid ? 'py-4 bg-white/95 md:backdrop-blur-md shadow-lg border-b border-marine-blue/10' : 'py-6 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-2 group" aria-label="Croisières des Îles – Accueil">
-            <Anchor aria-hidden="true" className={`${solid ? 'text-marine-blue' : 'text-marine-cyan'} w-8 h-8 group-hover:rotate-12 transition-transform`} />
-            <span className={`text-lg sm:text-xl font-display font-bold tracking-wider ${solid ? 'text-marine-navy' : 'text-white'} uppercase`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center gap-3">
+          <Link to="/" className="flex items-center gap-2 group min-w-0" aria-label="Croisières des Îles – Accueil">
+            <Anchor aria-hidden="true" className={`${solid ? 'text-marine-blue' : 'text-marine-cyan'} w-7 h-7 sm:w-8 sm:h-8 shrink-0 group-hover:rotate-12 transition-transform`} />
+            <span className={`text-[15px] min-[420px]:text-lg sm:text-xl font-display font-bold tracking-wide sm:tracking-wider whitespace-nowrap ${solid ? 'text-marine-navy' : 'text-white'} uppercase`}>
               Croisières des <span className={solid ? 'text-marine-blue' : 'text-marine-cyan'}>Îles</span>
             </span>
           </Link>
@@ -98,7 +98,7 @@ export default function Navbar() {
           {/* Mobile Toggle */}
           <button
             type="button"
-            className={`md:hidden relative z-[70] p-2 -mr-2 ${isMobileMenuOpen ? 'text-white' : solid ? 'text-marine-navy' : 'text-white'}`}
+            className={`md:hidden relative z-[70] p-2 -mr-2 shrink-0 ${isMobileMenuOpen ? 'text-white' : solid ? 'text-marine-navy' : 'text-white'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
             aria-controls="menu-mobile"
@@ -118,19 +118,19 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-marine-ink z-[60] md:hidden flex flex-col"
+            className="fixed inset-0 bg-marine-ink z-[60] md:hidden flex flex-col overflow-y-auto"
           >
             <div className="flex items-center p-6 border-b border-white/10 h-[81px]">
               <span className="flex items-center gap-2" aria-hidden="true">
                 <Anchor className="text-marine-cyan w-8 h-8" />
-                <span className="text-lg font-display font-bold tracking-wider text-white uppercase">
+                <span className="text-[15px] min-[420px]:text-lg font-display font-bold tracking-wide text-white uppercase whitespace-nowrap">
                   Croisières des <span className="text-marine-cyan">Îles</span>
                 </span>
               </span>
             </div>
 
-            <nav aria-label="Menu mobile" className="flex-1 flex flex-col justify-center items-center p-6">
-              <ul className="flex flex-col items-center gap-7">
+            <nav aria-label="Menu mobile" className="flex-1 flex flex-col justify-center items-center px-6 py-8">
+              <ul className="flex flex-col items-center gap-5 min-[700px]:gap-7">
                 {navLinks.map((link, idx) => (
                   <motion.li
                     key={link.href}
@@ -142,7 +142,7 @@ export default function Navbar() {
                       to={link.href}
                       end
                       className={({ isActive }) =>
-                        `text-3xl font-display font-bold transition-colors hover:text-marine-cyan ${isActive ? 'text-marine-cyan' : 'text-white'}`
+                        `text-2xl min-[380px]:text-3xl font-display font-bold transition-colors hover:text-marine-cyan ${isActive ? 'text-marine-cyan' : 'text-white'}`
                       }
                     >
                       {link.name}
@@ -158,7 +158,7 @@ export default function Navbar() {
               </Link>
             </nav>
 
-            <div className="p-8 border-t border-white/10 flex justify-center items-center gap-6">
+            <div className="p-6 border-t border-white/10 flex flex-wrap justify-center items-center gap-x-6 gap-y-3">
               <a
                 href={`tel:${telHref(contact.phone)}`}
                 className="flex items-center gap-2 text-white/80 hover:text-white text-sm"

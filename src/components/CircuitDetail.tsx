@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { responsive } from '../utils/img';
+import { m as motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { MapPin, Info, Calendar, CheckCircle2, ChevronLeft, ChevronRight, Ship, Sparkles, X, Coffee } from 'lucide-react';
 import { formatPrice } from '../utils/price';
@@ -7,6 +8,7 @@ import { Circuit, Boat } from '../types';
 import { AnimatePresence } from 'motion/react';
 import { getBoats } from '../services/api';
 import useModal from '../hooks/useModal';
+import useSwipe from '../hooks/useSwipe';
 
 interface Props {
   circuit: Circuit;
@@ -50,6 +52,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
   }, [selectedBoat]);
 
   const dialogRef = useModal<HTMLDivElement>(onClose);
+  const swipe = useSwipe(() => boatImages.length > 1 && nextImage(), () => boatImages.length > 1 && prevImage());
 
   return (
     <motion.div 
@@ -60,7 +63,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
     >
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-marine-ink/80 backdrop-blur-md hidden md:block"
+        className="absolute inset-0 bg-marine-ink/80 md:backdrop-blur-md hidden md:block"
         onClick={onClose}
       ></div>
 
@@ -77,7 +80,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
         className="relative w-full h-full md:max-w-5xl md:max-h-[90vh] bg-white md:rounded-[2.5rem] rounded-none border border-gray-200 shadow-2xl flex flex-col overflow-hidden outline-none"
       >
         {/* Header: Image Carousel */}
-        <div className="relative h-64 sm:h-72 md:h-[400px] overflow-hidden shrink-0 group select-none">
+        <div className="relative h-64 sm:h-72 md:h-[400px] overflow-hidden shrink-0 group select-none touch-pan-y" {...swipe}>
           <AnimatePresence mode="wait">
             <motion.img 
               key={`${selectedBoat}-${currentImageIndex}`}
@@ -85,7 +88,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.35 }}
-              src={boatImages[currentImageIndex]} 
+              {...responsive(boatImages[currentImageIndex], [640, 1080, 1600], '(min-width: 768px) 1024px, 100vw')}
               alt={`${circuit.name} – photo ${currentImageIndex + 1} sur ${boatImages.length}`}
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -100,14 +103,14 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               <button 
                 onClick={prevImage}
                 aria-label="Image précédente"
-                className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
+                className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 md:backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
               >
                 <ChevronLeft size={20} aria-hidden="true" />
               </button>
               <button 
                 onClick={nextImage}
                 aria-label="Image suivante"
-                className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
+                className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 md:backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
               >
                 <ChevronRight size={20} aria-hidden="true" />
               </button>
@@ -135,7 +138,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                 <span className="text-white/80 font-medium">À bord du Prestige 42 Flybridge</span>
               </div>
             </div>
-            <div className="bg-white/15 backdrop-blur-md px-4 py-1.5 sm:py-2 rounded-xl border border-white/20 self-start md:self-auto">
+            <div className="bg-white/15 md:backdrop-blur-md px-4 py-1.5 sm:py-2 rounded-xl border border-white/20 self-start md:self-auto">
               <span className="text-base sm:text-xl font-bold text-white uppercase tracking-tight">
                 {formatPrice(circuit)}
               </span>
@@ -145,7 +148,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
           <button 
             onClick={onClose}
             aria-label="Fermer"
-            className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-black/40 sm:bg-white/20 backdrop-blur-md p-2.5 rounded-full hover:bg-white/30 text-white transition-colors z-20 border border-white/30"
+            className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-black/40 sm:bg-white/20 md:backdrop-blur-md p-2.5 rounded-full hover:bg-white/30 text-white transition-colors z-20 border border-white/30"
           >
             <X size={20} aria-hidden="true" />
           </button>

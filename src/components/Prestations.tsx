@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { responsive } from '../utils/img';
+import { m as motion, AnimatePresence } from 'motion/react';
 import { Euro, Calendar, Sun, Sparkles, Ship, Map, ChevronRight, Clock, MapPin, ChevronDown, X, ChevronLeft } from 'lucide-react';
 import { getCircuits, getBoats } from '../services/api';
 import useModal from '../hooks/useModal';
+import useSwipe from '../hooks/useSwipe';
 import { useSettings } from '../context/SettingsContext';
 import { formatPrice } from '../utils/price';
 import { Circuit, Boat } from '../types';
@@ -73,6 +75,7 @@ export default function Prestations() {
   };
 
   const lightboxRef = useModal<HTMLDivElement>(closeLightbox, isLightboxOpen);
+  const lightboxSwipe = useSwipe(() => nextImage(), () => prevImage());
 
   useEffect(() => {
     if (!isLightboxOpen) return;
@@ -97,11 +100,11 @@ export default function Prestations() {
   }, []);
 
   return (
-    <section id="prestations" className="py-24 px-6 bg-white text-marine-navy relative overflow-hidden">
+    <section id="prestations" className="py-16 md:py-24 px-4 sm:px-6 bg-white text-marine-navy relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-marine-cyan/5 blur-[120px] rounded-full"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-marine-blue/5 blur-[120px] rounded-full"></div>
+      <div className="hidden md:block pointer-events-none absolute -top-40 -right-40 w-96 h-96 bg-marine-cyan/5 blur-[120px] rounded-full"></div>
+      <div className="hidden md:block pointer-events-none absolute -bottom-40 -left-40 w-96 h-96 bg-marine-blue/5 blur-[120px] rounded-full"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12 md:mb-16">
@@ -253,7 +256,7 @@ export default function Prestations() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.5 }}
-                                src={displayImage} 
+                                {...responsive(displayImage, [640, 828, 1080, 1600], '(min-width: 1280px) 1280px, 100vw')}
                                 alt={`${circuit.name} – excursion en bateau au départ de Bonifacio`}
                                 loading={i === 0 ? 'eager' : 'lazy'}
                                 decoding="async"
@@ -273,14 +276,14 @@ export default function Prestations() {
                                   : [circuit.image];
                                 openLightbox(images);
                               }}
-                              className="absolute top-6 right-6 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/40 text-white font-bold uppercase tracking-widest text-[11px]"
+                              className="absolute top-6 right-6 z-10 bg-white/20 hover:bg-white/30 md:backdrop-blur-md px-4 py-2 rounded-full border border-white/40 text-white font-bold uppercase tracking-widest text-[11px]"
                               aria-label={`Voir les photos : ${circuit.name}`}
                             >
                               Voir les photos
                             </button>
                             
                             <div className="absolute top-6 left-6 flex flex-col gap-2">
-                               <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                               <div className="px-4 py-2 bg-white/20 md:backdrop-blur-md rounded-full border border-white/30 text-white text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
                                  <Ship size={12} aria-hidden="true" /> Prestige 42 Flybridge
                                </div>
                             </div>
@@ -293,7 +296,7 @@ export default function Prestations() {
                                   </div>
                                   <h3 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h3>
                                 </div>
-                                <div className="bg-white/10 backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border border-white/20 self-start md:self-auto">
+                                <div className="bg-white/10 md:backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl border border-white/20 self-start md:self-auto">
                                   <span className="text-marine-mist text-[11px] md:text-xs font-bold uppercase tracking-widest block mb-0.5 md:mb-1">
                                     Tarification
                                   </span>
@@ -306,12 +309,12 @@ export default function Prestations() {
                           </div>
 
                       {/* Content Body */}
-                      <div className="p-6 sm:p-8 md:p-12 bg-white">
+                      <div className="p-5 sm:p-8 md:p-12 bg-white">
                         <p className="text-marine-navy/70 font-light mb-8 md:mb-12 leading-relaxed text-base md:text-lg max-w-4xl">
                           {circuit.longDescription}
                         </p>
 
-                        <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
+                        <div className="grid lg:grid-cols-3 gap-8 md:gap-12 [&>*]:min-w-0">
                           <div className="lg:col-span-1 space-y-6 md:space-y-8">
                             <div className="space-y-4 md:space-y-6">
                               <h4 className="text-[11px] md:text-sm uppercase tracking-[0.2em] text-marine-blue font-bold flex items-center gap-2">
@@ -367,7 +370,7 @@ export default function Prestations() {
                               aria-expanded={!!expandedItineraries[circuit.id]}
                               aria-controls={`itineraire-${circuit.id}`}
                               onClick={() => toggleItinerary(circuit.id)}
-                              className={`w-full flex items-center justify-between p-5 rounded-2xl border transition-all duration-500 group/btn ${
+                              className={`w-full flex items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl border transition-all duration-500 group/btn ${
                                 expandedItineraries[circuit.id] 
                                   ? 'bg-marine-blue text-white border-marine-blue shadow-xl shadow-marine-blue/20' 
                                   : 'bg-white border-gray-100 hover:border-marine-blue hover:bg-marine-blue/5 shadow-sm'
@@ -503,7 +506,7 @@ export default function Prestations() {
           <button 
             onClick={closeLightbox}
             aria-label="Fermer la vue agrandie"
-            className="absolute top-4 sm:top-6 right-4 sm:right-6 text-white/80 hover:text-white transition-colors p-2.5 bg-white/10 rounded-full backdrop-blur-md z-20"
+            className="absolute top-4 sm:top-6 right-4 sm:right-6 text-white/80 hover:text-white transition-colors p-2.5 bg-white/10 rounded-full md:backdrop-blur-md z-20"
           >
             <X size={26} aria-hidden="true" />
           </button>
@@ -514,14 +517,14 @@ export default function Prestations() {
               <button 
                 onClick={prevImage}
                 aria-label="Photo précédente"
-                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full backdrop-blur-md z-20 active:scale-95 transition-all"
+                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full md:backdrop-blur-md z-20 active:scale-95 transition-all"
               >
                 <ChevronLeft size={28} aria-hidden="true" />
               </button>
               <button 
                 onClick={nextImage}
                 aria-label="Photo suivante"
-                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full backdrop-blur-md z-20 active:scale-95 transition-all"
+                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white bg-black/40 sm:bg-white/10 hover:bg-white/20 p-2.5 sm:p-4 rounded-full md:backdrop-blur-md z-20 active:scale-95 transition-all"
               >
                 <ChevronRight size={28} aria-hidden="true" />
               </button>
@@ -529,14 +532,14 @@ export default function Prestations() {
           )}
 
           {/* Main Image */}
-          <div className="max-w-5xl w-full max-h-[85vh] relative flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-5xl w-full max-h-[85vh] relative flex items-center justify-center touch-pan-y" onClick={(e) => e.stopPropagation()} {...lightboxSwipe}>
             <motion.img
               key={currentImageIndex}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              src={lightboxImages[currentImageIndex]}
+              {...responsive(lightboxImages[currentImageIndex], [828, 1080, 1600, 1920], '100vw')}
               alt={`Photo ${currentImageIndex + 1} sur ${lightboxImages.length}`}
               className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
               referrerPolicy="no-referrer"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { responsive } from '../utils/img';
+import { m as motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { getHero, DEFAULT_HERO } from '../services/api';
@@ -26,11 +27,11 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] md:h-screen w-full flex items-center justify-center overflow-hidden pt-28 pb-16 md:py-0">
+    <section className="relative min-h-[88svh] md:min-h-0 md:h-[100svh] md:max-h-[1100px] w-full flex items-center justify-center overflow-hidden pt-28 pb-16 md:py-0">
       {/* Background Video/Image */}
       <div className="absolute inset-0 z-0 bg-marine-navy">
         <img
-          src={heroData.image}
+          {...responsive(heroData.image, [640, 828, 1080, 1280, 1600], '100vw')}
           alt="Le Prestige 42 Flybridge de Croisières des Îles en mer au large de Bonifacio"
           className="w-full h-full object-cover"
           loading="eager"
@@ -46,7 +47,7 @@ export default function Hero() {
           initial={{ opacity: 0.001, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="glass-dark p-6 sm:p-8 md:p-10 rounded-[1.5rem] md:rounded-[2rem] border border-white/15 backdrop-blur-xl mx-auto shadow-2xl"
+          className="glass-dark p-6 sm:p-8 md:p-10 rounded-[1.5rem] md:rounded-[2rem] border border-white/15 md:backdrop-blur-xl mx-auto shadow-2xl"
         >
           <h1
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 tracking-tight text-white leading-tight"
@@ -103,8 +104,8 @@ export default function Hero() {
       </motion.button>
 
       {/* Decorative Glows */}
-      <div aria-hidden="true" className="absolute top-1/4 -left-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-cyan/20 blur-[120px] rounded-full pointer-events-none"></div>
-      <div aria-hidden="true" className="absolute bottom-1/4 -right-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div aria-hidden="true" className="hidden md:block pointer-events-none absolute top-1/4 -left-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-cyan/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div aria-hidden="true" className="hidden md:block pointer-events-none absolute bottom-1/4 -right-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
     </section>
   );
 }

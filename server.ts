@@ -7,6 +7,7 @@ import compression from "compression";
 import crypto from "crypto";
 import { PAGES, NOT_FOUND_META, getPageMeta, buildHeadHtml } from "./src/seo.ts";
 import { DEFAULT_SETTINGS, mergeSettings } from "./src/data/defaultSettings.ts";
+import { IMAGE_WIDTHS, REMOTE_IMAGE_PREFIX, srcSet } from "./src/utils/img.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -471,6 +472,64 @@ async function startServer() {
   // Legacy URL kept as a permanent redirect (was a duplicate sitemap)
   app.get("/site.xml", (req, res) => res.redirect(301, "/sitemap.xml"));
 
+  // ---------- Responsive images: /img?src=…&w=… → resized WebP, cached on disk ----------
+  const IMG_CACHE_DIR = path.join(process.cwd(), ".cache", "img");
+  fs.mkdirSync(IMG_CACHE_DIR, { recursive: true });
+  const inFlight = new Map<string, Promise<Buffer>>();
+  let sharpModule: any = null;
+  const getSharp = async () => (sharpModule ??= (await import("sharp")).default);
+
+  const loadSource = async (src: string): Promise<Buffer> => {
+    if (src.startsWith("/images/")) {
+      const file = path.join(PUBLIC_DIR, decodeURIComponent(src));
+      if (!file.startsWith(path.join(PUBLIC_DIR, "images") + path.sep)) throw new Error("forbidden");
+      return fs.promises.readFile(file);
+    }
+    const response = await fetch(src, { signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const buf = Buffer.from(await response.arrayBuffer());
+    if (buf.length > 30 * 1024 * 1024) throw new Error("too large");
+    return buf;
+  };
+
+  app.get("/img", async (req, res) => {
+    const src = typeof req.query.src === "string" ? req.query.src : "";
+    const requested = Number(req.query.w) || 1080;
+    const width = IMAGE_WIDTHS.find(w => w >= requested) ?? IMAGE_WIDTHS[IMAGE_WIDTHS.length - 1];
+    if (!(src.startsWith("/images/") || src.startsWith(REMOTE_IMAGE_PREFIX)) || src.includes("..")) {
+      return res.status(400).send("Image non autorisée");
+    }
+    const key = crypto.createHash("sha1").update(`${src}|${width}`).digest("hex");
+    const cached = path.join(IMG_CACHE_DIR, `${key}.webp`);
+    const send = (buf: Buffer) => {
+      res.setHeader("Content-Type", "image/webp");
+      res.setHeader("Cache-Control", "public, max-age=2592000, stale-while-revalidate=86400");
+      res.end(buf);
+    };
+    try {
+      if (fs.existsSync(cached)) return send(await fs.promises.readFile(cached));
+      let job = inFlight.get(key);
+      if (!job) {
+        job = (async () => {
+          const sharp = await getSharp();
+          const input = await loadSource(src);
+          const out: Buffer = await sharp(input, { failOn: "none" })
+            .rotate()
+            .resize({ width, withoutEnlargement: true })
+            .webp({ quality: 72, effort: 4 })
+            .toBuffer();
+          await fs.promises.writeFile(cached, out);
+          return out;
+        })().finally(() => inFlight.delete(key));
+        inFlight.set(key, job);
+      }
+      send(await job);
+    } catch (error) {
+      console.warn("[img] optimisation impossible, image d'origine utilisée :", src, (error as Error).message);
+      res.redirect(302, src);
+    }
+  });
+
   // Static assets in /public (uploaded images…)
   app.use(express.static(PUBLIC_DIR, { maxAge: "7d", index: false }));
 
@@ -653,10 +712,18 @@ async function startServer() {
   const renderPage = (template: string, req: express.Request) => {
     const settings = getSettings();
     const meta = getPageMeta(req.path, settings.seo);
-    const html = template.replace(
-      SEO_BLOCK,
-      buildHeadHtml(meta ?? NOT_FOUND_META, getOrigin(req), req.path, settings)
-    );
+    const head = buildHeadHtml(meta ?? NOT_FOUND_META, getOrigin(req), req.path, settings);
+    let preload = "";
+    if (req.path === "/") {
+      // Start downloading the hero photo immediately (main image of the page = LCP)
+      const hero = readCached(HERO_FILE, () => cachedHero, v => (cachedHero = v));
+      const set = hero?.image ? srcSet(hero.image, [640, 828, 1080, 1280, 1600]) : undefined;
+      if (set) {
+        preload = `    <link rel="preload" as="image" imagesrcset="${set.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}" imagesizes="100vw" />`;
+      }
+    }
+    // Image preload goes after the CSS/JS so it doesn't slow down the first paint
+    const html = template.replace(SEO_BLOCK, head).replace("</head>", `${preload}\n  </head>`);
     return { html, status: meta ? 200 : 404 };
   };
 

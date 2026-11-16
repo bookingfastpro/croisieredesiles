@@ -3,6 +3,7 @@ import {
   ArrowDown, ArrowUp, Check, Image as ImageIcon, Link2, Loader2, Plus, Trash2, Upload, X,
 } from 'lucide-react';
 import { uploadImage } from '../services/api';
+import { optimized } from '../utils/img';
 
 /* ------------------------------------------------------------------ */
 /* Layout helpers                                                       */
@@ -235,7 +236,7 @@ export function Thumb({ src, alt = '', className = '' }: { src?: string; alt?: s
       </div>
     );
   }
-  return <img src={src} alt={alt} loading="lazy" referrerPolicy="no-referrer" onError={() => setFailed(true)} className={`object-cover bg-slate-100 ${className}`} />;
+  return <img src={optimized(src, 480)} alt={alt} loading="lazy" referrerPolicy="no-referrer" onError={() => setFailed(true)} className={`object-cover bg-slate-100 ${className}`} />;
 }
 
 /** Single image: preview + library + upload + manual URL. */

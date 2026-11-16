@@ -28,12 +28,19 @@
     box-shadow: 0 8px 32px 0 rgba(2, 12, 27, 0.05);
   }
 
+  /* No backdrop blur on phones: it is very costly to render while scrolling */
   .glass-dark {
-    background: rgba(10, 25, 47, 0.55);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10, 25, 47, 0.68);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 12px 60px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  @media (min-width: 768px) {
+    .glass-dark {
+      background: rgba(10, 25, 47, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
   }
 
   .glass-blue {
@@ -58,10 +65,20 @@
   }
 }
 
+html,
+body {
+  /* "clip" (unlike "hidden") also stops mobile browsers from widening/zooming the page
+     when an element is temporarily off-screen (slide-in animations) */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--color-marine-pearl);
   color: var(--color-marine-ink);
-  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 180, 216, 0.15);
 }
 
 /* Custom scrollbar */

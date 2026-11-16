@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { responsive } from '../utils/img';
+import { m as motion } from 'motion/react';
 import { Clock, Tag, ArrowRight } from 'lucide-react';
 import { formatPrice } from '../utils/price';
 import { Circuit } from '../types';
@@ -33,7 +34,7 @@ export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          src={imgSrc} 
+          {...responsive(imgSrc, [480, 640, 828], '(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw')}
           alt={`${circuit.name} – excursion en bateau privé`}
           loading="lazy"
           decoding="async"
@@ -44,7 +45,7 @@ export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige'
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-marine-ink/60 via-transparent to-transparent opacity-70"></div>
         
         {/* Price Tag */}
-        <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-marine-blue/10 shadow-md">
+        <div className="absolute top-4 right-4 bg-white/95 md:backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-marine-blue/10 shadow-md">
            <Tag size={13} aria-hidden="true" className="text-marine-blue" />
            <span className="text-xs sm:text-sm font-bold text-marine-navy">
              {formatPrice(circuit)}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { X, Lock, AlertCircle } from 'lucide-react';
 import { login } from '../services/api';
 import useModal from '../hooks/useModal';
@@ -42,7 +42,7 @@ export default function Login({ onClose, onSuccess }: Props) {
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[120] flex items-center justify-center p-4"
     >
-      <div className="absolute inset-0 bg-marine-ink/90 backdrop-blur-xl" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-marine-ink/90 md:backdrop-blur-xl" onClick={onClose}></div>
 
       <motion.div
         ref={dialogRef}

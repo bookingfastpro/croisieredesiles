@@ -1,9 +1,10 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, MotionConfig } from 'motion/react';
+import { m as motion, AnimatePresence, MotionConfig, LazyMotion, domAnimation } from 'motion/react';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
+import MobileCtaBar from './components/MobileCtaBar';
 import Home from './pages/Home';
 import { getCircuits, checkSession, logout } from './services/api';
 import usePageMeta from './hooks/usePageMeta';
@@ -80,7 +81,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans selection:bg-marine-turquoise selection:text-white">
+    <div className="min-h-screen bg-white font-sans overflow-x-clip selection:bg-marine-turquoise selection:text-white">
       <a
         href="#contenu"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:px-4 focus:py-2 focus:bg-marine-navy focus:text-white focus:rounded-lg focus:font-bold"
@@ -106,10 +107,11 @@ function AppContent() {
       </main>
 
       <Footer />
+      {!isAdminOpen && <MobileCtaBar />}
 
       {/* Admin controls: only visible once logged in */}
       {isAuthenticated && (
-        <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-4">
+        <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-40 flex flex-col gap-4">
           <motion.button
             initial={{ opacity: 0, scale: 0.8, x: 20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -163,20 +165,22 @@ function AppContent() {
       </Suspense>
 
       {/* Global Background Texture */}
-      <div aria-hidden="true" className="fixed inset-0 pointer-events-none z-[-1] opacity-5 bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
+      <div aria-hidden="true" className="hidden md:block fixed inset-0 pointer-events-none z-[-1] opacity-5 bg-[radial-gradient(#0a192f_1px,transparent_1px)] [background-size:24px_24px]"></div>
     </div>
   );
 }
 
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
-      <SettingsProvider>
-        <Router>
-          <ScrollToTop />
-          <AppContent />
-        </Router>
-      </SettingsProvider>
-    </MotionConfig>
+    <LazyMotion features={domAnimation}>
+      <MotionConfig reducedMotion="user">
+        <SettingsProvider>
+          <Router>
+            <ScrollToTop />
+            <AppContent />
+          </Router>
+        </SettingsProvider>
+      </MotionConfig>
+    </LazyMotion>
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { responsive } from '../utils/img';
+import useSwipe from '../hooks/useSwipe';
+import { m as motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Wind, Users, Bed, Coffee, Tv, ShowerHead, Thermometer, Anchor, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { getBoats } from '../services/api';
@@ -24,24 +26,20 @@ const iconMap: Record<string, React.ReactNode> = {
 function BoatGallery({ images, name }: { images: string[], name: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const next = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+  const goNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const goPrev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  const next = (e: React.MouseEvent) => { e.stopPropagation(); goNext(); };
+  const prev = (e: React.MouseEvent) => { e.stopPropagation(); goPrev(); };
+  const swipe = useSwipe(goNext, goPrev);
 
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative group/gallery h-full select-none">
+    <div className="relative group/gallery h-full select-none touch-pan-y" {...swipe}>
       <AnimatePresence mode="wait">
         <motion.img
           key={currentIndex}
-          src={images[currentIndex]}
+          {...responsive(images[currentIndex], [640, 828, 1080, 1600], '(min-width: 1024px) 640px, 100vw')}
           alt={`${name} - Vue ${currentIndex + 1}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -61,19 +59,19 @@ function BoatGallery({ images, name }: { images: string[], name: string }) {
           <button 
             onClick={prev}
             aria-label="Image précédente"
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
+            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-black/40 sm:bg-white/10 md:backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
           <button 
             onClick={next}
             aria-label="Image suivante"
-            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
+            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-2.5 bg-black/40 sm:bg-white/10 md:backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
             <ChevronRight size={20} aria-hidden="true" />
           </button>
           
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-0.5 z-10">
+          <div className="hidden sm:flex absolute bottom-3 left-1/2 -translate-x-1/2 gap-0.5 z-10">
             {images.map((_, i) => (
               <button
                 key={i}
@@ -89,7 +87,7 @@ function BoatGallery({ images, name }: { images: string[], name: string }) {
         </>
       )}
 
-      <div aria-live="polite" className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 bg-marine-blue/90 backdrop-blur-md rounded-full text-[11px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-md">
+      <div aria-live="polite" className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 bg-marine-blue/90 md:backdrop-blur-md rounded-full text-[11px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-md">
         <Search size={11} aria-hidden="true" /> Photo {currentIndex + 1} / {images.length}
       </div>
     </div>
@@ -117,13 +115,13 @@ export default function Boats() {
   }, []);
 
   return (
-    <section id="boats" className="py-24 px-6 bg-marine-pearl">
+    <section id="boats" className="py-14 md:py-24 px-5 sm:px-6 bg-marine-pearl">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/5 border border-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-4">
             <Anchor size={14} aria-hidden="true" /> Notre Flotte
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Notre bateau avec skipper à Bonifacio</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Notre bateau avec skipper à Bonifacio</h1>
           <p className="text-marine-navy/70 max-w-2xl mx-auto font-light">
             Découvrez nos unités de prestige, entretenues avec le plus grand soin pour vous garantir confort, sécurité et élégance. 
           </p>
@@ -141,8 +139,8 @@ export default function Boats() {
                 <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video border border-marine-blue/5">
                   <BoatGallery images={boat.images || [boat.image]} name={boat.name} />
                   
-                  <div className="absolute bottom-12 left-6 md:left-8 pointer-events-none">
-                    <h2 className="text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg">{boat.name}</h2>
+                  <div className="absolute bottom-5 sm:bottom-12 left-5 md:left-8 right-5 pointer-events-none">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg">{boat.name}</h2>
                   </div>
                 </div>
               </motion.div>
