@@ -84,6 +84,27 @@ export const login = async (password: string): Promise<{ success: boolean; token
   return data;
 };
 
+export const checkSession = async (): Promise<boolean> => {
+  const token = localStorage.getItem("admin_token");
+  if (!token) return false;
+  try {
+    const response = await fetch("/api/session", { headers: { "x-admin-token": token } });
+    const data = await response.json();
+    if (!data.valid) localStorage.removeItem("admin_token");
+    return Boolean(data.valid);
+  } catch {
+    return false;
+  }
+};
+
+export const logout = async (): Promise<void> => {
+  const token = localStorage.getItem("admin_token");
+  localStorage.removeItem("admin_token");
+  if (token) {
+    await fetch("/api/logout", { method: "POST", headers: { "x-admin-token": token } }).catch(() => {});
+  }
+};
+
 const getAuthHeaders = () => {
   const token = localStorage.getItem("admin_token");
   return {
@@ -131,14 +152,14 @@ export const getCircuits = async (): Promise<Circuit[]> => {
 };
 
 export const saveCircuits = async (circuits: Circuit[]): Promise<void> => {
-  memoryCache.circuits = circuits;
-  setStorageItem("cache_circuits", circuits);
   const response = await fetch("/api/circuits", {
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(circuits),
   });
-  if (!response.ok) throw new Error("Unauthorized");
+  if (!response.ok) throw new Error(response.status === 401 ? "Unauthorized" : "Save failed");
+  memoryCache.circuits = circuits;
+  setStorageItem("cache_circuits", circuits);
 };
 
 export const getHero = async (): Promise<HeroData> => {
@@ -178,14 +199,14 @@ export const getHero = async (): Promise<HeroData> => {
 };
 
 export const saveHero = async (hero: HeroData): Promise<void> => {
-  memoryCache.hero = hero;
-  setStorageItem("cache_hero", hero);
   const response = await fetch("/api/hero", {
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(hero),
   });
-  if (!response.ok) throw new Error("Unauthorized");
+  if (!response.ok) throw new Error(response.status === 401 ? "Unauthorized" : "Save failed");
+  memoryCache.hero = hero;
+  setStorageItem("cache_hero", hero);
 };
 
 export const getBoats = async (): Promise<Boat[]> => {
@@ -225,14 +246,14 @@ export const getBoats = async (): Promise<Boat[]> => {
 };
 
 export const saveBoats = async (boats: Boat[]): Promise<void> => {
-  memoryCache.boats = boats;
-  setStorageItem("cache_boats", boats);
   const response = await fetch("/api/boats", {
     method: "POST",
     headers: getAuthHeaders(),
     body: JSON.stringify(boats),
   });
-  if (!response.ok) throw new Error("Unauthorized");
+  if (!response.ok) throw new Error(response.status === 401 ? "Unauthorized" : "Save failed");
+  memoryCache.boats = boats;
+  setStorageItem("cache_boats", boats);
 };
 
 export const getImages = async (): Promise<string[]> => {

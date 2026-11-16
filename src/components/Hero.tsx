@@ -28,13 +28,13 @@ export default function Hero() {
   return (
     <section className="relative min-h-[90vh] md:h-screen w-full flex items-center justify-center overflow-hidden pt-28 pb-16 md:py-0">
       {/* Background Video/Image */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={heroData.image} 
-          alt="Croisière des îles Bonifacio en mer" 
+      <div className="absolute inset-0 z-0 bg-marine-navy">
+        <img
+          src={heroData.image}
+          alt="Le Prestige 42 Flybridge de Croisière des Îles en mer au large de Bonifacio"
           className="w-full h-full object-cover"
           loading="eager"
-          decoding="async"
+          fetchPriority="high"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-marine-navy/40 via-marine-blue/20 to-marine-ink/70"></div>
@@ -43,33 +43,30 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl w-full">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0.001, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.5 }}
           className="glass-dark p-6 sm:p-8 md:p-10 rounded-[1.5rem] md:rounded-[2rem] border border-white/15 backdrop-blur-xl mx-auto shadow-2xl"
         >
-          <motion.h1 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+          <h1
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 tracking-tight text-white leading-tight"
           >
+            <span className="block text-xs sm:text-sm font-sans font-semibold uppercase tracking-[0.2em] text-marine-mist mb-3">
+              Excursions en bateau privé · Bonifacio
+            </span>{' '}
             {heroData.title.split('\n').map((line, i) => (
               <React.Fragment key={i}>
                 {line}
                 {i < heroData.title.split('\n').length - 1 && <br />}
               </React.Fragment>
             ))}
-          </motion.h1>
+          </h1>
           
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+          <p
             className="text-sm sm:text-base md:text-lg text-white/85 mb-6 md:mb-8 max-w-2xl mx-auto font-light leading-relaxed"
           >
             {heroData.subtitle}
-          </motion.p>
+          </p>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -85,7 +82,7 @@ export default function Hero() {
             </a>
             <Link 
               to="/contact"
-              className="px-6 md:px-8 py-3 glass hover:bg-white/10 text-white rounded-full font-bold transition-all border border-white/20 text-sm sm:text-base text-center"
+              className="px-6 md:px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full font-bold transition-all border border-white/50 text-sm sm:text-base text-center"
             >
               Nous contacter
             </Link>
@@ -94,19 +91,20 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <motion.button
+        type="button"
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
-        className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-white/60 hover:text-white cursor-pointer transition-colors"
+        className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-white/80 hover:text-white cursor-pointer transition-colors p-2 rounded-full"
         onClick={() => document.getElementById('circuits')?.scrollIntoView({ behavior: 'smooth' })}
-        aria-label="Faire défiler vers le bas"
+        aria-label="Voir les circuits"
       >
-        <ChevronDown size={32} />
-      </motion.div>
+        <ChevronDown size={32} aria-hidden="true" />
+      </motion.button>
 
       {/* Decorative Glows */}
-      <div className="absolute top-1/4 -left-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-cyan/20 blur-[120px] rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-1/4 -right-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div aria-hidden="true" className="absolute top-1/4 -left-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-cyan/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div aria-hidden="true" className="absolute bottom-1/4 -right-20 w-72 sm:w-96 h-72 sm:h-96 bg-marine-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
     </section>
   );
 }

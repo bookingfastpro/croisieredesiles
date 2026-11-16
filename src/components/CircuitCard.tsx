@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Clock, Tag, ArrowRight } from 'lucide-react';
+import { formatPrice } from '../utils/price';
 import { Circuit } from '../types';
 
 interface Props {
@@ -33,20 +34,20 @@ export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige'
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
           src={imgSrc} 
-          alt={circuit.name} 
+          alt={`${circuit.name} – excursion en bateau privé`}
           loading="lazy"
           decoding="async"
           onError={() => setImgSrc(circuit.image || "https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2013.05.08.jpeg")}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-marine-ink/60 via-transparent to-transparent opacity-70"></div>
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-marine-ink/60 via-transparent to-transparent opacity-70"></div>
         
         {/* Price Tag */}
         <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-marine-blue/10 shadow-md">
-           <Tag size={13} className="text-marine-blue" />
+           <Tag size={13} aria-hidden="true" className="text-marine-blue" />
            <span className="text-xs sm:text-sm font-bold text-marine-navy">
-             {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur devis'}
+             {formatPrice(circuit)}
            </span>
         </div>
       </div>
@@ -55,7 +56,7 @@ export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige'
       <div className="p-6 flex flex-col flex-1 justify-between">
         <div>
           <div className="flex items-center gap-2 text-marine-blue mb-2.5">
-            <Clock size={15} />
+            <Clock size={15} aria-hidden="true" />
             <span className="text-xs font-bold uppercase tracking-widest">{circuit.duration}</span>
           </div>
           
@@ -68,26 +69,29 @@ export default function CircuitCard({ circuit, onView, selectedBoat = 'prestige'
           </p>
 
           {/* Locations list */}
-          <div className="flex flex-wrap gap-1.5 mb-6">
+          <ul className="flex flex-wrap gap-1.5 mb-6" aria-label="Lieux visités">
             {circuit.locations.slice(0, 4).map((location, i) => (
-              <span key={i} className="text-[10px] uppercase tracking-wider px-2.5 py-1 bg-marine-blue/5 rounded-full text-marine-blue font-semibold border border-marine-blue/10">
+              <li key={i} className="text-[11px] uppercase tracking-wider px-2.5 py-1 bg-marine-blue/5 rounded-full text-marine-blue font-semibold border border-marine-blue/10">
                 {location}
-              </span>
+              </li>
             ))}
             {circuit.locations.length > 4 && (
-              <span className="text-[10px] uppercase tracking-wider px-2 py-1 bg-marine-cyan/15 rounded-full text-marine-navy font-semibold border border-marine-cyan/25">
+              <li aria-label={`et ${circuit.locations.length - 4} autres lieux`} className="text-[11px] uppercase tracking-wider px-2 py-1 bg-marine-cyan/15 rounded-full text-marine-navy font-semibold border border-marine-cyan/25">
                 +{circuit.locations.length - 4}
-              </span>
+              </li>
             )}
-          </div>
+          </ul>
         </div>
 
-        <button 
+        <button
+          type="button"
           onClick={() => onView(circuit)}
+          aria-haspopup="dialog"
+          aria-label={`Découvrir le circuit ${circuit.name}`}
           className="w-full py-3 px-4 bg-marine-blue/5 hover:bg-marine-blue text-marine-blue hover:text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all border border-marine-blue/15 hover:border-marine-blue shadow-sm hover:shadow-lg hover:shadow-marine-blue/20 text-sm"
         >
           <span>Découvrir le circuit</span>
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          <ArrowRight size={16} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
     </motion.div>

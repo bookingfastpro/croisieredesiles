@@ -8,8 +8,20 @@ Ce projet est configuré pour être déployé facilement sur **Coolify** via Doc
 2. **Scripts** : Le script `npm start` est configuré pour lancer le serveur en mode production.
 3. **Variables d'environnement** : Assurez-vous de configurer les variables suivantes dans l'interface de Coolify :
    - `NODE_ENV=production`
-   - `ADMIN_PASSWORD` (votre mot de passe pour le panel admin)
-   - `GEMINI_API_KEY` (si utilisé)
+   - `ADMIN_PASSWORD` (**obligatoire** : mot de passe du panel admin ; sans lui l'administration est désactivée)
+   - `SITE_URL` (recommandé : adresse publique définitive, ex. `https://www.mondomaine.fr`, utilisée pour le référencement — canonical, sitemap, réseaux sociaux)
+
+## Administration
+
+Le bouton d'administration n'est plus visible par les visiteurs. Pour modifier le contenu, ouvrez
+`https://votre-site/admin`, saisissez le mot de passe : les boutons admin apparaissent alors en bas à droite.
+
+## Référencement
+
+- `robots.txt` et `sitemap.xml` sont générés automatiquement avec le bon domaine (via `SITE_URL`).
+- Chaque page reçoit son propre titre, sa description, sa balise canonical et ses balises Open Graph
+  directement dans le HTML renvoyé par le serveur (fichier `src/seo.ts`).
+- Pensez à déclarer `https://votre-site/sitemap.xml` dans Google Search Console.
 
 ## Étapes de déploiement
 

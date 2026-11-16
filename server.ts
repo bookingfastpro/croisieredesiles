@@ -4,6 +4,8 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import compression from "compression";
+import crypto from "crypto";
+import { PAGES, NOT_FOUND_META, getPageMeta, buildHeadHtml } from "./src/seo.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -341,119 +343,203 @@ if (!fs.existsSync(BOATS_FILE)) {
   fs.writeFileSync(BOATS_FILE, JSON.stringify(INITIAL_BOATS, null, 2));
 }
 
+const IS_PROD = process.env.NODE_ENV === "production";
+
+// Admin password: mandatory in production (no insecure "admin" default).
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || (IS_PROD ? "" : "admin");
+if (!ADMIN_PASSWORD) {
+  console.warn("[admin] ADMIN_PASSWORD n'est pas défini : le panel administrateur est désactivé.");
+}
+
+// Session tokens (random, never the password itself), valid 12h.
+const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+const sessions = new Map<string, number>();
+
+// Basic brute-force protection on the login route.
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_MAX_ATTEMPTS = 10;
+const loginAttempts = new Map<string, { count: number; first: number }>();
+
+function safeEqual(a: string, b: string): boolean {
+  const ha = crypto.createHash("sha256").update(a).digest();
+  const hb = crypto.createHash("sha256").update(b).digest();
+  return crypto.timingSafeEqual(ha, hb);
+}
+
+function isValidSession(token: unknown): boolean {
+  if (typeof token !== "string" || !token) return false;
+  const exp = sessions.get(token);
+  if (!exp) return false;
+  if (exp < Date.now()) {
+    sessions.delete(token);
+    return false;
+  }
+  return true;
+}
+
+function writeJson(file: string, data: unknown) {
+  // Atomic write: avoids a corrupted JSON file if the process stops mid-write.
+  const tmp = `${file}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.renameSync(tmp, file);
+}
+
+function getOrigin(req: express.Request): string {
+  const configured = process.env.SITE_URL || process.env.APP_URL;
+  if (configured && /^https?:\/\//.test(configured)) return configured.replace(/\/+$/, "");
+  return `${req.protocol}://${req.get("host")}`;
+}
+
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
+  app.disable("x-powered-by");
+  app.set("trust proxy", true); // behind Coolify / reverse proxy → correct https origin
+
+  // Security headers
+  app.use((req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+    if (IS_PROD) res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    next();
+  });
+
+  // Trailing slash → canonical URL without slash (avoids duplicate content)
+  app.use((req, res, next) => {
+    if ((req.method === "GET" || req.method === "HEAD") && req.path.length > 1 && req.path.endsWith("/")) {
+      const query = req.url.slice(req.path.length);
+      return res.redirect(301, req.path.replace(/\/+$/, "") + query);
+    }
+    next();
+  });
+
   // Enable HTTP response compression (gzip / deflate) for faster transfers
   app.use(compression());
-  app.use(express.json());
+  app.use(express.json({ limit: "2mb" }));
 
-  // Static assets caching in public directory
-  app.use(express.static(PUBLIC_DIR, {
-    maxAge: "1d",
-    setHeaders: (res, filePath) => {
-      if (filePath.endsWith(".xml") || filePath.endsWith(".txt")) {
-        res.setHeader("Cache-Control", "public, max-age=3600");
-      } else {
-        res.setHeader("Cache-Control", "public, max-age=86400");
-      }
-    }
-  }));
-
-  // Explicit SEO sitemap and robots routes with correct headers
-  app.get(["/sitemap.xml", "/site.xml"], (req, res) => {
-    const sitemapPath = path.join(PUBLIC_DIR, "sitemap.xml");
-    if (fs.existsSync(sitemapPath)) {
-      res.setHeader("Content-Type", "application/xml; charset=utf-8");
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      return res.sendFile(sitemapPath);
-    }
-    res.status(404).send("Sitemap not found");
-  });
-
+  // ---------- SEO: robots.txt & sitemap.xml (generated with the real domain) ----------
   app.get("/robots.txt", (req, res) => {
-    const robotsPath = path.join(PUBLIC_DIR, "robots.txt");
-    if (fs.existsSync(robotsPath)) {
-      res.setHeader("Content-Type", "text/plain; charset=utf-8");
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      return res.sendFile(robotsPath);
-    }
-    res.status(404).send("Robots.txt not found");
+    const origin = getOrigin(req);
+    res.type("text/plain; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\n\nSitemap: ${origin}/sitemap.xml\n`);
   });
-  
+
+  const sitemapHandler = (req: express.Request, res: express.Response) => {
+    const origin = getOrigin(req);
+    // Last real content change: data files edited from the admin panel, or the last build
+    const sources = [DATA_FILE, HERO_FILE, BOATS_FILE, path.join(process.cwd(), "dist", "index.html")];
+    const lastChange = Math.max(...sources.map(f => (fs.existsSync(f) ? fs.statSync(f).mtimeMs : 0)));
+    const lastmod = new Date(lastChange || Date.now()).toISOString().slice(0, 10);
+    const urls = Object.entries(PAGES)
+      .filter(([, meta]) => meta.sitemap && !meta.noindex)
+      .map(([p, meta]) => {
+        const img = meta.image
+          ? `\n    <image:image>\n      <image:loc>${meta.image.replace(/&/g, "&amp;")}</image:loc>\n    </image:image>`
+          : "";
+        return `  <url>\n    <loc>${origin}${p}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${meta.sitemap!.changefreq}</changefreq>\n    <priority>${meta.sitemap!.priority}</priority>${img}\n  </url>`;
+      })
+      .join("\n");
+    res.type("application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls}\n</urlset>\n`
+    );
+  };
+  app.get("/sitemap.xml", sitemapHandler);
+  // Legacy URL kept as a permanent redirect (was a duplicate sitemap)
+  app.get("/site.xml", (req, res) => res.redirect(301, "/sitemap.xml"));
+
+  // Static assets in /public (uploaded images…)
+  app.use(express.static(PUBLIC_DIR, { maxAge: "7d", index: false }));
+
   // Health check route
   app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", env: process.env.NODE_ENV, port: PORT });
+    res.json({ status: "ok" });
   });
 
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin";
-
-  // Simple authentication middleware
   const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const token = req.headers["x-admin-token"];
-    if (token === ADMIN_PASSWORD) {
-      next();
-    } else {
-      res.status(401).json({ error: "Unauthorized" });
-    }
+    if (isValidSession(req.headers["x-admin-token"])) return next();
+    res.status(401).json({ error: "Unauthorized" });
   };
 
-  // API Routes with caching & stale-while-revalidate headers
   app.post("/api/login", (req, res) => {
-    const { password } = req.body;
-    if (password === ADMIN_PASSWORD) {
-      res.json({ success: true, token: ADMIN_PASSWORD });
-    } else {
-      res.status(401).json({ success: false, error: "Mot de passe incorrect" });
+    if (!ADMIN_PASSWORD) {
+      return res.status(503).json({ success: false, error: "Administration désactivée (ADMIN_PASSWORD manquant)" });
     }
+    const ip = req.ip || "unknown";
+    const now = Date.now();
+    const entry = loginAttempts.get(ip);
+    if (entry && now - entry.first < LOGIN_WINDOW_MS && entry.count >= LOGIN_MAX_ATTEMPTS) {
+      return res.status(429).json({ success: false, error: "Trop de tentatives, réessayez dans 15 minutes" });
+    }
+    const password = typeof req.body?.password === "string" ? req.body.password : "";
+    if (password && safeEqual(password, ADMIN_PASSWORD)) {
+      loginAttempts.delete(ip);
+      const token = crypto.randomBytes(32).toString("hex");
+      sessions.set(token, now + SESSION_TTL_MS);
+      return res.json({ success: true, token });
+    }
+    if (!entry || now - entry.first >= LOGIN_WINDOW_MS) loginAttempts.set(ip, { count: 1, first: now });
+    else entry.count++;
+    res.status(401).json({ success: false, error: "Mot de passe incorrect" });
   });
+
+  app.get("/api/session", (req, res) => {
+    res.setHeader("Cache-Control", "no-store");
+    res.json({ valid: isValidSession(req.headers["x-admin-token"]) });
+  });
+
+  app.post("/api/logout", (req, res) => {
+    const token = req.headers["x-admin-token"];
+    if (typeof token === "string") sessions.delete(token);
+    res.json({ success: true });
+  });
+
+  const readCached = (file: string, get: () => any, set: (v: any) => void) => {
+    if (!get()) set(JSON.parse(fs.readFileSync(file, "utf-8")));
+    return get();
+  };
 
   app.get("/api/circuits", (req, res) => {
     res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
-    if (!cachedCircuits) {
-      const data = fs.readFileSync(DATA_FILE, "utf-8");
-      cachedCircuits = JSON.parse(data);
-    }
-    res.json(cachedCircuits);
+    res.json(readCached(DATA_FILE, () => cachedCircuits, v => (cachedCircuits = v)));
   });
 
   app.post("/api/circuits", authenticate, (req, res) => {
-    const newCircuits = req.body;
-    cachedCircuits = newCircuits;
-    fs.writeFileSync(DATA_FILE, JSON.stringify(newCircuits, null, 2));
+    if (!Array.isArray(req.body)) return res.status(400).json({ error: "Format invalide" });
+    cachedCircuits = req.body;
+    writeJson(DATA_FILE, req.body);
     res.json({ success: true });
   });
 
   app.get("/api/hero", (req, res) => {
     res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
-    if (!cachedHero) {
-      const data = fs.readFileSync(HERO_FILE, "utf-8");
-      cachedHero = JSON.parse(data);
-    }
-    res.json(cachedHero);
+    res.json(readCached(HERO_FILE, () => cachedHero, v => (cachedHero = v)));
   });
 
   app.post("/api/hero", authenticate, (req, res) => {
-    const newHero = req.body;
-    cachedHero = newHero;
-    fs.writeFileSync(HERO_FILE, JSON.stringify(newHero, null, 2));
+    const body = req.body;
+    if (!body || typeof body !== "object" || Array.isArray(body) || typeof body.title !== "string") {
+      return res.status(400).json({ error: "Format invalide" });
+    }
+    cachedHero = body;
+    writeJson(HERO_FILE, body);
     res.json({ success: true });
   });
 
   app.get("/api/boats", (req, res) => {
     res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=120");
-    if (!cachedBoats) {
-      const data = fs.readFileSync(BOATS_FILE, "utf-8");
-      cachedBoats = JSON.parse(data);
-    }
-    res.json(cachedBoats);
+    res.json(readCached(BOATS_FILE, () => cachedBoats, v => (cachedBoats = v)));
   });
 
   app.post("/api/boats", authenticate, (req, res) => {
-    const newBoats = req.body;
-    cachedBoats = newBoats;
-    fs.writeFileSync(BOATS_FILE, JSON.stringify(newBoats, null, 2));
+    if (!Array.isArray(req.body)) return res.status(400).json({ error: "Format invalide" });
+    cachedBoats = req.body;
+    writeJson(BOATS_FILE, req.body);
     res.json({ success: true });
   });
 
@@ -479,19 +565,49 @@ async function startServer() {
     }
   });
 
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
+  app.use("/api", (req, res) => res.status(404).json({ error: "Not found" }));
+
+  // Inject per-page <title>, description, canonical, Open Graph & JSON-LD
+  const SEO_BLOCK = /<!--seo:start-->[\s\S]*?<!--seo:end-->/;
+  const renderPage = (template: string, req: express.Request) => {
+    const meta = getPageMeta(req.path);
+    const html = template.replace(SEO_BLOCK, buildHeadHtml(meta ?? NOT_FOUND_META, getOrigin(req), req.path));
+    return { html, status: meta ? 200 : 404 };
+  };
+
+  if (!IS_PROD) {
+    // Vite middleware for development
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      appType: "spa",
+      appType: "custom",
     });
     app.use(vite.middlewares);
+    app.get("*", async (req, res, next) => {
+      try {
+        if (path.extname(req.path)) return res.status(404).end();
+        const raw = fs.readFileSync(path.join(process.cwd(), "index.html"), "utf-8");
+        const template = await vite.transformIndexHtml(req.originalUrl, raw);
+        const { html, status } = renderPage(template, req);
+        res.status(status).type("html").send(html);
+      } catch (e) {
+        next(e);
+      }
+    });
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    // Hashed build assets never change → cache for one year
+    app.use(
+      "/assets",
+      express.static(path.join(distPath, "assets"), { immutable: true, maxAge: "1y", fallthrough: false })
+    );
+    app.use(express.static(distPath, { index: false, maxAge: "7d" }));
+    const template = fs.readFileSync(path.join(distPath, "index.html"), "utf-8");
     app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+      if (path.extname(req.path)) return res.status(404).type("text/plain").send("Not found");
+      const { html, status } = renderPage(template, req);
+      res.setHeader("Cache-Control", "no-cache");
+      res.status(status).type("html").send(html);
     });
   }
 

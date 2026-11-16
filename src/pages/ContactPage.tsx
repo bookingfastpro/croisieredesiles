@@ -4,13 +4,14 @@ import { Mail, Phone, MapPin, MessageSquare, Clock, ChevronRight } from 'lucide-
 
 export default function ContactPage() {
   return (
-    <div className="pt-24 min-h-screen bg-white">
+    <div className="pt-20 min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative py-20 px-6 overflow-hidden bg-marine-navy">
         <div className="absolute inset-0 opacity-40">
           <img 
             src="https://qzvurftthvlazlizltgy.supabase.co/storage/v1/object/public/property-images/Bateau/WhatsApp%20Image%202026-04-30%20at%2012.57.05.jpeg" 
-            alt="Contact Background" 
+            alt=""
+            loading="eager"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -21,9 +22,9 @@ export default function ContactPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-marine-cyan/10 border border-marine-cyan/20 rounded-full text-marine-cyan text-xs font-bold uppercase tracking-widest mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/25 rounded-full text-marine-mist text-xs font-bold uppercase tracking-widest mb-6"
           >
-            <MessageSquare size={14} /> Contactez-nous
+            <MessageSquare size={14} aria-hidden="true" /> Contactez-nous
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -31,13 +32,13 @@ export default function ContactPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-display font-bold text-white mb-6"
           >
-            Préparons votre <span className="text-marine-cyan font-serif italic">évasion</span>
+            Réservez votre excursion <span className="text-marine-cyan font-serif italic">à Bonifacio</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-white/70 max-w-2xl mx-auto font-light text-lg"
+            className="text-white/85 max-w-2xl mx-auto font-light text-lg"
           >
             Une question ? Une demande particulière ? Notre équipe est à votre écoute pour organiser votre croisière idéale au départ de Bonifacio.
           </motion.p>
@@ -46,6 +47,7 @@ export default function ContactPage() {
 
       <section className="py-24 px-6 relative">
         <div className="max-w-7xl mx-auto">
+          <h2 className="sr-only">Nos coordonnées</h2>
           {/* Contact Info Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <motion.div 
@@ -55,13 +57,13 @@ export default function ContactPage() {
               className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
             >
               <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <Phone size={24} />
+                <Phone size={24} aria-hidden="true" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Téléphone</h3>
-              <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
+              <p className="text-marine-navy/75 text-sm mb-4 font-light flex-grow">Appelez-nous directement pour une réponse rapide.</p>
               <a href="tel:+33611818486" className="text-lg font-bold text-marine-blue hover:text-marine-navy transition-colors flex items-center gap-2 mt-auto">
                 06 11 81 84 86
-                <ChevronRight size={16} />
+                <ChevronRight size={16} aria-hidden="true" />
               </a>
             </motion.div>
 
@@ -73,11 +75,11 @@ export default function ContactPage() {
               className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
             >
               <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <Mail size={24} />
+                <Mail size={24} aria-hidden="true" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Email</h3>
-              <p className="text-marine-navy/60 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
-              <a href="mailto:croisieresdesiles20169@gmail.com" className="text-xs sm:text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-words mt-auto">
+              <p className="text-marine-navy/75 text-sm mb-4 font-light flex-grow">Envoyez-nous vos demandes détaillées par courriel.</p>
+              <a href="mailto:croisieresdesiles20169@gmail.com" className="text-sm font-bold text-marine-blue hover:text-marine-navy transition-colors break-all mt-auto">
                 croisieresdesiles20169@gmail.com
               </a>
             </motion.div>
@@ -90,10 +92,10 @@ export default function ContactPage() {
               className="p-6 sm:p-8 bg-marine-navy/5 rounded-[2rem] border border-marine-blue/10 hover:border-marine-blue transition-all group flex flex-col"
             >
               <div className="w-12 h-12 rounded-2xl bg-marine-blue/10 flex items-center justify-center text-marine-blue mb-6 group-hover:scale-110 transition-transform">
-                <MapPin size={24} />
+                <MapPin size={24} aria-hidden="true" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-marine-navy">Localisation</h3>
-              <p className="text-marine-navy/60 text-sm mb-2 font-light flex-grow">Retrouvez-nous au port de Bonifacio.</p>
+              <p className="text-marine-navy/75 text-sm mb-2 font-light flex-grow">Retrouvez-nous au port de Bonifacio.</p>
               <p className="text-sm font-bold text-marine-navy mt-auto">Quai d'honneur, 20169 Bonifacio</p>
             </motion.div>
 
@@ -105,7 +107,7 @@ export default function ContactPage() {
               className="p-6 sm:p-8 bg-marine-blue rounded-[2rem] text-white shadow-xl shadow-marine-blue/20 flex flex-col"
             >
               <div className="flex items-center gap-3 mb-4">
-                <Clock size={20} className="text-marine-cyan" />
+                <Clock size={20} className="text-marine-cyan" aria-hidden="true" />
                 <h3 className="text-lg font-bold">Horaires</h3>
               </div>
               <div className="space-y-2 text-sm font-light opacity-90 flex-grow">
@@ -113,7 +115,7 @@ export default function ContactPage() {
                   <span>Lun - Dim</span>
                   <span className="font-bold">09:00 - 20:00</span>
                 </div>
-                <p className="text-[10px] uppercase tracking-widest mt-4 opacity-75">Saison d'été (Avril - Octobre)</p>
+                <p className="text-[11px] uppercase tracking-widest mt-4 opacity-90">Saison d'été (Avril - Octobre)</p>
               </div>
             </motion.div>
           </div>
@@ -123,15 +125,17 @@ export default function ContactPage() {
       {/* Map Section or Additional Info */}
       <section className="py-24 bg-marine-navy/5 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-display font-bold text-marine-navy mb-12">Où nous trouver ?</h2>
-          <div className="aspect-video w-full rounded-[3rem] overflow-hidden border border-marine-blue/10 shadow-xl transition-all duration-700">
+          <h2 className="text-3xl font-display font-bold text-marine-navy mb-4">Où nous trouver ?</h2>
+          <p className="text-marine-navy/75 mb-10">Quai d'honneur, Port de Bonifacio, 20169 Bonifacio – Corse du Sud</p>
+          <div className="aspect-[4/3] md:aspect-video w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-marine-blue/10 shadow-xl">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2983.473534571746!2d9.15585831544063!3d41.38722297926419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d960786968869b%3A0x40819a5e94a9a00!2sPort%20de%20Bonifacio!5e0!3m2!1sfr!2sfr!4v1650000000000!5m2!1sfr!2sfr" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
-              allowFullScreen 
-              loading="lazy" 
+              title="Carte : Port de Bonifacio, point de départ de nos excursions"
+              allowFullScreen
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>

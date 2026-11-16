@@ -21,18 +21,18 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/5 border border-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-6">
-              <Users size={14} /> Qui sommes-nous ?
+              <Users size={14} aria-hidden="true" /> Qui sommes-nous ?
             </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 leading-tight text-marine-navy">
+            <h1 className="text-4xl md:text-5xl font-display font-bold mb-8 leading-tight text-marine-navy">
               À la rencontre de <br />
-              <span className="text-marine-blue">Christian</span>
-            </h2>
+              <span className="text-marine-blue">Christian</span>, votre capitaine à Bonifacio
+            </h1>
             
             <div className="space-y-8">
               <div className="flex gap-4">
-                <div className="mt-1 text-marine-blue"><Heart size={24} /></div>
+                <div className="mt-1 text-marine-blue" aria-hidden="true"><Heart size={24} /></div>
                 <div>
-                  <h3 className="text-xl font-bold text-marine-navy mb-2">Vie Personnelle & Passions</h3>
+                  <h2 className="text-xl font-bold text-marine-navy mb-2">Vie Personnelle & Passions</h2>
                   <p className="text-marine-navy/80 font-light leading-relaxed">
                     Natif de la région et passionné par l'univers maritime depuis son plus jeune âge, Christian a fait de la mer son terrain de jeu et son bureau. Amateur de photographie sous-marine et fervent défenseur de l'écosystème corse, il partage son temps entre la navigation et ses centres d'intérêt pour la nature sauvage et les traditions locales.
                   </p>
@@ -40,9 +40,9 @@ export default function About() {
               </div>
 
               <div className="flex gap-4">
-                <div className="mt-1 text-marine-blue"><GraduationCap size={24} /></div>
+                <div className="mt-1 text-marine-blue" aria-hidden="true"><GraduationCap size={24} /></div>
                 <div>
-                  <h3 className="text-xl font-bold text-marine-navy mb-2">Cursus Professionnel & Diplômes</h3>
+                  <h2 className="text-xl font-bold text-marine-navy mb-2">Cursus Professionnel & Diplômes</h2>
                   <p className="text-marine-navy/80 font-light leading-relaxed">
                     Fort d'un cursus solide au sein de la Marine Marchande, Christian est titulaire de tous les diplômes de commandement requis pour la navigation professionnelle. Son parcours l'a mené à naviguer sur divers types de navires avant de se consacrer entièrement à la plaisance de luxe et au partage de sa passion avec une clientèle exigeante.
                   </p>
@@ -50,16 +50,16 @@ export default function About() {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
               {stats.map((stat, i) => (
-                <div key={i} className="bg-white/50 backdrop-blur-sm p-6 rounded-3xl border border-marine-blue/10 hover:border-marine-blue transition-all group">
-                  <div className="text-marine-blue mb-4 group-hover:scale-110 transition-transform">{stat.icon}</div>
+                <li key={i} className="bg-white/70 backdrop-blur-sm p-6 rounded-3xl border border-marine-blue/10 hover:border-marine-blue transition-all group">
+                  <div className="text-marine-blue mb-4 group-hover:scale-110 transition-transform" aria-hidden="true">{stat.icon}</div>
                   <div className="text-2xl font-bold mb-1 text-marine-navy">{stat.value}</div>
                   <div className="text-xs font-bold uppercase tracking-widest text-marine-navy/80 mb-1">{stat.label}</div>
-                  <div className="text-[10px] text-marine-navy/60">{stat.desc}</div>
-                </div>
+                  <div className="text-xs text-marine-navy/75">{stat.desc}</div>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
 
           <motion.div
@@ -81,21 +81,21 @@ export default function About() {
             </div>
             
             {/* Floating Glass Card */}
-            <div className="absolute -bottom-10 -left-10 z-20 glass-dark p-8 rounded-3xl border border-white/20 backdrop-blur-2xl max-w-xs hidden md:block">
-              <p className="font-serif italic text-white/80 mb-4 font-light">
-                "Naviguer n'est pas seulement un métier, c'est un art de vivre que je m'efforce de transmettre à chaque sortie."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">C</div>
+            <figure className="absolute -bottom-10 -left-10 z-20 bg-marine-navy/90 p-8 rounded-3xl border border-white/20 backdrop-blur-2xl max-w-xs hidden md:block">
+              <blockquote className="font-serif italic text-white/90 mb-4">
+                « Naviguer n'est pas seulement un métier, c'est un art de vivre que je m'efforce de transmettre à chaque sortie. »
+              </blockquote>
+              <figcaption className="flex items-center gap-3">
+                <div aria-hidden="true" className="w-10 h-10 rounded-full bg-marine-blue flex items-center justify-center text-white font-bold">C</div>
                 <div>
                   <div className="font-bold text-sm text-white">Christian</div>
-                  <div className="text-[10px] uppercase tracking-widest text-marine-cyan">Capitaine & Fondateur</div>
+                  <div className="text-[11px] uppercase tracking-widest text-marine-mist">Capitaine & Fondateur</div>
                 </div>
-              </div>
-            </div>
+              </figcaption>
+            </figure>
 
             {/* Decorative Glow */}
-            <div className="absolute -top-20 -right-20 w-80 h-80 bg-marine-cyan/10 blur-[100px] rounded-full"></div>
+            <div aria-hidden="true" className="absolute -top-20 -right-20 w-80 h-80 bg-marine-cyan/10 blur-[100px] rounded-full"></div>
           </motion.div>
         </div>
       </div>

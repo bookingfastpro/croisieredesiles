@@ -47,7 +47,7 @@ function BoatGallery({ images, name }: { images: string[], name: string }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          loading="lazy"
+          loading={currentIndex === 0 ? 'eager' : 'lazy'}
           decoding="async"
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
@@ -61,33 +61,36 @@ function BoatGallery({ images, name }: { images: string[], name: string }) {
           <button 
             onClick={prev}
             aria-label="Image précédente"
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
+            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={20} aria-hidden="true" />
           </button>
           <button 
             onClick={next}
             aria-label="Image suivante"
-            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
+            className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-black/30 sm:bg-white/10 backdrop-blur-md rounded-full text-white opacity-90 sm:opacity-0 sm:group-hover/gallery:opacity-100 focus-visible:opacity-100 transition-opacity hover:bg-white/25 active:scale-95"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={20} aria-hidden="true" />
           </button>
           
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-0.5 z-10">
             {images.map((_, i) => (
               <button
                 key={i}
-                aria-label={`Aller à la photo ${i + 1}`}
+                aria-label={`Aller à la photo ${i + 1} sur ${images.length}`}
+                aria-current={i === currentIndex ? 'true' : undefined}
                 onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }}
-                className={`h-2 rounded-full transition-all ${i === currentIndex ? 'bg-white w-5' : 'bg-white/50 w-2'}`}
-              />
+                className="py-2 px-0.5"
+              >
+                <span className={`block h-2 rounded-full transition-all ${i === currentIndex ? 'bg-white w-5' : 'bg-white/60 w-2'}`} />
+              </button>
             ))}
           </div>
         </>
       )}
 
-      <div className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 bg-marine-blue/90 backdrop-blur-md rounded-full text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-md">
-        <Search size={11} /> Galerie photos
+      <div aria-live="polite" className="absolute top-4 sm:top-6 right-4 sm:right-6 px-3 py-1.5 bg-marine-blue/90 backdrop-blur-md rounded-full text-[11px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-md">
+        <Search size={11} aria-hidden="true" /> Photo {currentIndex + 1} / {images.length}
       </div>
     </div>
   );
@@ -118,9 +121,9 @@ export default function Boats() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-marine-blue/5 border border-marine-blue/10 rounded-full text-marine-blue text-xs font-bold uppercase tracking-widest mb-4">
-            <Anchor size={14} /> Notre Flotte
+            <Anchor size={14} aria-hidden="true" /> Notre Flotte
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Nos Bateaux d'Exception</h2>
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-marine-navy">Notre bateau avec skipper à Bonifacio</h1>
           <p className="text-marine-navy/70 max-w-2xl mx-auto font-light">
             Découvrez nos unités de prestige, entretenues avec le plus grand soin pour vous garantir confort, sécurité et élégance. 
           </p>
@@ -135,11 +138,11 @@ export default function Boats() {
                 viewport={{ once: true }}
                 className="w-full lg:w-1/2"
               >
-                <div className="relative rounded-[3.5rem] overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video border border-marine-blue/5">
+                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3] lg:aspect-video border border-marine-blue/5">
                   <BoatGallery images={boat.images || [boat.image]} name={boat.name} />
                   
-                  <div className="absolute bottom-8 left-8 transition-transform group-hover:translate-x-2">
-                    <h3 className="text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg">{boat.name}</h3>
+                  <div className="absolute bottom-12 left-6 md:left-8 pointer-events-none">
+                    <h2 className="text-3xl md:text-4xl font-display font-bold text-white drop-shadow-lg">{boat.name}</h2>
                   </div>
                 </div>
               </motion.div>
@@ -157,40 +160,41 @@ export default function Boats() {
                   </p>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4" aria-label="Caractéristiques">
                   {boat.specs.map((spec, i) => (
-                    <div key={i} className="flex items-center gap-4 p-5 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-marine-blue/20 transition-all group">
-                      <div className="w-12 h-12 rounded-2xl bg-marine-blue/5 flex items-center justify-center text-marine-blue group-hover:bg-marine-blue group-hover:text-white transition-all duration-500">
+                    <li key={i} className="flex items-center gap-4 p-5 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-marine-blue/20 transition-all group">
+                      <div aria-hidden="true" className="w-12 h-12 rounded-2xl bg-marine-blue/5 flex items-center justify-center text-marine-blue group-hover:bg-marine-blue group-hover:text-white transition-all duration-500">
                         {iconMap[spec.label] || <Anchor size={20} />}
                       </div>
                       <div>
-                        <div className="text-[10px] uppercase tracking-[0.2em] text-marine-navy/40 font-bold mb-1">{spec.label}</div>
+                        <div className="text-[11px] uppercase tracking-[0.2em] text-marine-navy/70 font-bold mb-1">{spec.label}</div>
                         <div className="text-base font-bold text-marine-navy">{spec.value}</div>
                       </div>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
                 
                 {boat.options && boat.options.length > 0 && (
                   <div className="p-6 bg-white rounded-3xl border border-gray-100 shadow-sm space-y-4">
-                    <h4 className="text-sm font-bold text-marine-navy uppercase tracking-widest flex items-center gap-2">
-                       <Coffee size={16} className="text-marine-blue" /> Prestations & Options à bord
-                    </h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <h3 className="text-sm font-bold text-marine-navy uppercase tracking-widest flex items-center gap-2">
+                       <Coffee size={16} aria-hidden="true" className="text-marine-blue" /> Prestations & Options à bord
+                    </h3>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {boat.options.map((option, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-marine-navy/70">
-                          <div className="w-1.5 h-1.5 rounded-full bg-marine-blue"></div>
+                        <li key={i} className="flex items-center gap-2 text-sm text-marine-navy/80">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-marine-blue shrink-0"></span>
                           {option}
-                        </div>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 )}
 
-                <Link to="/contact" className="sm:w-auto w-full">
-                  <button className="px-8 py-4 bg-marine-navy text-white rounded-2xl font-bold hover:bg-marine-blue transition-all shadow-lg hover:shadow-marine-blue/25 w-full">
-                    Disponibilité & Tarifs
-                  </button>
+                <Link
+                  to="/contact"
+                  className="block text-center px-8 py-4 bg-marine-navy text-white rounded-2xl font-bold hover:bg-marine-blue transition-all shadow-lg hover:shadow-marine-blue/25 w-full"
+                >
+                  Disponibilité & Tarifs
                 </Link>
               </motion.div>
             </div>

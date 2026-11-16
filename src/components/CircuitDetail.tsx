@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { MapPin, Info, Calendar, CheckCircle2, ChevronLeft, ChevronRight, Ship, Sparkles, X, Coffee } from 'lucide-react';
+import { formatPrice } from '../utils/price';
 import { Circuit, Boat } from '../types';
 import { AnimatePresence } from 'motion/react';
 import { getBoats } from '../services/api';
+import useModal from '../hooks/useModal';
 
 interface Props {
   circuit: Circuit;
@@ -47,6 +49,8 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
     setCurrentImageIndex(0);
   }, [selectedBoat]);
 
+  const dialogRef = useModal<HTMLDivElement>(onClose);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -62,10 +66,15 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
 
       {/* Modal */}
       <motion.div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="circuit-detail-title"
+        tabIndex={-1}
         initial={{ scale: 0.95, y: 15 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 15 }}
-        className="relative w-full h-full md:max-w-5xl md:max-h-[90vh] bg-white md:rounded-[2.5rem] rounded-none border border-gray-200 shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full h-full md:max-w-5xl md:max-h-[90vh] bg-white md:rounded-[2.5rem] rounded-none border border-gray-200 shadow-2xl flex flex-col overflow-hidden outline-none"
       >
         {/* Header: Image Carousel */}
         <div className="relative h-64 sm:h-72 md:h-[400px] overflow-hidden shrink-0 group select-none">
@@ -77,7 +86,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.35 }}
               src={boatImages[currentImageIndex]} 
-              alt={circuit.name} 
+              alt={`${circuit.name} – photo ${currentImageIndex + 1} sur ${boatImages.length}`}
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
@@ -93,20 +102,20 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                 aria-label="Image précédente"
                 className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={20} aria-hidden="true" />
               </button>
               <button 
                 onClick={nextImage}
                 aria-label="Image suivante"
                 className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 sm:bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all opacity-90 sm:opacity-0 sm:group-hover:opacity-100 z-10"
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={20} aria-hidden="true" />
               </button>
             </>
           )}
           
           {/* Indicators */}
-          <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+          <div aria-hidden="true" className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
             {boatImages.map((_, i) => (
               <div 
                 key={i} 
@@ -117,10 +126,10 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
 
           <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-8 right-4 sm:right-8 flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4 z-10">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h2>
-              <div className="flex items-center gap-3 sm:gap-4 text-marine-cyan mt-1.5 sm:mt-2 text-xs sm:text-sm">
+              <h2 id="circuit-detail-title" className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white text-glow leading-tight">{circuit.name}</h2>
+              <div className="flex items-center gap-3 sm:gap-4 text-marine-mist mt-1.5 sm:mt-2 text-xs sm:text-sm">
                 <span className="flex items-center gap-1 font-bold uppercase tracking-wider">
-                  <Calendar size={15} /> {circuit.duration}
+                  <Calendar size={15} aria-hidden="true" /> {circuit.duration}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/30"></span>
                 <span className="text-white/80 font-medium">À bord du Prestige 42 Flybridge</span>
@@ -128,7 +137,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             </div>
             <div className="bg-white/15 backdrop-blur-md px-4 py-1.5 sm:py-2 rounded-xl border border-white/20 self-start md:self-auto">
               <span className="text-base sm:text-xl font-bold text-white uppercase tracking-tight">
-                {circuit.category === 'circuit' ? 'À partir de 1800€' : 'Sur Devis'}
+                {formatPrice(circuit)}
               </span>
             </div>
           </div>
@@ -138,7 +147,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             aria-label="Fermer"
             className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-black/40 sm:bg-white/20 backdrop-blur-md p-2.5 rounded-full hover:bg-white/30 text-white transition-colors z-20 border border-white/30"
           >
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 
@@ -149,7 +158,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             <div className="lg:col-span-1 space-y-10">
               <section>
                 <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
-                  <Info size={20} /> Description
+                  <Info size={20} aria-hidden="true" /> Description
                 </h3>
                 <p className="text-marine-navy/80 leading-relaxed font-light">
                   {circuit.longDescription}
@@ -158,7 +167,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
 
               <section>
                 <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
-                  <MapPin size={20} /> Lieux clés
+                  <MapPin size={20} aria-hidden="true" /> Lieux clés
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {circuit.locations.map((location, i) => (
@@ -171,7 +180,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
 
               <section>
                 <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2 text-marine-navy">
-                  <CheckCircle2 size={20} /> Infos Pratiques
+                  <CheckCircle2 size={20} aria-hidden="true" /> Infos Pratiques
                 </h3>
                 <ul className="space-y-3">
                   {circuit.practicalInfos.map((info, i) => (
@@ -186,7 +195,7 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
               {boats.find(b => b.name.toLowerCase().includes(selectedBoat))?.options && (
                 <section className="p-5 bg-marine-blue/10 rounded-3xl border border-marine-blue/20 shadow-sm">
                   <h3 className="text-sm font-bold text-marine-blue uppercase tracking-widest flex items-center gap-2 mb-4">
-                    <Coffee size={18} /> Prestations & Options
+                    <Coffee size={18} aria-hidden="true" /> Prestations & Options
                   </h3>
                   <ul className="space-y-2">
                     {boats.find(b => b.name.toLowerCase().includes(selectedBoat))?.options?.map((option, i) => (
@@ -204,11 +213,11 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
             <div className="lg:col-span-2">
               <section>
                 <h3 className="text-xl font-display font-bold mb-6 flex items-center gap-2 text-marine-navy">
-                  <MapPin size={20} /> Itinéraire détaillé
+                  <MapPin size={20} aria-hidden="true" /> Itinéraire détaillé
                 </h3>
-                <div className="relative pl-8 space-y-6 before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-marine-blue/20">
+                <ol className="relative pl-8 space-y-6 before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-[2px] before:bg-marine-blue/20">
                   {circuit.itinerary.map((step, i) => (
-                    <div key={i} className="relative group">
+                    <li key={i} className="relative group">
                       <div className="absolute -left-[33px] top-1.5 w-[32px] h-[32px] rounded-full bg-white border-2 border-marine-blue/30 flex items-center justify-center text-marine-blue text-[11px] font-bold z-10 shadow-sm group-hover:border-marine-blue transition-colors">
                         {i + 1}
                       </div>
@@ -217,20 +226,23 @@ export default function CircuitDetail({ circuit, onClose }: Props) {
                           {step}
                         </p>
                       </div>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </section>
             </div>
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row gap-4">
-            <Link to="/contact" className="flex-1" onClick={onClose}>
-              <button className="w-full py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-[1.02] active:scale-95">
-                {circuit.priceOnRequest ? 'Demander un devis personnalisé' : 'Réserver ce circuit'}
-              </button>
+            <Link
+              to="/contact"
+              onClick={onClose}
+              className="flex-1 text-center py-4 bg-marine-blue hover:bg-marine-navy text-white rounded-2xl font-bold transition-all shadow-lg shadow-marine-blue/20 hover:scale-[1.02] active:scale-95"
+            >
+              {circuit.priceOnRequest ? 'Demander un devis personnalisé' : 'Réserver ce circuit'}
             </Link>
-            <button 
+            <button
+              type="button"
               onClick={onClose}
               className="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-marine-navy rounded-2xl font-bold transition-colors"
             >
